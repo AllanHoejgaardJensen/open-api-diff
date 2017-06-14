@@ -7,6 +7,8 @@ There is more information on tooling, how to use it and how to build this projec
 types of information the tool can report and finally there is a part on the various opinionated parts of the tool.
 
  *It currently supports version 2, a version 3 is on the agenda - if the tool is found useful.*
+ 
+  ![status](https://travis-ci.org/AllanHoejgaardJensen/open-api-diff.svg?branch=master) 
 
 ## Value proposal
 The value proposal is to make a tool that helps service developer to keep on evolving their services in the highest 
