@@ -1,0 +1,3273 @@
+[37m[44m
+------------------------------------------------------------------------------------------------------
+API Comparison Results
+
+
+[33m[44mDelivered by Open API Diff tooling
+------------------------------------------------------------------------------------------------------
+
+[0m[34mThe report layout uses three sections: short, elaborate and compliance
+The reports shows the added endpoints, the removed and the changed endpoints on a short form.
+The changed endpoints are succeeding that presented in a more elaborate form
+The syntax used is:
+  +  means added.
+  -  means removed.
+  @  means altered.
+  !  means (in Existing API).
+  >  means (in the New API).
+ (C) means (Compliance).
+
+The APIs compared are:
+ - ! ./sample-api/elaborate_example_v1.json
+ - > ./sample-api/elaborate_example_v3f.json
+
+[0m
+------------------------------------------------------------------------------------------------------
+[32mAdded Endpointss[0m
+------------------------------------------------------------------------------------------------------
+ + /accounts/{regNo}-{accountNo}/cards
+   obtain cards associated with a given account
+ + /virtual-accounts/{regNo}-{accountNo}
+   gets the information from a single virtual account
+ + /virtual-accounts/{regNo}-{accountNo}
+   Create new or update existing virtual account
+ + /virtual-accounts
+   lists virtual accounts
+------------------------------------------------------------------------------------------------------
+[0m
+------------------------------------------------------------------------------------------------------
+[31mRemoved Endpoints[0m
+------------------------------------------------------------------------------------------------------
+ - no removed endpoints
+------------------------------------------------------------------------------------------------------
+[0m
+------------------------------------------------------------------------------------------------------
+[34mChanged Endpoints[0m
+------------------------------------------------------------------------------------------------------
+ @ /accounts/{regNo}-{accountNo}
+ @ /accounts
+ @ /account-events-metadata
+ @ /account-events
+ @ /account-events/{category}
+ @ /account-events/{category}/{id}
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions/{id}
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions
+ @ /accounts/{regNo}-{accountNo}/transactions/{id}
+ @ /accounts/{regNo}-{accountNo}/transactions
+------------------------------------------------------------------------------------------------------
+
+[0m[37m[44m------------------------------------------------------------------------------------------------------
+The Elaborated Report for changed Endpoints 
+------------------------------------------------------------------------------------------------------
+
+[0m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.301.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.404.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.403.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.429.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.304.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                .accounts.{regNo}-{accountNo}.content-type.producers.removed
+                  [33m + [0mthis may cause problem for some clients removed are: [[application/hal+json;concept=account;v=1]]
+
+                existing.compliance.for.GET.response.code.503.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.401.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.412.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+[34m   (c) /accounts/{regNo}-{accountNo}::PUT -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.PUT.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.^[0-9]+$.to.^[0-9]{10}$
+
+                existing.compliance.for.PUT.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                response.307.added
+                  [33m + [0madding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.400.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                response.301.added
+                  [33m + [0madding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~
+ @ /accounts 
+~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events-metadata 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events-metadata::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - .non-compliant.required.header.setup
+                   -> a required header X-Client-Version was not found
+
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~
+ @ /account-events 
+~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events/{category} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events/{category}::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events/{category}/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events/{category}/{id}::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.404.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions/{id}::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.404.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{10}$
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.regNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{4}$
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions/{id}::PUT -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.PUT.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.^[0-9]+$.to.^[0-9]{10}$
+
+                existing.compliance.for.PUT.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                response.307.added
+                  [33m + [0madding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.400.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                response.301.added
+                  [33m + [0madding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{10}$
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.regNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{4}$
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/transactions/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions/{id}::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                  - Transaction.response.body.description.
+                   -> Transaction.response.body.description.required.changed.from.false.to.true
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                  - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.404.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{10}$
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.regNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{4}$
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions/{id}::PUT -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                  - TransactionUpdate.body.description
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                  - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - Transaction.response.body.description.
+                   -> Transaction.response.body.description.required.changed.from.false.to.true
+
+                  - PUT.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - TransactionUpdate.body.amount
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                  - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+                  - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                header.Accept
+                  [33m + [0mpattern.changed.from._^application/hal+json[;concept=[a_z]+;v=[0_9]+].to._^application/hal+json[;concept=[a_z]{255};v=[0_9]+]
+
+                existing.compliance.for.PUT.response.code.415.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                TransactionUpdate.body.description
+                  [33m + [0mbody.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{10}$
+
+                existing.compliance.for.PUT.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                response.307.added
+                  [33m + [0madding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.400.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.regNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{4}$
+
+                TransactionUpdate.body.amount
+                  [33m + [0mbody.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                response.301.added
+                  [33m + [0madding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                existing.compliance.for.PUT.response.code.202.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.PUT.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+
+
+
+[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/transactions 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions::GET -> compliance: false[0m
+
+[31m      Breaking Changes[0m
+[31m     ~~~~~~~~~~~~~~~~~~~~~~[0m
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                  - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+[33m      Potentially Breaking Changes[0m
+[33m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+                existing.compliance.for.GET.response.code.505.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.accountNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{10}$
+
+                existing.compliance.for.GET.response.code.410.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                existing.compliance.for.GET.response.code.500.observation
+                  [31m ! [0mstatus code or headers missing for existing API, potential break ahead
+
+                path.regNo
+                  [33m + [0mpattern.changed.from.null.to.[0-9]{4}$
+
+
+
+
+------------------------------------------------------------------------------------------------------
+
+[0m[36m[40m------------------------------------------------------------------------------------------------------
+
+
+The Elaborated Compliance Report
+
+------------------------------------------------------------------------------------------------------
+
+[0m
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/cards 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m   - no compliance issues reported
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /virtual-accounts/{regNo}-{accountNo} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m   - no compliance issues reported
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~
+ @ /virtual-accounts 
+~~~~~~~~~~~~~~~~~~~~~
+[0m   - no compliance issues reported
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.301.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.403.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.429.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.304.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * .accounts.{regNo}-{accountNo}.content-type.producers.removed
+                   -> this may cause problem for some clients removed are: [[application/hal+json;concept=account;v=1]]
+
+                * existing.compliance.for.GET.response.code.503.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.401.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.412.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+                * .accounts.{regNo}-{accountNo}.content-type.producers.removed
+                   -> this may cause problem for some clients removed are: [[application/hal+json;concept=account;v=1]]
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+                + added:
+                  * application/hal+json;concept=account;v=3
+
+                - removed:
+                  * application/hal+json;concept=account;v=1
+
+
+              Recorded Changes to Parameters in API 
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                [33m! [0mexisting.compliance.for.GET.response.code.301.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.304.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.401.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.403.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.412.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.429.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.503.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+[34m   (c) /accounts/{regNo}-{accountNo}::PUT -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.^[0-9]+$.to.^[0-9]{10}$
+
+                * existing.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * response.307.added
+                   -> adding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * response.301.added
+                   -> adding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+
+              Recorded Changes to Content-Types in API 
+                + added:
+                  * application/json;concept=accountupdate;v=1
+
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 301
+                     -> adding 301 Permanently Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 304
+                     -> adding 304 Modified allows clients to know whether they need to re-get information, beware that the implementation in the service must required less effort than the GET would have caused
+
+                  * 307
+                     -> adding 307 Temporarily Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 410
+                     -> adding 410 Gone is not harming the client, it merely tells the client that at some point after having moved the resource to another place you will no longer receive 301's and when this happen a 410 be presented
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mPUT.response.code.201.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~
+ @ /accounts 
+~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events-metadata 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events-metadata::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - future.compliance.for.GET.response.code.200.observation
+                  - status code or headers missing for new API, may break future APIs 
+
+                - future.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                  - Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+
+              Breaking changes
+                - .non-compliant.required.header.setup
+                   -> a required header X-Client-Version was not found
+
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+                - removed:
+                  * io.swagger.models.parameters.HeaderParameter@eaefcd9
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                [34m* [0mfuture.compliance.for.GET.response.code.200.observation
+                   -> status code or headers missing for new API, may break future APIs 
+
+                [34m* [0mfuture.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~
+ @ /account-events 
+~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events/{category} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events/{category}::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /account-events/{category}/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /account-events/{category}/{id}::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions/{id}::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - changepath.accountNo
+                  - path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                - changepath.regNo
+                  - path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.null.to.[0-9]{10}$
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.regNo
+                   -> pattern.changed.from.null.to.[0-9]{4}$
+
+
+              Recorded changes**
+                * path.accountNo
+                   -> path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * path.regNo
+                   -> path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions/{id}::PUT -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+
+              Breaking changes
+                - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.^[0-9]+$.to.^[0-9]{10}$
+
+                * existing.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * response.307.added
+                   -> adding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * response.301.added
+                   -> adding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+
+              Recorded Changes to Content-Types in API 
+                + added:
+                  * application/hal+json;concept=reconciledtransaction;v=1
+                  * application/json;concept=reconciledtransactionupdate;v=1
+
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 301
+                     -> adding 301 Permanently Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 304
+                     -> adding 304 Modified allows clients to know whether they need to re-get information, beware that the implementation in the service must required less effort than the GET would have caused
+
+                  * 307
+                     -> adding 307 Temporarily Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 410
+                     -> adding 410 Gone is not harming the client, it merely tells the client that at some point after having moved the resource to another place you will no longer receive 301's and when this happen a 410 be presented
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mPUT.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                  [31m! [0mPUT.response.code.201.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/reconciled-transactions 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/reconciled-transactions::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - changepath.accountNo
+                  - path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                - changepath.regNo
+                  - path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.null.to.[0-9]{10}$
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.regNo
+                   -> pattern.changed.from.null.to.[0-9]{4}$
+
+
+              Recorded changes**
+                * path.accountNo
+                   -> path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * path.regNo
+                   -> path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/transactions/{id} 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions/{id}::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - changepath.accountNo
+                  - path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                - changepath.regNo
+                  - path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                - Transaction.response.body.description.
+                   -> Transaction.response.body.description.required.changed.from.false.to.true
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.null.to.[0-9]{10}$
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.regNo
+                   -> pattern.changed.from.null.to.[0-9]{4}$
+
+
+              Recorded changes**
+                * Transaction.Transaction.response.body.amount
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.sid
+                   -> body.property.added.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * path.accountNo
+                   -> path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * Transaction.Transaction.response.body.description
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * path.regNo
+                   -> path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * Transaction.Transaction.response.body.id
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+                + added:
+                  * application/hal+json;concept=transaction;v=2
+                  * application/hal+json;concept=transaction-sparse;v=1
+
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mTransaction.response.body.id.
+                     -> Transaction.response.body.id.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mTransaction.response.body.description.
+                     -> Transaction.response.body.description.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                  [31m! [0mTransaction.response.body.amount.
+                     -> Transaction.response.body.amount.required.changed.from.false.to.true - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * Transaction.Transaction.response.body.amount
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.sid
+                   -> body.property.added.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.description
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.id
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.404.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions/{id}::PUT -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - changepath.accountNo
+                  - path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                - changepath.regNo
+                  - path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Breaking changes
+                - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                - TransactionUpdate.body.description
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - Transaction.response.body.description.
+                   -> Transaction.response.body.description.required.changed.from.false.to.true
+
+                - PUT.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - TransactionUpdate.body.amount
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+                - PUT.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+
+              Potentially Breaking changes
+                * header.Accept
+                   -> pattern.changed.from._^application/hal+json[;concept=[a_z]+;v=[0_9]+].to._^application/hal+json[;concept=[a_z]{255};v=[0_9]+]
+
+                * existing.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * TransactionUpdate.body.description
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                * path.accountNo
+                   -> pattern.changed.from.null.to.[0-9]{10}$
+
+                * existing.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * response.307.added
+                   -> adding 307 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.regNo
+                   -> pattern.changed.from.null.to.[0-9]{4}$
+
+                * TransactionUpdate.body.amount
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                * response.301.added
+                   -> adding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                * existing.compliance.for.PUT.response.code.202.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+              Recorded changes**
+                * Transaction.Transaction.response.body.amount
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.sid
+                   -> body.property.added.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * path.accountNo
+                   -> path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * Transaction.Transaction.response.body.description
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * path.regNo
+                   -> path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * Transaction.Transaction.response.body.id
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+
+              Recorded Changes to Content-Types in API 
+                + added:
+                  * application/json;concept=transactionupdate;v=1
+
+
+              Recorded Changes to Parameters in API 
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+                + added:
+                  * body.currency
+
+                @ changed:
+                  * TransactionUpdate.body.description
+                     ->> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                  * TransactionUpdate.body.amount
+                     ->> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 301
+                     -> adding 301 Permanently Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 304
+                     -> adding 304 Modified allows clients to know whether they need to re-get information, beware that the implementation in the service must required less effort than the GET would have caused
+
+                  * 307
+                     -> adding 307 Temporarily Moved may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down
+
+                  * 410
+                     -> adding 410 Gone is not harming the client, it merely tells the client that at some point after having moved the resource to another place you will no longer receive 301's and when this happen a 410 be presented
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mTransaction.response.body.id.
+                     -> Transaction.response.body.id.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mTransaction.response.body.description.
+                     -> Transaction.response.body.description.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mPUT.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                  [31m! [0mTransaction.response.body.amount.
+                     -> Transaction.response.body.amount.required.changed.from.false.to.true - no additional info
+
+                * Transaction.Transaction.response.body.amount
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.sid
+                   -> body.property.added.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.description
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.id
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                  [31m! [0mPUT.response.code.201.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                  [31m! [0mTransaction.response.body.id.
+                     -> Transaction.response.body.id.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mTransaction.response.body.description.
+                     -> Transaction.response.body.description.required.changed.from.false.to.true - no additional info
+
+                  [31m! [0mTransaction.response.body.amount.
+                     -> Transaction.response.body.amount.required.changed.from.false.to.true - no additional info
+
+                * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit.for.PUT
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Limit-24h.for.PUT
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Remaining.for.PUT
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * Transaction.Transaction.response.body.amount
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.sid
+                   -> body.property.added.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.description
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                * Transaction.Transaction.response.body.id
+                   -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.202.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.400.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.415.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mPUT.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.PUT.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[40m[33m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ @ /accounts/{regNo}-{accountNo}/transactions 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[0m    Operations:
+
+[34m   (c) /accounts/{regNo}-{accountNo}/transactions::GET -> compliance: false[0m
+
+[33m       Design Issues[0m
+[33m     ~~~~~~~~~~~~~~~~~[0m
+                - changepath.accountNo
+                  - path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                - changepath.regNo
+                  - path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Breaking changes
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.200.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
+
+                - GET.response.code.301.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - response.202.added
+                   -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+
+              Potentially Breaking changes
+                * existing.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.accountNo
+                   -> pattern.changed.from.null.to.[0-9]{10}$
+
+                * existing.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * existing.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                * path.regNo
+                   -> pattern.changed.from.null.to.[0-9]{4}$
+
+
+              Recorded changes**
+                * path.accountNo
+                   -> path.accountNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+                * path.regNo
+                   -> path.regNo .existing.compliance.pattern.defined.as.null::makes future proof api design difficult
+
+
+              Recorded Flaws in existing API 
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   -> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   -> Expires: sets the expiry time for the information retrieved in the response
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   -> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   -> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   -> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   -> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+
+              Recorded Changes to Content-Types in API 
+
+              Recorded Changes to Parameters in API 
+                + added:
+                  - io.swagger.models.parameters.QueryParameter@920a7b43
+
+                @ changed:
+
+
+              Recorded Changes to Properties in API 
+
+              Recorded Changes to Responses in API 
+                + added:
+                  * 202
+                     -> adding 202 Accepted breaks the client programming model and is not compatible
+
+                  * 203
+                     -> adding 203 Non Authoritative means the client gets information from a different source than it anticipated and thus the caching headers, modified since etc. may not be as valid as they are when information origins from the resource itself
+
+                  * 501
+                     -> adding 501 Not Implemented allows the service to publish parts of a service and deliver value for the implemented parts 
+
+
+                @ changed:
+                  [31m! [0mGET.response.code.200.observation
+                     ->  added header: Content-Encoding which is required - no additional info
+                     ->  added header: X-RateLimit-Limit which is required - no additional info
+                     ->  added header: X-RateLimit-Limit-24h which is required - no additional info
+                     ->  added header: X-RateLimit-Remaining which is required - no additional info
+                     ->  added header: X-RateLimit-Reset which is required - no additional info
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit.for.GET
+                   ->> X-RateLimit-Limit: Request limit per minute
+
+                * existing.difference.recorded.response.200.missing.special.header.Content-Encoding.for.GET
+                   ->> Content-Encoding: informs on the body - is it compressed or not e.g. gzip
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Reset.for.GET
+                   ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Limit-24h.for.GET
+                   ->> X-RateLimit-Limit-24h: Request limit per 24h
+
+                * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
+                   ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+
+                  [31m! [0mGET.response.code.301.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.301.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                  [31m! [0mGET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+
+                  [31m! [0mGET.response.code.307.observation
+                     ->  added header: Expires which is required - no additional info
+
+                * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
+                   ->> Expires: sets the expiry time for the information retrieved in the response
+
+                [33m! [0mexisting.compliance.for.GET.response.code.410.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.429.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.500.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+                  [31m! [0mGET.response.code.503.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
+                * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
+                   ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                [33m! [0mexisting.compliance.for.GET.response.code.505.observation
+                   -> status code or headers missing for existing API, potential break ahead
+
+
+
+
+
+[44m[37m
+
+
+[47m[30m
+
+
+[40m[35m
+
+
+[46m[33m
+
+
+[43m[30m
+
+
+[42m[30m
+
+
+[45m[30m
+
+
+[41m[30m
+
+
+[0m

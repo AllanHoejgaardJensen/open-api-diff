@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ChangeLog</title>
+    <style>body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
+    dl, dt, dd, ul, ol, li,
+    pre,
+    form, fieldset, legend, button, input, textarea,
+    th, td  {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    body,
+    button, input, select, textarea {
+        font: 16px/1.5 sans-serif, tahoma, arial, \5b8b\4f53;
+        font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, sans-serif;
+        font-weight: normal;
+    }
+    h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+    address, cite, dfn, em, var { font-style: normal; }
+    code, kbd, pre, samp { font-family: courier new, courier, monospace; }
+    small { font-size: 14px; }
+
+    ul, ol { list-style: none; }
+
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    legend { color: #000; }
+    fieldset, img { border: 0; }
+    button, input, select, textarea { font-size: 100%; }
+
+    table { border-collapse: collapse; border-spacing: 0; }
+
+    header {
+        background-color: #8BC34A;
+        height: 68px;
+        line-height: 68px;
+        padding: 0 20px;
+        color: #fff;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 400;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-weight: 700;
+        border: 1px solid #ddd;
+        display: inline-block;
+        border-radius: 4px;
+        padding: 0 4px;
+    }
+
+    .article {
+        padding: 20px;
+        max-width: 960px;
+        margin: 10px auto;
+        box-shadow: 0 0 4px #ccc;
+    }
+
+    .article>div {
+        padding: 10px 10px;
+    }
+
+    .POST, .post, .get, .GET, .put, .PUT,.delete, .DELETE {
+        color: #fff;
+        padding: 4px;
+        border-radius: 2px;
+        font-size: 8px;
+        margin: 0 4px;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+    }
+    .POST, .post{
+        background-color: #0B7CAF;
+    }
+    .get, .GET {
+        background-color: #009688;
+    }
+    .put, .PUT {
+        background-color: #c5862b;
+    }
+    .delete, .DELETE {
+        background-color: #F44336;
+    }
+
+    hr {
+        color: #dfdfdf;
+    }
+
+    ol>li {
+        margin: 24px;
+    }
+
+    ol>li>ul {
+        background-color: #504949;
+        color: #fff;
+        padding: 8px 16px;
+    }
+
+    ul.change>li {
+        margin: 10px 20px;
+    }
+
+    ul {
+        margin: 10px 0;
+    }
+
+    ul>li {
+        margin: 10px 0;
+    }
+
+    .comment {
+        color: #d8fa3c;
+        margin-left: 16px;
+        font-size: 14px;
+    }
+
+    .missing>s, .missing>del {
+        padding: 0 4px;
+    }
+
+    s, del, .missing, del.comment {
+        color: #F44336;
+    }
+
+    .missing>.comment {
+        color: #F44336;
+    }</style>
+</head>
+<body>
+<header><h1>ChangeLog</h1></header>
+<div class="article">
+    <div><h2>What's New</h2>
+        <hr>
+        <ol></ol>
+    </div>
+    <div><h2>What's Deprecated</h2>
+        <hr>
+        <ol></ol>
+    </div>
+    <div><h2>What's Changed</h2>
+        <hr>
+        <ol>
+            <li><span class="POST">POST</span>/pet <span>Add a new pet to the store</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add tags<span class="comment">//add new query param demo</span></li>
+                            <li>Add body.newField<span class="comment">//a field demo by sayi</span></li>
+                            <li>Add body.category.newCatField<span class="comment"></span></li>
+                            <li class="removed">Delete
+                                <del>body.category.name</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="PUT">PUT</span>/pet <span>Update an existing pet</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add body.newField<span class="comment">//a field demo by sayi</span></li>
+                            <li>Add body.category.newCatField<span class="comment"></span></li>
+                            <li class="removed">Delete
+                                <del>body.category.name</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="POST">POST</span>/pet/{petId} <span>Updates a pet in the store with form data</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add newFormDataParam<span class="comment">//form data param demo</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="DELETE">DELETE</span>/pet/{petId} <span>Deletes a pet</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add newHeaderParam<span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="GET">GET</span>/pet/{petId} <span>Find pet by ID</span>
+                <ul class="detail">
+                    <li><h3>返回类型</h3>
+                        <ul class="change response">
+                            <li>Add newField<span class="comment">//a field demo by sayi</span></li>
+                            <li>Add category.newCatField<span class="comment"></span></li>
+                            <li class="removed">Delete
+                                <del>category.name</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="POST">POST</span>/user <span>Create user</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add body.newUserField<span class="comment">//a new user field demo</span></li>
+                            <li class="removed">Delete
+                                <del>body.phone</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="GET">GET</span>/user/login <span>Logs user into the system</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li class="removed"><span>Delete</span>
+                                <del>password</del>
+                                <span class="comment">//The password for login in clear text</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="GET">GET</span>/user/{username} <span>Get user by user name</span>
+                <ul class="detail">
+                    <li><h3>返回类型</h3>
+                        <ul class="change response">
+                            <li>Add newUserField<span class="comment">//a new user field demo</span></li>
+                            <li class="removed">Delete
+                                <del>phone</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="PUT">PUT</span>/user/{username} <span>Updated user</span>
+                <ul class="detail">
+                    <li><h3>参数</h3>
+                        <ul class="change param">
+                            <li>Add body.newUserField<span class="comment">//a new user field demo</span></li>
+                            <li class="removed">Delete
+                                <del>body.phone</del>
+                                <span class="comment"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</div>
+</body>
+</html>

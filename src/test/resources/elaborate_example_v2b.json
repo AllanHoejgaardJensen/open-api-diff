@@ -1,0 +1,3820 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "# Description\n\nThis \"Simple Banking API Sample\" serves to exemplify a way of using [HATEOAS](https://github.com/Nykredit/HATEOAS/wiki) in the form of\n[HAL](http://stateless.co/hal_specification.html) in an easy and intuitive way.\n\nFurthermore it points to elaborated examples and what would be nice to have supported in a better way in the REST implementations and possibly\nin Swagger in order have an easy way to use the full potential of HATEOAS in the form of HAL and services.\n\n## API Description\n\nThis API shows a very simple set of resources that emulate three micro-services which are: Account, Payment and Person.\nThe Idea is to create everything as one large single Swagger file and decompose that into some sections: e.g. a general section,\na capabilities section, where the various API capabilities can be imported etc.\n[Read more about the Capabilities](https://github.com/Nykredit/HATEOAS).\n\n## General Principles\n\nA semantic REST API is used and thus also [HATEOAS](https://github.com/Nykredit/HATEOAS/wiki) in form of\n[HAL](http://stateless.co/hal_specification.html).\n\nThe API can be versioned at the structural level by means of a HTTP Header and at the content level in each endpoint by means of the\ncontent-type.\n\n## HTTP Headers used\n\nA number of headers are used:\n\n* `X-Log-Token` for correlating a number of activities between a service and its consumers.\n* `X-Client-Version` for identification of a client version and its contract.\n* `X-Service-Generation` to signal a non-current structure of the API (saves known redirects from a client perspective)\n* `Accept` is used to signal what content the consumer wishes, the version and projection can be specified.\n\n### Correlation between service (Server) and consumer (Client)\n\nA `X-Log-Token` header is used to give a client the opportunity to relate a number of calls and activities to a context.\n\nIf the client includes a `X-Log-Token` header and a value associated with that, the value will be extended with a time tick initially to\nensure uniqueness. The original `X-Log-Token` is returned in every response from the service, the client must include the unique token received\nin the response in the following requests if the correlation is still what the client wants.\n\nIf the client does not include a `X-Log-Token` the service creates a unique token and returns that in the response and the client can use that.\n\n### Client Identifier\n\nThe `X-Client-Version` header is used for identification of the client version and is required in order for a client to successfully operate on\nresources. The versions are numbered according to [semver-org](http://semver.org).\n\n### Versions\n\nThere are two major forms of versioning: one is related to the structure of the API, the other is related to the contents in each endpoint in\nthe API.\n\nThe two different aspects are handled in each their dedicated fashion.\n\nThe `X-Service-Generation` HTTP header is used for signalling the version of the API structure instead of having the version as a part of the\nbaseURL.\n\nThe content-type includes version information and is returned in every response from the service. The content-type can do that in a couple of\nways: \n\n* using `\"_links\": {\"href\": \"...\"}` with no `\"type\"` will point to the newest and current content at the referenced endpoint.\n* using  `\"_links\": {\"href\": \"...\", \"type\": \"application/hal+json;v=1\"}` with `\"type\"` will point to the specified version at the referenced\n  endpoint.\n\nThe client must know if a problem has occurred in a situation, where the contents from a service endpoint was updated in a way that this\nparticular client could not cope with. Therefore it must know what version works and the HAL specification can be used to decorate the\n`\"_links\":` object with the version of the content that it understands. That lets the client include the understandable content-type as defined\nin `\"_links\":` and include that as the value of the \"Accept\" header.\n\nAn example of such client side decorated response from a server, where the default and newest content-type are \"overwritten\" by the type for the\nusers:\n\n    {\n      \"label\": \"Budget Account\",\n      \"currency\": \"DKK\",\n      ...\n      \"_links\": {\n        \"transactions\": [{\n            \"href\": \"accounts/1234-567890/transactions/987654321\"\n          }, {\n            \"href\": \"accounts/1234-567890/transactions/987654322\"\n          }, {\n            \"href\": \"accounts/1234-567890/transactions/987654323\"\n          }\n        ],\n        \"users\": {\n          \"primary\": {\n            \"href\": \"users/hans-b-hansen-13-09-1234\",\n            \"type\": \"application/hal+json;v=1\"\n          },\n          \"coUsers\": [{\n              \"href\": \"users/frederikke-b-hansen-16-07-6789\",\n              \"type\": \"application/hal+json;v=1\"\n            },{\n              \"href\": \"users/ulla-b-hansen-23-03-4567\",\n              \"type\": \"application/hal+json;v=1\"\n            }]\n        }\n      }\n    }\n\nIf a projection (a given view on e.g. the user is needed) that may be included in the content-type as well, and if a matching producer is\navailable in the service it will be used.\n\nThe version is referring to the structure and contents of the json response from a given endpoint. It is not the historical state of a user\nobject. Examples of the versions of content by value in the `Accept` header below:\n\n* `\"application/hal+json;concept=user;v=1\"` for the complete user json in hal format\n* `\"application/hal+json;concept=user-basic;v=1\"` for the basic user information in hal json format\n* `\"application/hal+json;concept=user-basic\"` for the newest version of basic user information in hal format\n* `\"application/hal+json\"` for the newest version of user information in hal format\n\nIt is possible to express the same versioning without using the parameters as shown above using \n- although less elegant and less HTTPish and semantically poor:\n\n* `\"application/hal+json+user+1\"` for the complete user json in hal format\n* `\"application/hal+json+user-basic+1\"` for the basic user information in hal json format\n* `\"application/hal+json+user-basic\"` for the newest version of basic user information in hal format\n\n## API Capability Set\n\nIn every API of a certain size a number of capabilities are used to provide a particular set of functionality.\n\nThis example contains the following capabilities:\n\n- Selection: `select`\n  - selects objects by attribute value(s)\n- Sorting: `sort`\n  - sorts objects descending or ascending by attribute(s)\n- Temporal: `interval`\n  - limits objects to those within a certain time frame\n- Pagination: `elements`\n  - specifies objects within in a range\n- Filtering: `filter`\n  - excludes or includes objects based on attribute(s)\n- Composition: `embed`\n  - includes \"related\" objects and projections into the response\n\nThese capabilities may be applied individually to endpoints in APIs.\n\nThe user of the API endpoint can see what capabilities are supported at each endpoint by looking for tags like select, sort, paginate etc.\nThe Swagger tags are used here to achieve an easy way to show the capabilities in each endpoint as can be seen below in the Swagger\nspecification.\n\nAnother perspective that is often seen in APIs is the use of technical keys (potentially UUIDs) which are semantically poor, but often seen as\na necessity for sensitive keys such as social security numbers. In order to avoid having such sensitive information leaked to logs etc. there is\na need for bringing these keys into the body of a request and a non-sensitive key is going to help.\nThe problem with an UUID'ish key is that the developer experience is not optimal. Therefore it would be a nice thing to get some form of\nconsensus on a derived capability like :\n\nSensitive Semantic ID deconstruction\n\n- generation of non-sensitive semantic key for objects that has a sensitive semantic key in the form of something that has a better developer\n  experience than e.g. UUIDs can offer.\n\n### Selection API Capability\n\nSelection by criteria is done using a Query Parameter called `select`.\n\nThe syntax is:\n\n    select=\"<attribute>::<value>|<attribute>::<value>|...\"\n\n#### Simple Example\n\n    https://banking.services.sample-bank.dk/accounts?select=\"balance::100\"\n\nselects accounts having an exact balance of 100.\n\n#### Selecting an interval\n\n    https://banking.services.sample-bank.dk/accounts?select=\"balance::100+|balance::1000-\"\n\nselects accounts having a balance between 100 and 1000 (both inclusive).\n\n#### Selecting multiple objects\n\n    https://banking.services.sample-bank.dk/accounts?select=\"no::123456789|no::234567890\"\n\nselects the two accounts having account numbers \"123456789\" and \"234567890\".\n\n### Sorting API Capability\n\nSorting is done using a `sort` Query Parameter. Sort order can be either ascending (default) or descending.\n\nThe syntax is:\n\n    sort=\"<attribute>+/-|<attribute>+/-|...\"\n\nand is equivalent to: `sort=\"<attribute>::+/-|<attribute>::+/-|...\"`.\n\n#### Simple Example\n\n    https://banking.services.sample-bank.dk/accounts?sort=balance\n\nsorts accounts by ascending balance.\n\n#### Sorting on two properties\n\n    https://banking.services.sample-bank.dk/accounts?select=balance|lastUpdate-\n\nsorts accounts by ascending balance and descending lastUpdate.\n\n### Temporal API Capability\n\nTemporal aspects are handled using the `interval` Query Parameter.\n\nThe syntax is:\n\n    interval=\"<now/from/to/at/::+/-/#d/#/now>|<now/from/to/at/::+/-/#d/#>\"\n\n#### Example\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789/transactions?interval=\"from::-14d|to::now\"\n\nreturns the transactions from a specific account within the last 14 days.\n\n#### More examples\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789/transactions?interval=\"from::1476449846|to::now\"\n    https://banking.services.sample-bank.dk/accounts/1234-56789/transactions?interval=\"from::1476449846\"\n    https://banking.services.sample-bank.dk/accounts/1234-56789/transactions?interval=\"at::1476449846\"\n\nAll three return the transactions from a specific account within the last day assuming it is friday the 14th of October 2016 UTC time.\n\n### Pagination API Capability\n\nPagination of responses is obtained by using the Query parameter `elements` which signals the initial element and the last element to be part of\nthe response.\n\nThe syntax is:\n\n    elements=\"<startingFrom>|<endingAt>\"\n\nboth inclusive.\n\nThe maximum element count is 500.\n\n#### Example:\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789/transactions?elements=\"10|30\"\n\nreturns elements 10 to 30.\n\n### Filtering API Capability\n\nThe Query parameters `filter` is used for requesting a dynamic projection. The service is not obliged to be able to support this, but may return\nthe standard projection of the objects given for that endpoint. This can be used for discovery of what projections service consumers would like\nto have and help evolving the API to stay relevant and aligned with the consumers use of the service.\n\nThe syntax is:\n\n    filter=\"<attribute>::+/-|<attribute>::+/-\"\n\n* `+` means include\n* `-` means exclude\n\n#### Example of exclude\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789?filter=\"balance::-|name::-\"\n\nideally returns an account object without balance and name attributes.\n\nThe service may however choose not to support this and return a complete object and not this sparse dynamic view.\n\n#### Example of include\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789?filter=\"balance::+|name::+\"\n\nideally returns an account object with only balance and name attributes.\n\nThe service may however choose not to support this and return a complete object and not this sparse dynamic view.\n\n### Composition API Capability\n\nComposition is about enabling the service consumers to compose objects. The query parameter `embed` signals that the consumer wants a certain\nrelated object included as a part of the response if possible.\n\nThe syntax is:\n\n    embed=\"<concept>::<projection>|<concept>::<projection>|...\"\n\n#### Example:\n\n    https://banking.services.sample-bank.dk/accounts/1234-56789?embed=\"transaction::list|owner::sparse\"\n\nideally returns a json response including `_links` and `_embedded` objects inside the response containing either a map or array of transactions\nwith links in the `_links` object and the desired projection in the `_embedded` object for both owner and transactions.\n\nThe service can choose to return just the accounts including links to transactions under the `_links` object as this is allowed by HAL.\nThe query parameter `embed` can be used for evolving the service to match the desires of consumers - if many consumers have the same wishes for\nwhat to embed, the service provider should consider including more in the responses and endure the added coupling between this service and the\nservice that delivers the embedded information. This coupling should of course not be synchronous.\n\n### Sensitive Id decomposition\n\nThe creation of an id can be challenging especially if the true semantic id is protected by law, which is the case for persons. Therefore either\na UUID is suggested or a semi-semantic approach like firstName-middleName-sirName-dayInMonth-MonthInYear-Sequence, that allows for a human\nreadable (yet not revealing) id for a person.\n\nOther suggested methods have been to create a hash(sensitive semantic key), which might work but will be vulnerable to a brute force\nre-engineering effort. The response to that is often to salt it, that is salt(hash(sensitive semantic key)), and that is ok but it seems merely\nto be a very difficult way to create a UUID. This means we have a key that is developer unfriendly - at least compared to the more human\nreadable key consisting of recognizable fragments from the real world.\n\nThe suggested approach is firstname-middlename-familyname-ddMM-sequencenumber\n\n#### Example:\n\n- `hans-p-hansen-0112` the initial created Hans P Hansen born on the 1st of December\n- `hans-p-hansen-0112-1` the second created Hans P Hansen born on the 1st of December\n- `hans-p-hansen-0112-94` the 95th created Hans P Hansen born on the 1st of December\n- `mike-hansson-0309` the initially created Mike Hansson born on the 3rd of September\n\n## Resilience\n\n### Limits\n\nA service might be busy for some reason and need to tell the client that. In fact it is trying to say \"Be patient - I am rather busy right now\".\nTherefore the server returns a `503` error code (see response codes below) with a *Retry-After* header stating the time when it is expected that\nthe server is no longer busy and can serve a consumer again.\n\nIf the server-side intercepts the consumer it may choose to return a `429` *Too many Requests* with a response stating that \"You are limited to\n# requests per hour per `access_token` or `client_id` in total per `time unit` overall.\n\n## Responses\n\nThe responses from calling resources in the API adheres to the HTTP specification and thus the status code and the headers used are found in\nthat specification.\n\n### Status Codes\n\nInformation on status code and headers are found under:\n\n- Status codes: <https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>\n- Headers: <https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html>\n\nA couple of response codes will be described here as inspiration, but the most important thing is to work with the protocol and understand what\nthe status codes mean and how they fit into the current situation in the API. It should signal explicitly what the client can expect in every\nsituation in order to make the API as developer friendly as possible.\n\n#### 200 OK\n\nThe `200 OK` response signals everything went ok and there will usually be a response that contains a body corresponding to the initiating\nrequest's `Accept` header.\n\n#### 201 Created\n\nThe `201 Created` follows after a successful `POST` or `PUT` and states where the newly resource was created in a `Location` header.\n\n#### 202 Accepted\n\nThe `202 Accepted` response signals that the request was understood and the response will follow later. The `Location` header should state where\ninformation can be obtained later. To be nice, the `Retry_After` header may issue a timeframe for when it makes sense to ask for a status again:\n\n    Location: http://get/the/new/status/location\n    Retry-After: 30\n  \nIf the endpoint may take longer than e.g. 50ms it would be sound advice to include 202 from the beginning in the API description.\nIt is important to notice that the introduction of a 202 response would cause consumers to perceive that as a breaking change for the API\nand thus the service generation must be increased and therefore consumers of the \"previous\" version without the 202 must include the header\n`X-Service-Generation` in the consumer requests.\n\n#### 301 Moved Permanently\n\nThe `301` is issued if a resource is no longer at the place where it used to be.\n\nFor instance this could be a resource that has moved to a different part of the API. In that case a `301` is returned with a `Location` header\ncontaining the new position:\n\n    Location: http://this/is/the/new/location\n\n#### 400 Bad Request\n\nThe `400` response states that this request was wrong and should not be retried.\n\n#### 401 Unauthorized\n\nThe `401` response states that this request did not have user authentication and that usually means that the client needs to either have a\ncontract for that resource, authenticate the user, renew a token or ... in order to get access to the requested resource.\n\n#### 403 Forbidden\n\nThe `403` response states that this request carries user authentication but does not have sufficient authorizations to access the resource.\n\n#### 404 Not Found\n\nThe `404` response states that the resource requested did not exist.\n\n#### 409 Conflict\n\nThe `409` response states that the request for the resource is resulting in a form of conflict, which the client must resolve before retrying.\nThis could be trying to POST changes to an object that would cause the object to be in an erroneous state.\n\n#### 429 Too Many Requests\n\nThe `429` response states that too much load is added from the client side into the service and the client is requested to limits the number \nof requests as the limits has been reached. A Retry-After header is part of the response:\n\n    Retry-After: Sat, 31 Dec 2016 23:59:59 GMT\n\nor\n\n    Retry-After: 1200\n  \n\n#### 503 Service Unavailable\n\nThe `503` response states that the server for some reason is unavailable:\n\n    Retry-After: Sat, 31 Dec 2016 23:59:59 GMT\n\nor\n\n    Retry-After: 120\n\n## Service terms\n\nThe terms of using the service is as follows, the contract found at <https://sample-bank.dk/services/contracts/2345678> states the general terms\nfor using this service. Consumers can create their own individual contract and terms for usage at <https://sample-bank.dk/services/consumers>.",
+    "version": "1.0.0-SNAPSHOT",
+    "title": "HATEOAS(HAL) Sample",
+    "termsOfService": "he terms of using the service is as follows,\n                                the contract found at\n                                https://sample-bank.dk/services/contracts/2345678\n                                and states the general terms for using this service.\n                                Consumers can create their own individual contract and terms\n                                for usage at https://sample-bank.dk/services/consumers",
+    "contact": {
+      "name": "Sample Bank Contact Name",
+      "url": "https://www.sample-bank.dk",
+      "email": "sample@sample-bank.dk"
+    },
+    "license": {
+      "name": "(C) Sample-Bank 2017",
+      "url": "https://www.sample-bank.dk/licenses/LICENSE.html"
+    }
+  },
+  "host": "hateoas.services.bankit.dk",
+  "basePath": "/hateoas",
+  "tags": [
+    {
+      "name": "immutable",
+      "description": "immutable means the object/resource never changes",
+      "externalDocs": {
+        "description": "Immutability described at: ",
+        "url": "https://en.wikipedia.org/wiki/Immutable_object"
+      }
+    },
+    {
+      "name": "decorator",
+      "description": "decorator is an a pattern that allows other objects/resources to preserve their nature, e.g. stay immutable, stay authoritative etc. by wrapping these other objects/resources",
+      "externalDocs": {
+        "description": "Decorator pattern described at: ",
+        "url": "https://en.wikipedia.org/wiki/Decorator_pattern"
+      }
+    },
+    {
+      "name": "PartlyGenerated",
+      "description": "The API is partly generated"
+    },
+    {
+      "name": "select",
+      "description": "select is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "sort",
+      "description": "sort is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "elements",
+      "description": "elements is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "interval",
+      "description": "interval is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "filter",
+      "description": "filter is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "embed",
+      "description": "embed is an api capability see doc on https://github.com/Nykredit/HATEOAS/blob/master/api-information/APICapabilities.md"
+    },
+    {
+      "name": "accounts"
+    },
+    {
+      "name": "metadata"
+    },
+    {
+      "name": "events"
+    },
+    {
+      "name": "reconciled"
+    },
+    {
+      "name": "transactions"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/hal+json"
+  ],
+  "paths": {
+    "/accounts/{regNo}-{accountNo}": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "gets the information from a single account",
+        "description": "obtain a single account back in a default projection, which is Account version 3 Supported projections and versions are: AccountSparse in version2 and Account in version 3 The format of the default version is ....  The responses possible from this endpoint is: 200, 202, 301, 400, 404, 409, 415, - The Accept Header is not marked as required in the swagger - but it is needed - we are working on a solution to that",
+        "operationId": "getAccount",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=account;v=2",
+          "application/hal+json;concept=account;v=3"
+        ],
+        "parameters": [
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Default Account Representation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "The Account has been moved to other Location."
+          },
+          "304": {
+            "description": "The Account was not Modified."
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Authorizations were missing."
+          },
+          "403": {
+            "description": "Forbidden - No Access with you current credentials."
+          },
+          "404": {
+            "description": "No account found."
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition failed - eg. eTAG not as expected"
+          },
+          "415": {
+            "description": "An unsupported content-type was used - please use supported versions only"
+          },
+          "429": {
+            "description": "too many requests at the moment"
+          },
+          "500": {
+            "description": "server error internally (usual infrastructure errors)"
+          },
+          "503": {
+            "description": "service unavailable (try a little later)"
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisor allows getting every account",
+          "customer": "customer allows getting own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      },
+      "put": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Create new or update existing account",
+        "description": "PUT is used to create a new account from scratch and may be used to alter the name of the account",
+        "operationId": "updateAccount",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=account;v=1",
+          "application/hal+json;concept=account;v=2"
+        ],
+        "parameters": [
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "account",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/AccountUpdate"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string",
+            "pattern": "_^application/hal+json[;concept=[a_z]+;v=[0_9]+]"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "201": {
+            "description": "New Account Created",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            },
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "202": {
+            "description": "Request accepted for further processing.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Could not update or create the account",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "The Accept Header Content-Type was not supported"
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisor allows getting every account",
+          "system": "system allows getting coOwned account",
+          "customer": "customer allows getting own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/accounts": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "lists accounts",
+        "description": "List all accounts in a default projection, which is AccountOverview version 1Supported projections and versions are: AccountOverview in version 1 The Accept header for the default version is application/hal+json;concept=AccountOverview;v=1.0.0.... The format for the default version is {....}",
+        "operationId": "listAccounts",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=accountoverview;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Accounts"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisors are allowed getting every account",
+          "customer": "customer only allowed getting own accounts"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/account-events-metadata": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "metadata for the events endpoint",
+        "description": " the events are signalled by this resource as this this is the authoritative resource for all events that subscribers to the account service should be able to listen for and react to. In other words this is the authoritative feed for the account service",
+        "operationId": "getMetadata",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=metadata;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/EventsMetadata"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/account-events": {
+      "get": {
+        "tags": [
+          "interval",
+          "events"
+        ],
+        "summary": "obtain all events emitted by the account-event service",
+        "description": " the events are signalled by this resource as this this is the authoritative resource for all events that subscribers to the account service should be able to listen for and react to. In other words this is the authoritative feed for the account service",
+        "operationId": "listAllEvents",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=events;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/account-events/{group}": {
+      "get": {
+        "tags": [
+          "interval",
+          "events"
+        ],
+        "summary": "obtain all events scoped to a certain category",
+        "description": " the events are signalled by this resource as this this is the authoritative resource for all events that subscribers to the account service should be able to listen for and react to. In other words this is the authoritative feed for the account service, allowing for subscribers to have these grouped into categories",
+        "operationId": "getEventsByCategory",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=eventcategory;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/account-events/{category}/{id}": {
+      "get": {
+        "tags": [
+          "immutable",
+          "events"
+        ],
+        "summary": "obtain the individual events from an account",
+        "description": "the event her is immutable and thus can be cached for a long time",
+        "operationId": "getEvent",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=event;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "No event found."
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/accounts/{regNo}-{accountNo}/reconciled-transactions/{id}": {
+      "get": {
+        "tags": [
+          "decorator",
+          "reconciled"
+        ],
+        "summary": "obtain a single reconciled transaction from a given account",
+        "operationId": "getReconciledTransaction",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=reconciledtransaction;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Reconciledtransaction"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "No reconciled transaction found."
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "customer": "customer allows getting own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      },
+      "put": {
+        "tags": [
+          "decorator",
+          "reconciled"
+        ],
+        "summary": "Create new or update reconciled transaction",
+        "description": "reconciled transactions are user controlled checks and notes for transactions such as - Yes I have verified that this transaction was correct and thus it is reconciled",
+        "operationId": "updateReconciledTransaction",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/hal+json"
+        ],
+        "parameters": [
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "reconciled transaction",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ReconciledtransactionUpdate"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string",
+            "pattern": "_^application/hal+json[;concept=[a_z]+;v=[0_9]+]"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Reconciledtransaction"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "201": {
+            "description": "Resource Created.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "202": {
+            "description": "Request accepted for further processing.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "No updating possible",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "system": "customer allows getting coOwned account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/accounts/{regNo}-{accountNo}/reconciled-transactions": {
+      "get": {
+        "tags": [
+          "select",
+          "sort",
+          "elements",
+          "interval",
+          "filter",
+          "embed",
+          "decorator",
+          "reconciled"
+        ],
+        "summary": "obtain reconciled transactions (added API capabilities not though not implemented)",
+        "description": "obtain a list of all reconciled transactions from an account the reconciled transactions are user controlled checks and notes for transactions such as - Yes I have verified that this transaction was correct and thus it is reconciled",
+        "operationId": "listReconciledTransactions",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=reconciledtransactions;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ReconciledTransactions"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported by me AHJ."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisor allows getting from every account",
+          "customer": "customer allows getting from own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/accounts/{regNo}-{accountNo}/transactions/{id}": {
+      "get": {
+        "tags": [
+          "immutable",
+          "transactions"
+        ],
+        "summary": "obtain the individual single transaction from an account",
+        "operationId": "getTransaction",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=transaction;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "No transaction found."
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content-Type not supported by Resource",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisor allows getting from every account",
+          "customer": "customer allows getting from own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      },
+      "put": {
+        "tags": [
+          "immutable",
+          "transactions"
+        ],
+        "summary": "creates a single transaction on an account",
+        "operationId": "setTransaction",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=transaction;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "transaction",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TransactionUpdate"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string",
+            "pattern": "_^application/hal+json[;concept=[a_z]+;v=[0_9]+]"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "201": {
+            "description": "New transaction created.",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            },
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "202": {
+            "description": "New transaction will be created at some point in time."
+          },
+          "400": {
+            "description": "Could create the new transaction",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content type not supported."
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "system": "customer allows getting from coOwned account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    },
+    "/accounts/{regNo}-{accountNo}/transactions": {
+      "get": {
+        "tags": [
+          "sort",
+          "elements",
+          "interval",
+          "transactions"
+        ],
+        "summary": "obtain all transactions on account for a given account",
+        "operationId": "listTransactions",
+        "produces": [
+          "application/hal+json",
+          "application/hal+json;concept=transactionoverview;v=1"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Default that is set to application/hal+json and that will return the most recent version of content. If you want another version use application/hal+json;concept=(the projection);v=(the version)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "regNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Log-Token",
+            "in": "header",
+            "description": "A Correlation ID that consumers can specify to ensure traceability from own logs. If not present a token will be generated and returned in response",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[a_zA_Z0-9]{36}"
+          },
+          {
+            "name": "X-Service-Generation",
+            "in": "header",
+            "description": "A service generation ID that allows consumers to specify an API structure version other than the current one. If not present the most recent will be chosen",
+            "required": false,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "description": "A Client version ID is recommended for traceability from own logs.",
+            "required": true,
+            "type": "string",
+            "pattern": "_^[0-9]{1}.[0-9]{1}.[0-9]{1}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Transactions"
+            },
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              },
+              "Content-Type": {
+                "type": "string",
+                "description": "The concrete content-type returned from service - save for future versioning"
+              },
+              "Cache-Control": {
+                "type": "string",
+                "description": "The consumer caching information"
+              },
+              "ETag": {
+                "type": "string",
+                "description": "The entity tag"
+              },
+              "Expires": {
+                "type": "string",
+                "description": "The information expiry time"
+              },
+              "Last-Modified": {
+                "type": "string",
+                "description": "The information was changed at this time"
+              }
+            }
+          },
+          "301": {
+            "description": "Resource has moved.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified - Resource was not updated",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "307": {
+            "description": "Temporary Redirect - Resource is available shortly else where",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location is used to state where resource can be found"
+              },
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - the contents of the request were semantically or syntactically wrong.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized for the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden access to the resource.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable - Possible mismatch between headers and content",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - state of resource may have changed.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "410": {
+            "description": "Gone - resource is no longer available."
+          },
+          "412": {
+            "description": "Precondition Failed - result from state of headers.",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "415": {
+            "description": "Content-Type not supported by Resource",
+            "headers": {
+              "X-Log-Token": {
+                "type": "string",
+                "description": "A Correlation ID for consumer use"
+              }
+            }
+          },
+          "429": {
+            "description": "Too much load is added from the client side into the service and the client is requested to limit the number of requests - as the limits has been reached",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "500": {
+            "description": "The server experienced a currently unknown problem"
+          },
+          "503": {
+            "description": "The service is unavailable",
+            "headers": {
+              "Retry-After": {
+                "type": "string",
+                "description": "When can the resource be expected at the Location"
+              }
+            }
+          },
+          "505": {
+            "description": "HTTP Version not supported"
+          }
+        },
+        "security": [
+          {
+            "OAuth2 - Access Code Flow": []
+          },
+          {
+            "OAuth2 - Client Credential Flow": []
+          },
+          {
+            "OAuth2 - Implicit Grant Flow": []
+          },
+          {
+            "OAuth2 - Resource Owner Password Credentials Flow": []
+          },
+          {
+            "Bearer": []
+          }
+        ],
+        "x-roles": {
+          "advisor": "advisor allows getting from every account",
+          "customer": "customer allows getting from own account"
+        },
+        "x-standard-extension": "x-Standard-Extension-Value",
+        "x-auth-roles": {
+          "name": "authenticated-by",
+          "description": "access_token"
+        },
+        "x-supports-scheme": {
+          "name": "identity",
+          "description": "jwt_token"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "OAuth2 - Implicit Grant Flow": {
+      "description": "OAuth2 Implicit grant flow is used for every single endpoint",
+      "type": "oauth2",
+      "authorizationUrl": "https://banking.services.sample-bank.dk/token.oauth2?grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=JWT",
+      "flow": "implicit"
+    },
+    "OAuth2 - Client Credential Flow": {
+      "description": "OAuth2 Client Credentials grant flow is supported for every endpoint",
+      "type": "oauth2",
+      "tokenUrl": "https://oauth.services.sample-bank.dk/token",
+      "flow": "application"
+    },
+    "OAuth2 - Access Code Flow": {
+      "description": "OAuth2 Authorization Code grant flow is supported for every endpoint",
+      "type": "oauth2",
+      "authorizationUrl": "https://banking.services.sample-bank.dk/token.oauth2?grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=JWT",
+      "tokenUrl": "https://oauth.services.sample-bank.dk/token",
+      "flow": "accessCode"
+    },
+    "OAuth2 - Resource Owner Password Credentials Flow": {
+      "description": "OAuth2 Resource Owner Password Credentials flow is supported for every endpoint",
+      "type": "oauth2",
+      "tokenUrl": "https://oauth.services.sample-bank.dk/token",
+      "flow": "password"
+    },
+    "Bearer": {
+      "description": "A Bearer token",
+      "type": "apiKey",
+      "name": "Authorization: Bearer",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "properties": {
+        "regno": {
+          "type": "string",
+          "example": "1234",
+          "description": "the registration number preceeding the account  number."
+        },
+        "accountno": {
+          "type": "string",
+          "example": "12345678",
+          "description": "the account  number."
+        },
+        "name": {
+          "type": "string",
+          "example": "NemKonto",
+          "description": "the human readable name of the account."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "account:transactions": {
+              "$ref": "#/definitions/HALLink"
+            },
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "the Account"
+    },
+    "HALLink": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "templated": {
+          "type": "boolean",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "type": {
+          "type": "string",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "deprecation": {
+          "type": "string",
+          "format": "url",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "name": {
+          "type": "string",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "profile": {
+          "type": "string",
+          "format": "uri",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "title": {
+          "type": "string",
+          "xml": {
+            "attribute": true
+          }
+        },
+        "hreflang": {
+          "type": "string",
+          "xml": {
+            "attribute": true
+          }
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "a semantic identifier for the transaction."
+        },
+        "description": {
+          "type": "string",
+          "example": "Starbucks Coffee",
+          "description": "the human readable description of the transaction."
+        },
+        "amount": {
+          "type": "string",
+          "example": "123.45",
+          "description": "the amount - in this example without currency."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "An classical domain immutable transaction"
+    },
+    "AccountSparse": {
+      "type": "object",
+      "properties": {
+        "regno": {
+          "type": "string",
+          "example": "1234",
+          "description": "the registration number preceeding the account  number."
+        },
+        "accountno": {
+          "type": "string",
+          "example": "12345678",
+          "description": "the account  number."
+        },
+        "name": {
+          "type": "string",
+          "example": "NemKonto",
+          "description": "the human readable name of the account."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "account:transactions": {
+              "description": "link to the collection of transactions that have taken place for the account.",
+              "$ref": "#/definitions/HALLink"
+            },
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "the Account kin a sparse projection"
+    },
+    "Accounts": {
+      "type": "object",
+      "properties": {
+        "_embedded": {
+          "type": "object",
+          "properties": {
+            "accounts": {
+              "type": "array",
+              "description": "account list.",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          }
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "a list of Accounts in default projection"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "sid": {
+          "type": "string",
+          "description": "the semantic id of the error."
+        },
+        "message": {
+          "type": "string",
+          "example": "this error happened due to this situation",
+          "description": "the contents of an error in the body as information til API consumer(s)."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "resource": {
+              "$ref": "#/definitions/HALLink"
+            },
+            "values": {
+              "type": "object",
+              "description": "a collection of validation issues which caused the error.",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "description": "a simple error representation"
+    },
+    "AccountUpdate": {
+      "type": "object",
+      "required": [
+        "accountno",
+        "name",
+        "regno"
+      ],
+      "properties": {
+        "regno": {
+          "type": "string",
+          "example": "1234",
+          "description": "the registration number preceeding the account  number.",
+          "pattern": "^[0-9]{4}$"
+        },
+        "accountno": {
+          "type": "string",
+          "example": "12345678",
+          "description": "the account  number.",
+          "pattern": "^[0-9]+$"
+        },
+        "name": {
+          "type": "string",
+          "example": "NemKonto",
+          "description": "the human readable name of the account.",
+          "pattern": ".{1,40}"
+        }
+      },
+      "description": "the inout necessary for creating an Account"
+    },
+    "EventsMetadata": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "string",
+          "description": "json formatted description of relevant metadata"
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "A very simple way of delivering metadata to the consumer of a service"
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "a semantic identifier for the event."
+        },
+        "time": {
+          "type": "string",
+          "description": "the human readable time of when the event occurred."
+        },
+        "sequence": {
+          "type": "string",
+          "example": "1",
+          "description": "the sequence - in this example to show that time and sequence can be used for idempotency."
+        },
+        "category": {
+          "type": "string",
+          "example": "1234-12345678",
+          "description": "the category - in which the event has been grouped into."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "metadata": {
+              "$ref": "#/definitions/HALLink"
+            },
+            "origin": {
+              "$ref": "#/definitions/HALLink"
+            },
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "An immutable event"
+    },
+    "Events": {
+      "type": "object",
+      "properties": {
+        "_embedded": {
+          "type": "object",
+          "properties": {
+            "events": {
+              "type": "array",
+              "description": "the list of events.",
+              "items": {
+                "$ref": "#/definitions/Event"
+              }
+            }
+          }
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "A set of immutable events"
+    },
+    "Reconciledtransaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "a semantic (here shown as UUID) identifier for the transaction."
+        },
+        "note": {
+          "type": "string",
+          "description": "contains information relevant to the reconciled decorated transaction."
+        },
+        "reconciled": {
+          "type": "boolean",
+          "description": "signals whether the transaction is reconciled or not."
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            },
+            "transaction": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "A mutable decorator for a transaction to keep its immutability"
+    },
+    "ReconciledTransactions": {
+      "type": "object",
+      "properties": {
+        "reconciledtransactions": {
+          "type": "array",
+          "description": "the list of reconciled transaction.",
+          "items": {
+            "$ref": "#/definitions/Reconciledtransaction"
+          }
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "A list containing the mutable decorator instances each having link to their immutable counterpart transaction to keep its immutability"
+    },
+    "ReconciledtransactionUpdate": {
+      "type": "object",
+      "required": [
+        "note",
+        "reconciled"
+      ],
+      "properties": {
+        "note": {
+          "type": "string",
+          "description": "contains information relevant to the reconciled decorated transaction.",
+          "pattern": ".{1,256}"
+        },
+        "reconciled": {
+          "type": "string",
+          "description": "signals whether the transaction is reconciled or not.",
+          "pattern": "true|false"
+        }
+      },
+      "description": "A way to reconcile transactions"
+    },
+    "Transactions": {
+      "type": "object",
+      "properties": {
+        "_embedded": {
+          "type": "object",
+          "properties": {
+            "transactions": {
+              "type": "array",
+              "description": "the list of transaction.",
+              "items": {
+                "$ref": "#/definitions/Transaction"
+              }
+            }
+          }
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "$ref": "#/definitions/HALLink"
+            }
+          }
+        }
+      },
+      "description": "A set of immutable transactions"
+    },
+    "TransactionUpdate": {
+      "type": "object",
+      "required": [
+        "amount",
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "Starbucks Coffee",
+          "description": "the human readable description of the transaction.",
+          "pattern": ".{1,256}"
+        },
+        "amount": {
+          "type": "string",
+          "example": "123.45",
+          "description": "the amount - in this example without currency.",
+          "pattern": "^([0-9]{1,9})((\\.)([0-9]{2}))?"
+        }
+      },
+      "description": "the input necessary for creating a transaction"
+    }
+  },
+  "externalDocs": {
+    "description": "documentation",
+    "url": "https://github.com/Nykredit/HATEOAS/tree/master/api-information"
+  }
+}

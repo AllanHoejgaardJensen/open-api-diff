@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+java -Djava.ext.dirs=open-api-diff/sample-api:lib -cp target/open-api-diff-0.10.1.jar dk.hoejgaard.openapi.diff.OpenAPIDiff ./sample-api/seed-rest-server-jee7-swagger.json ./sample-api/seed-swagger.json ./target/output/reports APISeed.html a f 1

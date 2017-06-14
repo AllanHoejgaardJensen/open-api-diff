@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ChangeLog</title>
+    <style>body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
+    dl, dt, dd, ul, ol, li,
+    pre,
+    form, fieldset, legend, button, input, textarea,
+    th, td  {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    body,
+    button, input, select, textarea {
+        font: 16px/1.5 sans-serif, tahoma, arial, \5b8b\4f53;
+        font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, sans-serif;
+        font-weight: normal;
+    }
+    h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+    address, cite, dfn, em, var { font-style: normal; }
+    code, kbd, pre, samp { font-family: courier new, courier, monospace; }
+    small { font-size: 14px; }
+
+    ul, ol { list-style: none; }
+
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    legend { color: #000; }
+    fieldset, img { border: 0; }
+    button, input, select, textarea { font-size: 100%; }
+
+    table { border-collapse: collapse; border-spacing: 0; }
+
+    header {
+        background-color: #8BC34A;
+        height: 68px;
+        line-height: 68px;
+        padding: 0 20px;
+        color: #fff;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 400;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-weight: 700;
+        border: 1px solid #ddd;
+        display: inline-block;
+        border-radius: 4px;
+        padding: 0 4px;
+    }
+
+    .article {
+        padding: 20px;
+        max-width: 960px;
+        margin: 10px auto;
+        box-shadow: 0 0 4px #ccc;
+    }
+
+    .article>div {
+        padding: 10px 10px;
+    }
+
+    .POST, .post, .get, .GET, .put, .PUT,.delete, .DELETE {
+        color: #fff;
+        padding: 4px;
+        border-radius: 2px;
+        font-size: 8px;
+        margin: 0 4px;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+    }
+    .POST, .post{
+        background-color: #0B7CAF;
+    }
+    .get, .GET {
+        background-color: #009688;
+    }
+    .put, .PUT {
+        background-color: #c5862b;
+    }
+    .delete, .DELETE {
+        background-color: #F44336;
+    }
+
+    hr {
+        color: #dfdfdf;
+    }
+
+    ol>li {
+        margin: 24px;
+    }
+
+    ol>li>ul {
+        background-color: #504949;
+        color: #fff;
+        padding: 8px 16px;
+    }
+
+    ul.change>li {
+        margin: 10px 20px;
+    }
+
+    ul {
+        margin: 10px 0;
+    }
+
+    ul>li {
+        margin: 10px 0;
+    }
+
+    .missing>s, .missing>del {
+        padding: 0 4px;
+    }
+
+    s, del {
+        color: #F44336;
+    }</style>
+</head>
+<body>
+<header><h1>ChangeLog</h1></header>
+<div class="article">
+    <div><h2>What's New</h2>
+        <hr>
+        <ol>
+            <li><span class="GET">GET</span>/accounts/{regNo}-{accountNo} <span>gets the information from a single account</span>
+            </li>
+            <li><span class="PUT">PUT</span>/accounts/{regNo}-{accountNo}
+                <span>Create new or update existing account</span></li>
+            <li><span class="GET">GET</span>/accounts <span>lists accounts</span></li>
+            <li><span class="GET">GET</span>/account-events-metadata <span>metadata for the events endpoint</span></li>
+            <li><span class="GET">GET</span>/account-events
+                <span>obtain all events emitted by the account-event service</span></li>
+            <li><span class="GET">GET</span>/account-events/{category} <span>obtain all events scoped to a certain category</span>
+            </li>
+            <li><span class="GET">GET</span>/account-events/{category}/{id} <span>obtain the individual events from an account</span>
+            </li>
+            <li><span class="GET">GET</span>/accounts/{regNo}-{accountNo}/reconciled-transactions/{id} <span>obtain a single reconciled transaction from a given account</span>
+            </li>
+            <li><span class="PUT">PUT</span>/accounts/{regNo}-{accountNo}/reconciled-transactions/{id} <span>Create new or update reconciled transaction</span>
+            </li>
+            <li><span class="GET">GET</span>/accounts/{regNo}-{accountNo}/reconciled-transactions <span>obtain reconciled transactions (added API capabilities not though not implemented)</span>
+            </li>
+            <li><span class="GET">GET</span>/accounts/{regNo}-{accountNo}/transactions/{id} <span>obtain the individual single transaction from an account</span>
+            </li>
+            <li><span class="PUT">PUT</span>/accounts/{regNo}-{accountNo}/transactions/{id} <span>creates a single transaction on an account</span>
+            </li>
+            <li><span class="GET">GET</span>/accounts/{regNo}-{accountNo}/transactions <span>obtain all transactions on account for a given account</span>
+            </li>
+        </ol>
+    </div>
+    <div><h2>What's Deprecated</h2>
+        <hr>
+        <ol></ol>
+    </div>
+    <div><h2>What's Changed</h2>
+        <hr>
+        <ol></ol>
+    </div>
+</div>
+</body>
+</html>
