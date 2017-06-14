@@ -33,6 +33,6 @@ and html.
 
 ### The future
 If the tool is evaluated to create value, the structure could evolve into something better, therefore suggestions, improvements etc. are welcome.
-It would be great if the tool could evolve into something valuable for service development and deployment and thus could help optimize the business value possible to deliver.
+It would be great if the tool could evolve into something valuable for service development and deployment and thus could help optimize business value of services.
  
 
