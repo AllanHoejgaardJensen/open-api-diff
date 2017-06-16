@@ -279,7 +279,10 @@ Will display the same as the console part, with the console coloring filtered.
 The findings will be shown and exemplified by the use of the HTML based report in order to show something visual along 
 with an explanation of why this finding exist and why it is a part of the report.
 
-### The section will be extended little after little.
+*The section will be extended and changed over time*. 
+_The text shown in the examples may change a bit compared to the report, these changes are pure phrasing and the pictures
+will catch up_
+ 
 
 ### Examples (Opinionated)
 Adding a response like `202` will break the backward compatibility of the API for that endpoint. If clients were not 
