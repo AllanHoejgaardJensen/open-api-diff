@@ -5,20 +5,20 @@ A with a bit of explanation to each of the screenshots will follow:
 
 ## Introduction
 
-![HTML Intro] (../sample-reports/HTML-Intro.png)
+![HTML Intro](../sample-reports/HTML-Intro.png)
 
 The introductory part of the report is to state what is going to be in the report and how the notation of the report
 should be understood.
 
 ## The Quick Overview
 
-![HTML Overview] (../sample-reports/HTML-Overview.png)
+![HTML Overview](../sample-reports/HTML-Overview.png)
 
 The overview section gives a highlevel overview over what has happened as "The Big Picture" perspective
 
 ## Elaboration on Changed Parts
 
-![HTML Elaborated Change] (../sample-reports/HTML-Elaborated-Change.png)
+![HTML Elaborated Change](../sample-reports/HTML-Elaborated-Change.png)
 
 The elaborated section gives a more detailed overview over what has happened and what is the issues found that leads to 
 breaking situations that will disturb the clients (user of the service) and the potentially breaking situations, that 
@@ -28,7 +28,7 @@ and deployment speed for the service developers.
 
 ## Elaboration on Opinionated Compliance
 
-![HTML Elaborated Compliance] (../sample-reports/HTML-Elaborated-Compliance.png)
+![HTML Elaborated Compliance](../sample-reports/HTML-Elaborated-Compliance.png)
 
 The elaborated section including every observation found to be of interest in relation to compliance to the opinionated 
 view on APIs that should be easy to evolve. 

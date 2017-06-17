@@ -6,14 +6,14 @@ A with a bit of explanation to each of the screenshots will follow:
 
 ## The Introduction and Quick Overview
 
-![Markdown Intro and Overview] (../sample-reports-reports/MD-Intro.png)
+![Markdown Intro and Overview](../sample-reports/MD-Intro.png)
 
 The introductory part of the report is to state what is going to be in the report and how the notation of the report
 should be understood. The Overview section gives a highlevel overview over what has happened as "The Big Picture" perspective.
 
 ## Elaboration on Changed Parts
 
-![Markdown Elaborated Change] (../sample-reports/MD-Elaborated-Change.png)
+![Markdown Elaborated Change](../sample-reports/MD-Elaborated-Change.png)
 
 The elaborated section gives a more detailed overview over what has happened and what is the issues found that leads to 
 breaking situations that will disturb the clients (user of the service) and the potentially breaking situations, that 
@@ -23,7 +23,7 @@ and deployment speed for the service developers.
 
 ## Elaboration on Opinionated Compliance
 
-![Markdown Elaborated Compliance] (../sample-reports/MD-Elaborated-Compliance.png)
+![Markdown Elaborated Compliance](../sample-reports/MD-Elaborated-Compliance.png)
 
 The elaborated section including every observation found to be of interest in relation to compliance to the opinionated 
 view on APIs that should be easy to evolve. 
