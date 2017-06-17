@@ -8,10 +8,10 @@ content-type based versioning of content.
 
 ## A little background
 A model was created initially for the individual API
-![Initial Model](sample-model/initial-model.png)
+![Initial Model](../sample-model/initial-model.png)
 This quickly ends up being close to what the swagger model already contains.
 The comparison ends up being something along the lines of:
-![A Comparison Scenario](sample-model/comparison-scenario.png)
+![A Comparison Scenario](../sample-model/comparison-scenario.png)
 It seemed a very complex way to perform the comparison between two editions of the "same" API and the need for containing specifics concerning the comparison criteria seem to be able to be contained in a simpler structure. I think there is a smell to the project as it seems very tree-oriented and a better model for the comparison would be welcomed a lot. However for now the model is using the swagger model as the domain model and mainly the comparison model is part of the project. 
 
 ### The Structure
