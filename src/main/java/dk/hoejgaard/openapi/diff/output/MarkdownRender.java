@@ -591,21 +591,17 @@ public class MarkdownRender implements OutputRender {
     }
 
     private String toUpperCamelCase(String input) {
-        String result = "";
         String[] words = input.trim().split("\\W");
         for (String word : words) {
             if (word.length() < 1) {
                 return input;
             }
         }
-
+        StringBuilder sb = new StringBuilder();
         for (String word : words) {
-            String tmp = word.substring(0, 1);
-            tmp = tmp.toUpperCase();
-            tmp = tmp + word.substring(1, word.length());
-            result = result + tmp + " ";
+            sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1, word.length())).append(" ");
         }
-        return result;
+        return sb.toString();
     }
 
 }

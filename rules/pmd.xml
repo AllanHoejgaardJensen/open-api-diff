@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="PMD" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>
+        The additional ruleset checks for thing in your code that Findbugs or checkstyle does not get.
+    </description>
+
+    <rule ref="rulesets/java/unusedcode.xml">
+        <exclude name="UnusedPrivateField"/>
+    </rule>
+    
+    <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField">
+        <description>suppresses unused fields if part of JPA column definition</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>//ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId
+                    [../../../Annotation/NormalAnnotation/Name[@Image='Column']]
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+class Foo {
+	private String unused;
+}
+
+is an example of an unused private field whereas the one underneath is not
+
+@Entity
+@Table(name = "SOME_TABLE")
+class JPAPersistentFoo {
+
+    @Column(name = "USED", length = 4, nullable = false)
+	private String used;
+}
+
+]]>
+        </example>
+    </rule>
+
+    <rule ref="rulesets/java/unusedcode.xml">
+        <exclude name="UnusedPrivateMethod"/>
+    </rule>
+    
+    <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod">
+        <description>suppresses unused methods part of PostConstruct and PreDestroy definition</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>//ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId
+                    [../../../Annotation/NormalAnnotation/Name[@Image='@PostConstruct'] or
+                    ../../../Annotation/NormalAnnotation/Name[@Image='@PreDestroy']]
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/java/sunsecure.xml">
+        <exclude name="ArrayIsStoredDirectly"/>
+    </rule>
+    
+    <rule ref="rulesets/java/strings.xml">
+        <exclude name="AppendCharacterWithChar"/>
+        <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="AvoidStringBufferField"/>
+        <exclude name="ConsecutiveLiteralAppends"/>
+        <exclude name="InsufficientStringBufferDeclaration"/>
+    </rule>
+    
+    <rule ref="rulesets/java/strings.xml/AvoidStringBufferField">
+        <description>
+            <![CDATA[
+			StringBuffers can grow quite a lot, and so may become a source of memory leak (if the owning class has a long life time).
+		]]>
+        </description>
+        <priority>5</priority>
+        <properties>
+            <property name="xpath">
+                <value><![CDATA[
+//FieldDeclaration/Type/ReferenceType/ClassOrInterfaceType[@Image = 'StringBuffer']
+]]>
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+class Foo {
+	private StringBuffer memoryLeak;
+}
+]]>
+        </example>
+    </rule>
+    
+    <rule ref="rulesets/java/strictexception.xml">
+        <exclude name="SignatureDeclareThrowsException"/>
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+        <exclude name="AvoidCatchingThrowable"/>
+        <exclude name="AvoidCatchingGenericException"/>
+    </rule>
+    
+    <rule ref="rulesets/java/strictexception.xml/AvoidCatchingGenericException">
+        <description>suppresses unused fields if it handled using an error or fatal logging inside the catch section</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>
+                    //MethodDeclaration/Block//BlockStatement//CatchStatement//ReferenceType/ClassOrInterfaceType[@Image='Exception' or
+                    @Image='RuntimeException'
+                    ][//CatchStatement/Block/BlockStatement/Statement/StatementExpression/PrimaryExpression/PrimaryPrefix/Name[contains
+                    (@Image,'.error') or contains (@Image,'.fatal) ]]
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+
+    <rule ref="rulesets/java/optimizations.xml">
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    </rule>
+    
+    <rule ref="rulesets/java/naming.xml">
+        <exclude name="VariableNamingConventions"/>
+        <exclude name="ClassNamingConventions"/>
+        <exclude name="AvoidFieldNameMatchingTypeName"/>
+        <exclude name="ShortVariable"/>
+        <exclude name="LongVariable"/>
+        <exclude name="AbstractNaming"/>
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
+        <exclude name="ShortClassName"/>
+    </rule>
+
+    <rule ref="rulesets/java/naming.xml/ShortClassName">
+        <description>id classname less than 3 chars long it is propably not understandable</description>
+        <properties>
+            <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[string-length(@Image) lt; 3 ]" />
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/java/migrating.xml"/>
+
+    <rule ref="rulesets/java/javabeans.xml">
+        <exclude name="BeanMembersShouldSerialize"/>
+    </rule>
+
+    <rule ref="rulesets/java/j2ee.xml"/>
+
+    <rule ref="rulesets/java/finalizers.xml"/>
+
+    <rule ref="rulesets/java/design.xml">
+        <exclude name="SimplifyBooleanReturns"/>
+        <exclude name="SwitchStmtsShouldHaveDefault"/>
+        <exclude name="UseLocaleWithCaseConversions"/>
+        <exclude name="ConfusingTernary"/>
+        <exclude name="AvoidDeeplyNestedIfStmts"/>
+        <exclude name="AvoidReassigningParameters"/>
+        <exclude name="AbstractClassWithoutAbstractMethod"/>
+        <exclude name="SingularField"/>
+        <exclude name="ImmutableField"/>
+    </rule>
+
+    <rule ref="rulesets/java/design.xml/ImmutableField">
+        <description>suppresses field if part of JAXB definition</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>
+                    //ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId
+                    [../../../../../../Annotation/MarkerAnnotation/Name[@Image='XmlRootElement'] or
+                    ../../../../../../Annotation/MarkerAnnotation/Name[@Image='XmlType'] or 
+                    ../../../../../../Annotation/MarkerAnnotation/Name[@Image='Resource'] or
+                    ../../../Annotation/NormalAnnotation/Name[@Image='ManyToMany']]
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+class Foo {
+	private String unused;
+}
+
+is an example of an unused private field whereas the two underneath is not
+
+@XmlRootElement
+class JAXBFoo {
+
+	private String used;
+}
+
+@XmlType
+class JAXBBar {
+
+	private String used;
+}
+
+]]>
+        </example>
+    </rule>
+
+    <rule ref="rulesets/java/design.xml/SingularField">
+        <description>suppresses field if part of JPA column definition</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>//ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId
+                    [../../../Annotation/NormalAnnotation/Name[@Image='Column']]
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+class Foo {
+	private String singular;
+}
+
+is an example of a singular field, whereas the one underneath is not
+
+@Entity
+@Table(name = "SOME_TABLE")
+class JPAPersistentFoo {
+
+    @Column(name = "SINGULAR", length = 24, nullable = false)
+	private String singular;
+}
+
+]]>
+        </example>
+    </rule>
+
+    <rule ref="rulesets/java/controversial.xml">
+        <exclude name="CallSuperInConstructor"/>
+        <exclude name="AvoidFinalLocalVariable"/>
+        <exclude name="OnlyOneReturn"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="NullAssignment"/>
+        <exclude name="DefaultPackage"/>
+        <exclude name="AssignmentInOperand"/>
+	    <exclude name="UseObjectForClearerAPI"/>
+	    <exclude name="AvoidPrefixingMethodParameters"/> 
+	    <exclude name="AvoidLiteralsInIfCondition"/>
+    </rule>
+
+    <rule ref="rulesets/java/controversial.xml/AssignmentInOperand">
+        <description>suppresses field if part a - while ((bufferedinputstream = bis.read()) != -1) { - situation</description>
+        <properties>
+            <property name="violationSuppressXPath">
+                <value>
+                    //BlockStatement/Statement/WhileStatement/Expression/EqualityExpression[@Image='!=' and UnaryExpression[@Image='-'] and
+                    UnaryExpression/PrimaryExpression/PrimaryPrefix/Literal[@Image='1']]
+                </value>
+            </property>
+        </properties>
+        <example>
+            <![CDATA[
+public class Foo {
+  public void bar() {
+   int x = 2;
+   if ((x = getX()) == 3) {
+    System.out.println("3!");
+   }
+  }
+  private int getX() {
+   return 3;
+  }
+}
+
+is an example of the violation, whereas the example underneath is not
+
+public class Foo {
+  public void bar(InputStream is, OutputStream os) throws IOException {
+    BufferedInputStream bis = new BufferedInputStream(is);
+    BufferedOutputStream bos = new BufferedOutputStream(os);
+    int buf;
+    while ((buf = bis.read()) != -1) {
+      bos.write(buf);
+      }
+    bos.close();
+    bis.close();
+  }
+}
+]]>
+        </example>
+    </rule>
+
+    <rule ref="rulesets/java/empty.xml">
+        <exclude name="EmptyCatchBlock"/>
+    </rule>
+
+    <rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
+        <priority>5</priority>
+        <properties>
+            <property name="allowCommentedBlocks" value="true"/>
+        </properties>
+    </rule>
+        
+    <rule ref="rulesets/java/unnecessary.xml" />
+</ruleset>

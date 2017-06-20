@@ -64,13 +64,13 @@ public class ParameterChanges {
                 anyObservations();
         } else if (Diff.POTENTIALLY_BREAKING.equals(diffDepth)) {
             return anyParameterChanges() || anyThingAddedOrRemoved() ||
-                breakingObserved() || potentiallyBreaking.size() > 0;
+                breakingObserved() || !potentiallyBreaking.isEmpty();
         } else if (Diff.BREAKING.equals(diffDepth)) {
             return anyParameterChanges() || anyThingAddedOrRemoved() ||
                 breakingObserved();
         } else if (Diff.LAISSEZ_FAIRE.equals(diffDepth)) {
             return anyParameterChanges() || anyThingAddedOrRemoved() ||
-                breaking.size() > 0;
+                !breaking.isEmpty();
         }
         return anyParameterChanges() || anyThingAddedOrRemoved();
     }
@@ -169,12 +169,12 @@ public class ParameterChanges {
     }
 
     private boolean anyObservations() {
-        return breakingObserved() || potentiallyBreaking.size() > 0 ||
-            flawedDefines.size() > 0;
+        return breakingObserved() || !potentiallyBreaking.isEmpty() ||
+            !flawedDefines.isEmpty();
     }
 
     private boolean breakingObserved() {
-        return breaking.size() > 0 || changes.size() > 0;
+        return !breaking.isEmpty() || !changes.isEmpty();
     }
 
     private boolean anyParameterChanges() {

@@ -12,11 +12,9 @@ import dk.hoejgaard.openapi.diff.compare.ResourceDiff;
 import dk.hoejgaard.openapi.diff.compare.ResponseChanges;
 import dk.hoejgaard.openapi.diff.model.Endpoint;
 import dk.hoejgaard.openapi.diff.model.ScopedProperty;
-
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

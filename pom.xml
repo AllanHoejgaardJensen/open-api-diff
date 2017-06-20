@@ -37,8 +37,26 @@
     </scm>
 
     <properties>
+        <changelog.version>2.3</changelog.version>
+        <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+        <checkstyle.version>7.8.2</checkstyle.version>
+        <dependency.version>3.0.0</dependency.version>
+        <findbugs.version>3.0.4</findbugs.version>
+        <jacoco.version>0.7.8</jacoco.version>
+        <jdk.min.version>1.8</jdk.min.version>
+        <jdk.version>1.8</jdk.version>
+        <junit.version>4.12</junit.version>
+        <jxr.version>2.5</jxr.version>
+        <j2html.version>1.0.0</j2html.version>
+        <pmd.plugin.version>3.7</pmd.plugin.version>
+        <pmd.version>5.5.2</pmd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <slf4j.version>1.7.25</slf4j.version>
+        <swagger-jaxrs.version>1.5.12</swagger-jaxrs.version>
+        <swagger-compat-spec-parser.version>1.0.29</swagger-compat-spec-parser.version>
+        <swagger.parser.version>1.0.29</swagger.parser.version>
+        <versions.version>2.3</versions.version>
     </properties>
 
     <distributionManagement>
@@ -48,7 +66,7 @@
         </snapshotRepository>
         <repository>
             <id>oss</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven3/</url>
         </repository>
     </distributionManagement>
     <dependencyManagement>
@@ -56,17 +74,17 @@
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-parser</artifactId>
-                <version>1.0.29</version>
+                <version>${swagger.parser.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-compat-spec-parser</artifactId>
-                <version>1.0.29</version>
+                <version>${swagger-compat-spec-parser.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-jaxrs</artifactId>
-                <version>1.5.12</version>
+                <version>${swagger-jaxrs.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson</groupId>
@@ -77,17 +95,17 @@
             <dependency>
                 <groupId>com.j2html</groupId>
                 <artifactId>j2html</artifactId>
-                <version>1.0.0</version>
+                <version>${j2html.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>${junit.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>1.7.25</version>
+                <version>${slf4j.version}</version>
             </dependency>
 
         </dependencies>
@@ -201,6 +219,52 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${checkstyle.plugin.version}</version>
+                        <configuration>
+                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <includes>**/dk/hoejgaard/**/*.java</includes>
+                            <excludes>**/dk/hoejgaard/**/OpenAPIDiff.java</excludes>
+                            <configLocation>${project.basedir}/rules/checkstyle.xml</configLocation>
+                            <includeTestResources>false</includeTestResources>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                        <version>${findbugs.version}</version>
+                        <configuration>
+                            <onlyAnalyze>dk.sample.-</onlyAnalyze>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
             <distributionManagement>
@@ -210,7 +274,7 @@
                 </snapshotRepository>
                 <repository>
                     <id>oss</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven3/</url>
                 </repository>
             </distributionManagement>
         </profile>
@@ -225,6 +289,92 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
                 <version>3.6.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                    <includes>**/dk/hoejgaard/**/*.java</includes>
+                    <excludes>**/dk/hoejgaard/**/OpenAPIDiff.java</excludes>
+                    <configLocation>${project.basedir}/rules/checkstyle.xml</configLocation>
+                    <includeTestResources>false</includeTestResources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>test</phase>
+                        <goals><goal>checkstyle</goal></goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs.version}</version>
+                <configuration>
+                    <onlyAnalyze>dk.hoejgaard.-</onlyAnalyze>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>findbugs</id>
+                        <phase>test</phase>
+                        <goals><goal>findbugs</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>${project.basedir}/rules/pmd.xml
+                        </ruleset>
+                    </rulesets>
+                    <targetJdk>${jdk.version}</targetJdk>
+                    <includes>
+                        <include>**/dk/hoejgaard/**/*.java</include>
+                    </includes>
+                    <excludes>
+                    </excludes>
+                    <excludeRoots>
+                    </excludeRoots>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pmd</id>
+                        <phase>test</phase>
+                        <goals><goal>pmd</goal></goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -247,4 +397,103 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                    </excludes>
+                    <append>true</append>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                    <includes>**/dk/hoejgaard/**/*.java</includes>
+                    <excludes>**/dk/hoejgaard/**/OpenAPIDiff.java</excludes>
+                    <configLocation>
+                        ${project.basedir}/rules/checkstyle.xml
+                    </configLocation>
+                    <includeTestResources>false</includeTestResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs.version}</version>
+                <configuration>
+                    <onlyAnalyze>dk.hoejgaard.-</onlyAnalyze>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>${project.basedir}/rules/pmd.xml
+                        </ruleset>
+                    </rulesets>
+                    <targetJdk>${jdk.version}</targetJdk>
+                    <includes>
+                        <include>**/dk/hoejgaard/**/*.java</include>
+                    </includes>
+                    <excludes>
+                    </excludes>
+                    <excludeRoots>
+                    </excludeRoots>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${jxr.version}</version>
+                <configuration>
+                    <includes>
+                        <include>**/dk/hoejgaard/**/*.java</include>
+                    </includes>
+                    <excludes>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>${changelog.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${dependency.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>analyze-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

@@ -151,6 +151,14 @@ class ElementDiff {
     private StringBuilder appendNumericParameterDiffs(StringBuilder sb, Property existing, Property future, String context) {
         AbstractNumericProperty f = (AbstractNumericProperty) future;
         AbstractNumericProperty e = (AbstractNumericProperty) existing;
+        appendMinimum(sb, context, f, e);
+        appendExclusiveMinimum(sb, context, f, e);
+        appendMaximum(sb, context, f, e);
+        appendExclusiveMaximum(sb, context, f, e);
+        return sb;
+    }
+
+    private void appendMinimum(StringBuilder sb, String context, AbstractNumericProperty f, AbstractNumericProperty e) {
         if (f.getMinimum() != null && !f.getMinimum().equals(e.getMinimum())) {
             String str = "minimum.changed.from." + e.getMinimum() + ".to." + f.getMinimum();
             sb.append(str).append(", ");
@@ -158,13 +166,9 @@ class ElementDiff {
                 breaking.put(context, context + str);
             }
         }
-        if (f.getExclusiveMinimum() != null && !f.getExclusiveMinimum().equals(e.getExclusiveMinimum())) {
-            String str = "minimum.exclusive.changed.from." + e.getExclusiveMinimum() + ".to." + f.getExclusiveMinimum();
-            sb.append(str).append(", ");
-            if (!f.getExclusiveMinimum() && e.getExclusiveMinimum()) {
-                breaking.put(context, context + str);
-            }
-        }
+    }
+
+    private void appendMaximum(StringBuilder sb, String context, AbstractNumericProperty f, AbstractNumericProperty e) {
         if (f.getMaximum() != null && !f.getMaximum().equals(e.getMaximum())) {
             String str = "maximum.changed.from." + e.getMaximum() + ".to." + f.getMaximum();
             sb.append(str).append(", ");
@@ -172,6 +176,19 @@ class ElementDiff {
                 breaking.put(context, context + str);
             }
         }
+    }
+
+    private void appendExclusiveMinimum(StringBuilder sb, String context, AbstractNumericProperty f, AbstractNumericProperty e) {
+        if (f.getExclusiveMinimum() != null && !f.getExclusiveMinimum().equals(e.getExclusiveMinimum())) {
+            String str = "minimum.exclusive.changed.from." + e.getExclusiveMinimum() + ".to." + f.getExclusiveMinimum();
+            sb.append(str).append(", ");
+            if (!f.getExclusiveMinimum() && e.getExclusiveMinimum()) {
+                breaking.put(context, context + str);
+            }
+        }
+    }
+
+    private void appendExclusiveMaximum(StringBuilder sb, String context, AbstractNumericProperty f, AbstractNumericProperty e) {
         if (f.getExclusiveMaximum() != null && !f.getExclusiveMaximum().equals(e.getExclusiveMaximum())) {
             String str = "maximum.exclusive.changed.from." + e.getExclusiveMaximum() + ".to." + f.getExclusiveMaximum();
             sb.append(str).append(", ");
@@ -179,7 +196,6 @@ class ElementDiff {
                 breaking.put(context, context + str);
             }
         }
-        return sb;
     }
 
     private StringBuilder appendBodyParameterDiffs(StringBuilder sb, Property existing, Property future) {
@@ -201,18 +217,34 @@ class ElementDiff {
 
     //SUGGEST: make null explained in the same way as for parameters null is undefined and as such it does not state client expectations clearly
     private StringBuilder appendPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {
-        if (!future.getRequired() == (existing.getRequired())) {
-            String str = "required.changed.from." + existing.getRequired() + ".to." + future.getRequired();
-            sb.append(str).append(", ");
-            if (future.getRequired() && !existing.getRequired()) {
-                breaking.put(context, context + str);
-            }
+        appendRequired(sb, existing, future, context);
+        appendType(sb, existing, future, context);
+        appendAllowEmpty(sb, existing, future, context);
+        appendReadOnly(sb, existing, future);
+        appendAccess(sb, existing, future);
+        appendFormat(sb, existing, future);
+        return sb;
+    }
+
+    private void appendFormat(StringBuilder sb, Property existing, Property future) {
+        if (future.getFormat() != null && !future.getFormat().equals(existing.getFormat())) {
+            sb.append("format.changed.from.").append(existing.getFormat()).append(".to.").append(future.getFormat()).append(", ");
         }
-        if (future.getType() != null && !future.getType().equals(existing.getType())) {
-            String str = "format.changed.from." + existing.getType() + ".to." + future.getType();
-            sb.append(str).append(", ");
-            potentiallyBreaking.put(context, context + str);
+    }
+
+    private void appendAccess(StringBuilder sb, Property existing, Property future) {
+        if (future.getAccess() != null && !future.getAccess().equals(existing.getAccess())) {
+            sb.append("access.changed.from.").append(existing.getAccess()).append(".to.").append(future.getAccess()).append(", ");
         }
+    }
+
+    private void appendReadOnly(StringBuilder sb, Property existing, Property future) {
+        if (future.getReadOnly() != null && !future.getReadOnly() == (existing.getReadOnly())) {
+            sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
+        }
+    }
+
+    private void appendAllowEmpty(StringBuilder sb, Property existing, Property future, String context) {
         if (future.getAllowEmptyValue() != null && !future.getAllowEmptyValue().equals(existing.getAllowEmptyValue())) {
             String str = "emptyAllowed.changed.from." + existing.getAllowEmptyValue() + ".to." + future.getAllowEmptyValue();
             sb.append(str).append(", ");
@@ -220,16 +252,24 @@ class ElementDiff {
                 breaking.put(context, context + str);
             }
         }
-        if (future.getReadOnly() != null && !future.getReadOnly() == (existing.getReadOnly())) {
-            sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
+    }
+
+    private void appendType(StringBuilder sb, Property existing, Property future, String context) {
+        if (future.getType() != null && !future.getType().equals(existing.getType())) {
+            String str = "format.changed.from." + existing.getType() + ".to." + future.getType();
+            sb.append(str).append(", ");
+            potentiallyBreaking.put(context, context + str);
         }
-        if (future.getAccess() != null && !future.getAccess().equals(existing.getAccess())) {
-            sb.append("access.changed.from.").append(existing.getAccess()).append(".to.").append(future.getAccess()).append(", ");
+    }
+
+    private void appendRequired(StringBuilder sb, Property existing, Property future, String context) {
+        if (!future.getRequired() == (existing.getRequired())) {
+            String str = "required.changed.from." + existing.getRequired() + ".to." + future.getRequired();
+            sb.append(str).append(", ");
+            if (future.getRequired() && !existing.getRequired()) {
+                breaking.put(context, context + str);
+            }
         }
-        if (future.getFormat() != null && !future.getFormat().equals(existing.getFormat())) {
-            sb.append("format.changed.from.").append(existing.getFormat()).append(".to.").append(future.getFormat()).append(", ");
-        }
-        return sb;
     }
 
     private StringBuilder appendStringPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {

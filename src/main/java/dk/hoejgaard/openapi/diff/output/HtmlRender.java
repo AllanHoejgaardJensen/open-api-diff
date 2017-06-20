@@ -1,8 +1,9 @@
 package dk.hoejgaard.openapi.diff.output;
 
-
 import java.util.List;
 import java.util.Map;
+
+import static j2html.TagCreator.*;
 
 import dk.hoejgaard.openapi.diff.APIDiff;
 import dk.hoejgaard.openapi.diff.compare.OperationDiff;
@@ -18,9 +19,6 @@ import io.swagger.models.parameters.Parameter;
 import j2html.tags.ContainerTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import static j2html.TagCreator.*;
 
 /**
  * Renders output from a compatibility into a HTML format
@@ -95,8 +93,10 @@ public class HtmlRender implements OutputRender {
                     div().with(h2("Added Endpoints"), hr(), addedEndpoints),
                     div().with(h2("Removed Endpoints"), hr(), removedEndpoints),
                     div().with(h2("Changed or Observable Endpoints"), hr(), changedEndpoints),
-                    div().with(h2("The Elaborated Report for Changed or Observable Endpoints").withClass("section"), hr(), elaboratedChangedResources),
-                    div().with(h2("The Elaborated Compliance Report for Changed or Observable Endpoints").withClass("section"), hr(), nonCompliantResources)
+                    div().with(h2("The Elaborated Report for Changed or Observable Endpoints").withClass("section"),
+                        hr(), elaboratedChangedResources),
+                    div().with(h2("The Elaborated Compliance Report for Changed or Observable Endpoints").withClass("section"),
+                        hr(), nonCompliantResources)
                 )
             )
         );
@@ -729,20 +729,17 @@ public class HtmlRender implements OutputRender {
     }
 
     private String toUpperCamelCase(String input) {
-        String result = "";
         String[] words = input.trim().split("\\W");
         for (String word : words) {
             if (word.length() < 1) {
                 return input;
             }
         }
+        StringBuilder sb = new StringBuilder();
         for (String word : words) {
-            String tmp = word.substring(0, 1);
-            tmp = tmp.toUpperCase();
-            tmp = tmp + word.substring(1, word.length());
-            result = result + tmp + " ";
+            sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1, word.length())).append(" ");
         }
-        return result;
+        return sb.toString();
     }
 
     private String getStyles() {
