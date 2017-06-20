@@ -51,6 +51,7 @@
         <pmd.plugin.version>3.7</pmd.plugin.version>
         <pmd.version>5.5.2</pmd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.info.reportsplugin.version>2.9</project.info.reportsplugin.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <slf4j.version>1.7.25</slf4j.version>
         <swagger-jaxrs.version>1.5.12</swagger-jaxrs.version>
@@ -418,9 +419,7 @@
                     <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                     <includes>**/dk/hoejgaard/**/*.java</includes>
                     <excludes>**/dk/hoejgaard/**/OpenAPIDiff.java</excludes>
-                    <configLocation>
-                        ${project.basedir}/rules/checkstyle.xml
-                    </configLocation>
+                    <configLocation>${project.basedir}/rules/checkstyle.xml</configLocation>
                     <includeTestResources>false</includeTestResources>
                 </configuration>
             </plugin>
@@ -467,6 +466,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changelog-plugin</artifactId>
                 <version>${changelog.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${project.info.reportsplugin.version}</version>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
