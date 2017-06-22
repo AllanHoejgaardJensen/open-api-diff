@@ -67,13 +67,32 @@ The APIs compared are:
 #### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 503 Observation | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 401 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 412 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
+ | **added header: Expires which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 429 Observation | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
+ ` > ` GET Response Code 301 Observation | **added header: Location which is required** 
+ | **added header: Expires which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 403 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
- ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: Content-Type which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -101,6 +120,10 @@ The APIs compared are:
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
  ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -127,6 +150,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -136,6 +161,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -159,6 +186,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
@@ -167,6 +196,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -189,6 +220,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -198,6 +231,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -220,6 +255,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -229,6 +266,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -251,6 +290,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -260,6 +301,9 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -283,6 +327,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -292,6 +338,9 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -318,6 +367,10 @@ The APIs compared are:
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -344,6 +397,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -353,6 +408,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -374,10 +431,15 @@ The APIs compared are:
 #### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
- ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
  ` > ` Transaction Response Body Description | **Transaction.response.body.description.required.changed.from.false.to.true** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
@@ -385,10 +447,9 @@ The APIs compared are:
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
  ` > ` GET Response Code 301 Observation | **added header: Expires which is required** 
- ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
- ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
- ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -403,22 +464,29 @@ The APIs compared are:
 #### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
+ ` > ` TransactionUpdate Body Description | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
+ ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` TransactionUpdate Body Amount | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 202 Observation | **added header: Location which is required** 
+ | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
  ` > ` PUT Response Code 201 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
- ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
- ` > ` TransactionUpdate Body Description | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
- ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Transaction Response Body Description | **Transaction.response.body.description.required.changed.from.false.to.true** 
  ` > ` PUT Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
- ` > ` TransactionUpdate Body Amount | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
- ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -450,6 +518,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -459,6 +529,7 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 #### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -503,13 +574,32 @@ The APIs compared are:
 ##### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 503 Observation | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 401 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 412 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
+ | **added header: Expires which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 429 Observation | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
+ ` > ` GET Response Code 301 Observation | **added header: Location which is required** 
+ | **added header: Expires which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 403 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
- ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: Content-Type which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -564,19 +654,38 @@ The APIs compared are:
  ` ! ` Existing Difference Recorded Response 200 Missing Special Header X RateLimit Reset For GET  | X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
  ` ! ` Existing Difference Recorded Response 200 Missing Special Header X RateLimit Limit 24h For GET  | X-RateLimit-Limit-24h: Request limit per 24h
  ` ! ` Existing Difference Recorded Response 200 Missing Special Header X RateLimit Remaining For GET  | X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
+ ` > ` GET Response Code 301 Observation  |  |  added header: Location which is required - no additional info 
+ |  added header: Expires which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 301  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 304 Observation  |  |  added header: Location which is required - no additional info 
+ |  added header: Expires which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 304  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 401 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 401  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 403 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 403  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 404 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 404  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 412 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 412  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: Content-Type which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 429 Observation  |  |  added header: Retry-After which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 429  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 503 Observation  |  |  added header: Retry-After which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 503  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 #####   *` C   `* `PUT`  *`/accounts/{regNo}-{accountNo}`* -> compliance: `false` 
 
@@ -591,6 +700,10 @@ The APIs compared are:
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
  ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -641,13 +754,17 @@ The APIs compared are:
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Limit 24h For PUT  | X-RateLimit-Limit-24h: Request limit per 24h
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Remaining For PUT  | X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Reset For PUT  | X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+ ` > ` PUT Response Code 400 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 400  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` PUT Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -666,6 +783,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -675,6 +794,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -724,13 +845,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -753,6 +878,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
@@ -761,6 +888,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -813,13 +942,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -838,6 +971,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -847,6 +982,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -896,13 +1033,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -921,6 +1062,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -930,6 +1073,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -979,13 +1124,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -1004,6 +1153,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -1013,6 +1164,9 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -1063,14 +1217,19 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 404 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 404  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -1092,6 +1251,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -1101,6 +1262,9 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -1157,14 +1321,19 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 404 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 404  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 #####   *` C   `* `PUT`  *`/accounts/{regNo}-{accountNo}/reconciled-transactions/{id}`* -> compliance: `false` 
 
@@ -1184,6 +1353,10 @@ The APIs compared are:
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -1240,13 +1413,17 @@ The APIs compared are:
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Limit 24h For PUT  | X-RateLimit-Limit-24h: Request limit per 24h
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Remaining For PUT  | X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
  ` ! ` Existing Difference Recorded Response 201 Missing Special Header X RateLimit Reset For PUT  | X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
+ ` > ` PUT Response Code 400 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 400  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` PUT Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -1268,6 +1445,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -1277,6 +1456,8 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -1332,13 +1513,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -1357,10 +1542,15 @@ The APIs compared are:
 ##### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
- ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
  ` > ` Transaction Response Body Description | **Transaction.response.body.description.required.changed.from.false.to.true** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
@@ -1368,10 +1558,9 @@ The APIs compared are:
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
  ` > ` GET Response Code 301 Observation | **added header: Expires which is required** 
- ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
- ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
- ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
+ ` > ` GET Response Code 404 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -1473,13 +1662,17 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 404 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 404  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 #####   *` C   `* `PUT`  *`/accounts/{regNo}-{accountNo}/transactions/{id}`* -> compliance: `false` 
 
@@ -1491,22 +1684,29 @@ The APIs compared are:
 ##### Breaking Changes
   Breaking          |  Info
 ------------------- | -------
+ ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
+ ` > ` TransactionUpdate Body Description | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
+ ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 505 Observation | **added header: X-Log-Token which is required** 
+ ` > ` TransactionUpdate Body Amount | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
+ ` > ` PUT Response Code 415 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 202 Observation | **added header: Location which is required** 
+ | **added header: Retry-After which is required** 
+ | **added header: X-Log-Token which is required** 
+ ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
  ` > ` PUT Response Code 201 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
- ` > ` Transaction Response Body Id | **Transaction.response.body.id.required.changed.from.false.to.true** 
- ` > ` TransactionUpdate Body Description | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
- ` > ` PUT Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Transaction Response Body Description | **Transaction.response.body.description.required.changed.from.false.to.true** 
  ` > ` PUT Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
  | **added header: X-RateLimit-Remaining which is required** 
  | **added header: X-RateLimit-Reset which is required** 
- ` > ` TransactionUpdate Body Amount | **body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}** 
- ` > ` Transaction Response Body Amount | **Transaction.response.body.amount.required.changed.from.false.to.true** 
+ ` > ` PUT Response Code 400 Observation | **added header: X-Log-Token which is required** 
+ ` > ` PUT Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` PUT Response Code 429 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
@@ -1640,14 +1840,21 @@ The APIs compared are:
  |  Transaction.response.body.description.=[ required.changed.from.false.to.true ],
  |  Transaction.response.body.amount.=[ required.changed.from.false.to.true ] 
  | 
+ ` > ` PUT Response Code 202 Observation  |  |  added header: Location which is required - no additional info 
+ |  added header: Retry-After which is required - no additional info 
+ |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 202  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` PUT Response Code 400 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 400  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+ ` > ` PUT Response Code 415 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 415  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` PUT Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For PUT  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` PUT Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* PUT Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
 
@@ -1669,6 +1876,8 @@ The APIs compared are:
  ` > ` GET Response Code 304 Observation | **added header: Location which is required** 
  | **added header: Expires which is required** 
  ` > ` GET Response Code 429 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 410 Observation | **added header: X-Log-Token which is required** 
+ ` > ` GET Response Code 500 Observation | **added header: X-Log-Token which is required** 
  ` > ` GET Response Code 200 Observation | **added header: Content-Encoding which is required** 
  | **added header: X-RateLimit-Limit which is required** 
  | **added header: X-RateLimit-Limit-24h which is required** 
@@ -1678,6 +1887,7 @@ The APIs compared are:
  ` > ` GET Response Code 503 Observation | **added header: X-Log-Token which is required** 
  ` > ` Response 202 Added | **adding 202 Accepted breaks the client programming model and is not compatible** 
  ` > ` GET Response Code 307 Observation | **added header: Expires which is required** 
+ ` > ` GET Response Code 505 Observation | **added header: X-Log-Token which is required** 
 ##### Potentially Breaking Changes
   Potentially Breaking          |  Info
 ------------------------------- | -------
@@ -1733,10 +1943,13 @@ The APIs compared are:
  |  added header: Expires which is required - no additional info 
  ` > ` GET Response Code 307 Observation  |  |  added header: Expires which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 307 Missing Special Header Expires For GET  | Expires: sets the expiry time for the information retrieved in the response
+ ` > ` GET Response Code 410 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 410  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 429 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 429 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 500 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 500  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
  ` > ` GET Response Code 503 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! ` Existing Difference Recorded Response 503 Missing Default Header X Log Token For GET  |  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+ ` > ` GET Response Code 505 Observation  |  |  added header: X-Log-Token which is required - no additional info 
  ` ! `  *` C `* GET Response Code 505  | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used

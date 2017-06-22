@@ -47,11 +47,12 @@ public class Maps<K, V> {
     public static <K, V> Maps<K, V> diff(Map<K, V> reference, Map<K, V> subject) {
         Maps<K, V> keys = new Maps<>();
         keys.removed = new LinkedHashMap<>();
+        keys.added = new LinkedHashMap<>();
         if (isSimpleInput(reference, subject, keys)) {
-            keys.added = new LinkedHashMap<>();
             return keys;
+        } else {
+            keys.added = new LinkedHashMap<>(subject);
         }
-        keys.added = new LinkedHashMap<>(subject);
         for (Entry<K, V> entry : reference.entrySet()) {
             K existingKey = entry.getKey();
             V existingValue = entry.getValue();

@@ -65,20 +65,24 @@ public class ResponseTest {
         ResponseChanges rc = new ResponseChanges(requiredResponses);
         List<String> observations = new ArrayList<>();
         assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+
         responses = new LinkedHashMap<>();
         responses.put("201", r);
         rc = new ResponseChanges(requiredResponses);
         assertEquals(true, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
         assertEquals(true, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+
         responses = new LinkedHashMap<>();
         responses.put("200", r);
         rc = new ResponseChanges(requiredResponses);
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+
         responses = new LinkedHashMap<>();
         responses.put("204", r);
         rc = new ResponseChanges(requiredResponses);
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+
         responses = new LinkedHashMap<>();
         responses.put("200", r);
         rc = new ResponseChanges(requiredResponses);
@@ -122,6 +126,29 @@ public class ResponseTest {
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
     }
+
+    @Test
+    public void testNonFullDefaultResponseCompliance() {
+        Response r = new Response();
+        Map<String, Response> responses = new LinkedHashMap<>();
+        responses.put("200", r);
+        // responses.put("201", r); is not added
+        responses.put("202", r); responses.put("203", r); responses.put("204", r); responses.put("206", r);
+        responses.put("301", r); responses.put("304", r); responses.put("307", r);
+        responses.put("400", r); responses.put("401", r); responses.put("403", r);
+        // 404 is not added for test purpose
+        responses.put("405", r); responses.put("410", r); responses.put("412", r); responses.put("415", r); responses.put("429", r);
+        responses.put("500", r); responses.put("501", r); responses.put("503", r); responses.put("505", r);
+        ResponseChanges rc = new ResponseChanges();
+        List<String> observations = new ArrayList<>();
+
+        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "future", observations));
+        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "future", observations));
+        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "existing", observations));
+        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "existing", observations));
+
+    }
+
     @Test
     public void testNonFullResponseCompliance() {
         Response r = new Response();
@@ -305,7 +332,6 @@ public class ResponseTest {
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
         assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
-
     }
 
     private void addDefaultResponseHeaders(Response response) {

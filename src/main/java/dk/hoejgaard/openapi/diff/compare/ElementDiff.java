@@ -130,15 +130,15 @@ class ElementDiff {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         if (existing instanceof StringProperty && future instanceof StringProperty) {
-            sb = appendStringPropertyDiffs(sb, existing, future, context);
+            appendStringPropertyDiffs(sb, existing, future, context);
         }
         if (existing instanceof BodyParameter && future instanceof BodyParameter) {
-            sb = appendBodyParameterDiffs(sb, existing, future);
+            appendBodyParameterDiffs(sb, existing, future);
         }
         if (existing instanceof AbstractNumericProperty && future instanceof AbstractNumericProperty) {
-            sb = appendNumericParameterDiffs(sb, existing, future, context);
+            appendNumericParameterDiffs(sb, existing, future, context);
         }
-        sb = appendPropertyDiffs(sb, existing, future, context);
+        appendPropertyDiffs(sb, existing, future, context);
         if (sb.lastIndexOf(",") > 0) {
             int index = sb.lastIndexOf(",");
             int length = sb.length();
@@ -182,7 +182,7 @@ class ElementDiff {
         if (f.getExclusiveMinimum() != null && !f.getExclusiveMinimum().equals(e.getExclusiveMinimum())) {
             String str = "minimum.exclusive.changed.from." + e.getExclusiveMinimum() + ".to." + f.getExclusiveMinimum();
             sb.append(str).append(", ");
-            if (!f.getExclusiveMinimum() && e.getExclusiveMinimum()) {
+            if (f.getExclusiveMinimum() && !e.getExclusiveMinimum()) {
                 breaking.put(context, context + str);
             }
         }
@@ -239,7 +239,9 @@ class ElementDiff {
     }
 
     private void appendReadOnly(StringBuilder sb, Property existing, Property future) {
-        if (future.getReadOnly() != null && !future.getReadOnly() == (existing.getReadOnly())) {
+        if (future.getReadOnly() != null && existing.getReadOnly() != null && !future.getReadOnly() == (existing.getReadOnly())) {
+            sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
+        } else if ((future.getReadOnly() == null) && existing.getReadOnly() != null) {
             sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
         }
     }
@@ -256,7 +258,7 @@ class ElementDiff {
 
     private void appendType(StringBuilder sb, Property existing, Property future, String context) {
         if (future.getType() != null && !future.getType().equals(existing.getType())) {
-            String str = "format.changed.from." + existing.getType() + ".to." + future.getType();
+            String str = "type.changed.from." + existing.getType() + ".to." + future.getType();
             sb.append(str).append(", ");
             potentiallyBreaking.put(context, context + str);
         }
@@ -279,6 +281,26 @@ class ElementDiff {
             String str = "pattern.changed.from." + xisting.getPattern() + ".to." + coming.getPattern();
             sb.append(str).append(", ");
             potentiallyBreaking.put(context, context + str);
+        }
+        if (coming.getMaxLength() != null && xisting.getMaxLength() != null && coming.getMaxLength() > xisting.getMaxLength()) {
+            String str = "maxlength.changed.from." + xisting.getMaxLength() + ".to." + coming.getMaxLength();
+            sb.append(str).append(", ");
+            potentiallyBreaking.put(context, context + str);
+        }
+        if (coming.getMaxLength() != null && xisting.getMaxLength() != null && coming.getMaxLength() < xisting.getMaxLength()) {
+            String str = "maxlength.changed.from." + xisting.getMaxLength() + ".to." + coming.getMaxLength();
+            sb.append(str).append(", ");
+            breaking.put(context, context + str);
+        }
+        if (coming.getMinLength() != null && xisting.getMinLength() != null && coming.getMinLength() < xisting.getMinLength()) {
+            String str = "minlength.changed.from." + xisting.getMinLength() + ".to." + coming.getMinLength();
+            sb.append(str).append(", ");
+            potentiallyBreaking.put(context, context + str);
+        }
+        if (coming.getMinLength() != null && xisting.getMinLength() != null && coming.getMinLength() > xisting.getMinLength()) {
+            String str = "minlength.changed.from." + xisting.getMinLength() + ".to." + coming.getMinLength();
+            sb.append(str).append(", ");
+            breaking.put(context, context + str);
         }
         return sb;
     }

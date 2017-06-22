@@ -68,6 +68,34 @@ The Elaborated Report for changed or observable Endpoints
 
       Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.401.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.412.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                  - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.429.observation
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -75,11 +103,26 @@ The Elaborated Report for changed or observable Endpoints
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
 
+                  - GET.response.code.301.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.403.observation
+                   ->  added header: X-Log-Token which is required
+
                   - response.202.added
                    -> adding 202 Accepted breaks the client programming model and is not compatible
 
-                  - GET.response.code.307.observation
-                   ->  added header: Expires which is required
+                  - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: Content-Type which is required
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,6 +179,18 @@ The Elaborated Report for changed or observable Endpoints
                   - PUT.response.code.503.observation
                    ->  added header: X-Log-Token which is required
 
+                  - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - PUT.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
@@ -181,6 +236,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -199,6 +260,12 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -236,6 +303,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: X-RateLimit-Limit which is required
                    ->  added header: X-RateLimit-Limit-24h which is required
@@ -253,6 +326,12 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,6 +366,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -305,6 +390,12 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -339,6 +430,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -357,6 +454,12 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -391,6 +494,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -409,6 +518,15 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -446,6 +564,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -464,6 +588,15 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -508,6 +641,18 @@ The Elaborated Report for changed or observable Endpoints
                    ->  added header: X-RateLimit-Limit-24h which is required
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
+
+                  - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
 
                   - PUT.response.code.429.observation
                    ->  added header: X-Log-Token which is required
@@ -554,6 +699,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -572,6 +723,12 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -605,15 +762,30 @@ The Elaborated Report for changed or observable Endpoints
 
       Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~
+                  - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                  - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
                   - GET.response.code.304.observation
                    ->  added header: Location which is required
                    ->  added header: Expires which is required
 
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
-
-                  - Transaction.response.body.id.
-                   -> Transaction.response.body.id.required.changed.from.false.to.true
 
                   - Transaction.response.body.description.
                    -> Transaction.response.body.description.required.changed.from.false.to.true
@@ -628,17 +800,14 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.301.observation
                    ->  added header: Expires which is required
 
-                  - GET.response.code.503.observation
-                   ->  added header: X-Log-Token which is required
-
                   - response.202.added
                    -> adding 202 Accepted breaks the client programming model and is not compatible
 
-                  - GET.response.code.307.observation
-                   ->  added header: Expires which is required
+                  - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
 
-                  - Transaction.response.body.amount.
-                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -664,13 +833,6 @@ The Elaborated Report for changed or observable Endpoints
 
       Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~
-                  - PUT.response.code.201.observation
-                   ->  added header: Content-Encoding which is required
-                   ->  added header: X-RateLimit-Limit which is required
-                   ->  added header: X-RateLimit-Limit-24h which is required
-                   ->  added header: X-RateLimit-Remaining which is required
-                   ->  added header: X-RateLimit-Reset which is required
-
                   - Transaction.response.body.id.
                    -> Transaction.response.body.id.required.changed.from.false.to.true
 
@@ -679,6 +841,30 @@ The Elaborated Report for changed or observable Endpoints
 
                   - PUT.response.code.503.observation
                    ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - TransactionUpdate.body.amount
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                  - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - PUT.response.code.202.observation
+                   ->  added header: Location which is required
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
+                  - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+                  - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
 
                   - Transaction.response.body.description.
                    -> Transaction.response.body.description.required.changed.from.false.to.true
@@ -690,11 +876,11 @@ The Elaborated Report for changed or observable Endpoints
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
 
-                  - TransactionUpdate.body.amount
-                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+                  - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
 
-                  - Transaction.response.body.amount.
-                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+                  - PUT.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
 
                   - PUT.response.code.429.observation
                    ->  added header: X-Log-Token which is required
@@ -756,6 +942,12 @@ The Elaborated Report for changed or observable Endpoints
                   - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                  - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                  - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                   - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -774,6 +966,9 @@ The Elaborated Report for changed or observable Endpoints
 
                   - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                  - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
       Potentially Breaking Changes
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -835,6 +1030,34 @@ The Elaborated Compliance Report
      ~~~~~~~~~~~~~~~~~
 
               Breaking changes
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.401.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.412.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                - GET.response.code.304.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.429.observation
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -842,11 +1065,26 @@ The Elaborated Compliance Report
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
 
+                - GET.response.code.301.observation
+                   ->  added header: Location which is required
+                   ->  added header: Expires which is required
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.403.observation
+                   ->  added header: X-Log-Token which is required
+
                 - response.202.added
                    -> adding 202 Accepted breaks the client programming model and is not compatible
 
-                - GET.response.code.307.observation
-                   ->  added header: Expires which is required
+                - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: Content-Type which is required
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -962,8 +1200,18 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.200.missing.special.header.X-RateLimit-Remaining.for.GET
                    ->> X-RateLimit-Remaining: Requests left for the domain/resource for the 24h (locally determined)
 
+                  ! GET.response.code.301.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.301.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.304.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Expires which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.304.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -974,32 +1222,65 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.401.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.401.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.403.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.403.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.404.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.404.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.412.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.412.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: Content-Type which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.429.observation
+                     ->  added header: Retry-After which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.429.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.503.observation
+                     ->  added header: Retry-After which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.503.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1019,6 +1300,18 @@ The Elaborated Compliance Report
                    ->  added header: X-RateLimit-Reset which is required
 
                 - PUT.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.500.observation
                    ->  added header: X-Log-Token which is required
 
                 - PUT.response.code.429.observation
@@ -1125,8 +1418,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
                    ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
 
+                  ! PUT.response.code.400.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.400.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! PUT.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1137,6 +1436,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! PUT.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -1145,6 +1447,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! PUT.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1171,6 +1476,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -1189,6 +1500,12 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -1293,8 +1610,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1305,6 +1628,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -1313,6 +1639,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1348,6 +1677,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: X-RateLimit-Limit which is required
                    ->  added header: X-RateLimit-Limit-24h which is required
@@ -1365,6 +1700,12 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -1477,8 +1818,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1489,6 +1836,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -1497,6 +1847,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1523,6 +1876,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -1541,6 +1900,12 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -1645,8 +2010,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1657,6 +2028,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -1665,6 +2039,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1691,6 +2068,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -1709,6 +2092,12 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -1813,8 +2202,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1825,6 +2220,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -1833,6 +2231,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1859,6 +2260,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -1877,6 +2284,15 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -1984,11 +2400,20 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.404.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.404.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -1999,6 +2424,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -2007,6 +2435,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2039,6 +2470,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -2057,6 +2494,15 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -2178,11 +2624,20 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.404.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.404.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2193,6 +2648,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -2201,6 +2659,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2228,6 +2689,18 @@ The Elaborated Compliance Report
                    ->  added header: X-RateLimit-Limit-24h which is required
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
+
+                - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
 
                 - PUT.response.code.429.observation
                    ->  added header: X-Log-Token which is required
@@ -2341,8 +2814,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.201.missing.special.header.X-RateLimit-Reset.for.PUT
                    ->> X-RateLimit-Reset: The remaining window before the rate limit resets in UTC epoch seconds
 
+                  ! PUT.response.code.400.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.400.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! PUT.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2353,6 +2832,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! PUT.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -2361,6 +2843,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! PUT.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2393,6 +2878,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -2411,6 +2902,12 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -2529,8 +3026,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2541,6 +3044,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -2549,6 +3055,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2574,15 +3083,30 @@ The Elaborated Compliance Report
 
 
               Breaking changes
+                - Transaction.response.body.id.
+                   -> Transaction.response.body.id.required.changed.from.false.to.true
+
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.503.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.307.observation
+                   ->  added header: Expires which is required
+
+                - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
                 - GET.response.code.304.observation
                    ->  added header: Location which is required
                    ->  added header: Expires which is required
 
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
-
-                - Transaction.response.body.id.
-                   -> Transaction.response.body.id.required.changed.from.false.to.true
 
                 - Transaction.response.body.description.
                    -> Transaction.response.body.description.required.changed.from.false.to.true
@@ -2597,17 +3121,14 @@ The Elaborated Compliance Report
                 - GET.response.code.301.observation
                    ->  added header: Expires which is required
 
-                - GET.response.code.503.observation
-                   ->  added header: X-Log-Token which is required
-
                 - response.202.added
                    -> adding 202 Accepted breaks the client programming model and is not compatible
 
-                - GET.response.code.307.observation
-                   ->  added header: Expires which is required
+                - GET.response.code.404.observation
+                   ->  added header: X-Log-Token which is required
 
-                - Transaction.response.body.amount.
-                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -2763,8 +3284,14 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.404.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.404.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2775,6 +3302,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -2783,6 +3313,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -2800,13 +3333,6 @@ The Elaborated Compliance Report
 
 
               Breaking changes
-                - PUT.response.code.201.observation
-                   ->  added header: Content-Encoding which is required
-                   ->  added header: X-RateLimit-Limit which is required
-                   ->  added header: X-RateLimit-Limit-24h which is required
-                   ->  added header: X-RateLimit-Remaining which is required
-                   ->  added header: X-RateLimit-Reset which is required
-
                 - Transaction.response.body.id.
                    -> Transaction.response.body.id.required.changed.from.false.to.true
 
@@ -2815,6 +3341,30 @@ The Elaborated Compliance Report
 
                 - PUT.response.code.503.observation
                    ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
+
+                - TransactionUpdate.body.amount
+                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+
+                - PUT.response.code.415.observation
+                   ->  added header: X-Log-Token which is required
+
+                - PUT.response.code.202.observation
+                   ->  added header: Location which is required
+                   ->  added header: Retry-After which is required
+                   ->  added header: X-Log-Token which is required
+
+                - Transaction.response.body.amount.
+                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+
+                - PUT.response.code.201.observation
+                   ->  added header: Content-Encoding which is required
+                   ->  added header: X-RateLimit-Limit which is required
+                   ->  added header: X-RateLimit-Limit-24h which is required
+                   ->  added header: X-RateLimit-Remaining which is required
+                   ->  added header: X-RateLimit-Reset which is required
 
                 - Transaction.response.body.description.
                    -> Transaction.response.body.description.required.changed.from.false.to.true
@@ -2826,11 +3376,11 @@ The Elaborated Compliance Report
                    ->  added header: X-RateLimit-Remaining which is required
                    ->  added header: X-RateLimit-Reset which is required
 
-                - TransactionUpdate.body.amount
-                   -> body.property.changed.{body.description.=[pattern.changed.from..{1,256}.to..{1,512}], body.amount.=[pattern.changed.from.^([0-9]{1,9})((\.)([0-9]{2}))?.to.^(-{0,1}[0-9]{1,9})((\.)([0-9]{2}))?]}
+                - PUT.response.code.400.observation
+                   ->  added header: X-Log-Token which is required
 
-                - Transaction.response.body.amount.
-                   -> Transaction.response.body.amount.required.changed.from.false.to.true
+                - PUT.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
 
                 - PUT.response.code.429.observation
                    ->  added header: X-Log-Token which is required
@@ -3029,11 +3579,22 @@ The Elaborated Compliance Report
                 * Transaction.Transaction.response.body.id
                    -> body.property.changed.{Transaction.response.body.id.=[required.changed.from.false.to.true], Transaction.response.body.description.=[required.changed.from.false.to.true], Transaction.response.body.amount.=[required.changed.from.false.to.true]}
 
+                  ! PUT.response.code.202.observation
+                     ->  added header: Location which is required - no additional info
+                     ->  added header: Retry-After which is required - no additional info
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.202.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                  ! PUT.response.code.400.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.400.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
+
+                  ! PUT.response.code.415.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.415.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -3044,6 +3605,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! PUT.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.PUT.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -3052,6 +3616,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.PUT
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! PUT.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.PUT.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
@@ -3084,6 +3651,12 @@ The Elaborated Compliance Report
                 - GET.response.code.429.observation
                    ->  added header: X-Log-Token which is required
 
+                - GET.response.code.410.observation
+                   ->  added header: X-Log-Token which is required
+
+                - GET.response.code.500.observation
+                   ->  added header: X-Log-Token which is required
+
                 - GET.response.code.200.observation
                    ->  added header: Content-Encoding which is required
                    ->  added header: X-RateLimit-Limit which is required
@@ -3102,6 +3675,9 @@ The Elaborated Compliance Report
 
                 - GET.response.code.307.observation
                    ->  added header: Expires which is required
+
+                - GET.response.code.505.observation
+                   ->  added header: X-Log-Token which is required
 
 
               Potentially Breaking changes
@@ -3220,6 +3796,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.307.missing.special.header.Expires.for.GET
                    ->> Expires: sets the expiry time for the information retrieved in the response
 
+                  ! GET.response.code.410.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.410.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -3229,6 +3808,9 @@ The Elaborated Compliance Report
                 * existing.difference.recorded.response.429.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
 
+                  ! GET.response.code.500.observation
+                     ->  added header: X-Log-Token which is required - no additional info
+
                 ! existing.compliance.for.GET.response.code.500.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
@@ -3237,6 +3819,9 @@ The Elaborated Compliance Report
 
                 * existing.difference.recorded.response.503.missing.default.header.X-Log-Token.for.GET
                    ->>  X-Log-Token: allows the client side reference to activities and logging on the serverside, if added to the Request as a header using the same name X-Log-Token it should be reused on the client side
+
+                  ! GET.response.code.505.observation
+                     ->  added header: X-Log-Token which is required - no additional info
 
                 ! existing.compliance.for.GET.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
