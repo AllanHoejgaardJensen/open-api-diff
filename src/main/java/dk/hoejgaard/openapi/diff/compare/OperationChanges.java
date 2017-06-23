@@ -53,7 +53,7 @@ public class OperationChanges {
     /**
      * @return a map with change points and the lack of definitions for each point in the existing operation
      */
-    public Map<String, List<String>> getExistingFlaws() {
+    public Map<String, List<String>> getImprovements() {
         return existingFlaws;
     }
 

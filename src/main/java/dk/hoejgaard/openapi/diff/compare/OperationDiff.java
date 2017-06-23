@@ -72,7 +72,6 @@ public class OperationDiff {
         this.defaultRequestHeaders.put("X-Client-Version", true);
         this.defaultRequestHeaders.put("X-Log-Token", false);
     }
-
     /**
      * @param depths      the level of detail and depth used in the comparison
      * @param maturity    the level of REST service maturity used in the comparison
@@ -155,8 +154,8 @@ public class OperationDiff {
      * @param scope the scope for the evaluation and reporting
      */
     public void checkResponseCompliance(Operation opr, HttpMethod method, boolean future, String scope) {
-        ResponseChanges rc = new ResponseChanges(referenceAPI.getDefinitions(), candidateAPI.getDefinitions(), Diff.ALL.equals(depths) ||
-            Diff.BREAKING.equals(depths) || Diff.POTENTIALLY_BREAKING.equals(depths));
+        ResponseChanges rc = getResponseChangesInstance(
+            Diff.ALL.equals(depths) || Diff.BREAKING.equals(depths) || Diff.POTENTIALLY_BREAKING.equals(depths));
         List<String> missing = new ArrayList<>();
         boolean compliant = rc.checkCompliance(opr.getResponses(), method, future, scope, missing);
         if (!compliant) {
@@ -170,6 +169,7 @@ public class OperationDiff {
             }
         }
     }
+
     /**
      * checks the versions and evaluates the headers to be compliant or not
      * @param opr the operation for which the headers are evaluated
@@ -371,7 +371,7 @@ public class OperationDiff {
      * @return the detected opinionated flaws/improvements for the existing operation
      */
     public Map<String, List<String>> getExistingFlaws() {
-        return Collections.unmodifiableMap(operationChanges.getExistingFlaws());
+        return Collections.unmodifiableMap(operationChanges.getImprovements());
     }
 
     /**
@@ -478,8 +478,7 @@ public class OperationDiff {
         for (int i = 0; i < delta.size(); i++) {
             Response existing = getResponse(existingOpr, delta, i);
             Response future = getResponse(futureOpr, delta, i);
-            ResponseChanges changes = new ResponseChanges(referenceAPI.getDefinitions(),
-                candidateAPI.getDefinitions(), Diff.ALL.equals(depths));
+            ResponseChanges changes = getResponseChangesInstance(Diff.ALL.equals(depths));
             changes = changes.diff(existing, future, getResponseCode(delta, i), method);
             if (changes.isDiff()) {
                 addChangedResponse(changes);
@@ -779,7 +778,7 @@ public class OperationDiff {
         List<String> consumes = opr.getConsumes();
         if (consumes != null) {
             for (String consume : consumes) {
-                if (ContentType.isJson(consume)) {
+                if (ContentType.isJsonOnly(consume)) {
                     defaultConsumerFound = true;
                     break;
                 }
@@ -788,7 +787,7 @@ public class OperationDiff {
         if (defaultConsumerFound) {
             for (String consume : consumes) {
                 ContentType ct = new ContentType(consume);
-                if (ct.isSchemeCompliant()) {
+                if (ct.isJsonConceptCompliant()) {
                     return true;
                 }
             }
@@ -820,4 +819,9 @@ public class OperationDiff {
     private boolean isConsumerCheckNeeded(Lists<String> consumes) {
         return !(consumes.getCommon().isEmpty() || consumes.getAdded().isEmpty() || consumes.getRemoved().isEmpty());
     }
+
+    private ResponseChanges getResponseChangesInstance(boolean includeHeaders) {
+        return new ResponseChanges(referenceAPI.getDefinitions(), candidateAPI.getDefinitions(), includeHeaders);
+    }
+
 }

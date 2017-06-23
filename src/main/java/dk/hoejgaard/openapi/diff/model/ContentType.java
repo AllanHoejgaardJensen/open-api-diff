@@ -10,6 +10,8 @@ public class ContentType {
     private static final String HAL_JSON = "application/hal\\+json";
     private static final String HAL_SCHEME = "^" + HAL_JSON + ";concept=(.*);v=[0-9]+";
     private static final String JSON_SCHEME = "^" + JSON + ";concept=(.*);v=[0-9]+";
+    private static final String HAL_CONCEPT = "^((application\\/hal\\+json)+(, )?(;concept=[a-z][a-z0-9]+)?(;v=[0-9]+)?(, )*)+";
+    private static final String JSON_CONCEPT = "^((application\\/json)+(, )?(;concept=[a-z][a-z0-9]+)?(;v=[0-9]+)?(, )*)+";
 
     private String type = "unknown-Content-type-type";
     private String subtype = "unknown-Content-type-subtype";
@@ -19,6 +21,8 @@ public class ContentType {
     private String version = "";
     private boolean isHALScheme;
     private boolean isJSONScheme;
+    private boolean isHALConcept;
+    private boolean isJSONConcept;
     private boolean isHAL;
     private boolean isJSON;
 
@@ -29,6 +33,8 @@ public class ContentType {
         deriveParameters(contentType);
         isHALScheme = asString.matches(HAL_SCHEME);
         isJSONScheme = asString.matches(JSON_SCHEME);
+        isHALConcept = asString.matches(HAL_CONCEPT);
+        isJSONConcept = asString.matches(JSON_CONCEPT);
         isHAL = asString.matches(HAL_JSON);
         isJSON = asString.matches(JSON);
     }
@@ -137,6 +143,23 @@ public class ContentType {
         return isHALScheme || isJSONScheme;
     }
 
+    /**
+     *  checks is format is e.g.
+     *  <p>
+     *  {@code "application/hal+json or application/hal+json;concept=(projection) or application/hal+json;concept=(projection);v=(version)"}
+     *  <p>
+     *    or
+     *  <p>
+     *  {@code "application/json or application/json;concept=(projection) or application/json;concept=(projection);v=(version)"}
+     *  <p>
+     * @return is the content type is complying to the definitions on default projection*version tuple
+     * specific projections and version scheme and having type "application" and subtypes "hal+json" or "json"
+     */
+    public boolean isJsonConceptCompliant() {
+        return isHALConcept || isJSONConcept;
+    }
+
+
     @Override
     public String toString() {
         return asString;
@@ -147,8 +170,17 @@ public class ContentType {
      * @param contentType the content-type to check
      * @return true of found to be json
      */
-    public static boolean isJson(String contentType) {
-        return contentType.matches(JSON);
+    public static boolean isJsonOnly(String contentType) {
+        return contentType.matches(JSON) || contentType.matches(JSON_CONCEPT);
+    }
+
+    /**
+     * simple check for whether string is JSON content type or not e.g. "application/json"
+     * @param contentType the content-type to check
+     * @return true of found to be json
+     */
+    public static boolean isHALJson(String contentType) {
+        return contentType.matches(HAL_JSON) || contentType.matches(HAL_CONCEPT);
     }
 
     private void deriveType(String contentType) {

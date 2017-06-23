@@ -5,11 +5,9 @@ import java.util.Map;
 
 import io.swagger.models.Model;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.parser.SwaggerParser;
 import org.junit.Before;

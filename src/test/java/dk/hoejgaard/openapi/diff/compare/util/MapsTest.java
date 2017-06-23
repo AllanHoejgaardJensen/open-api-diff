@@ -158,4 +158,36 @@ public class MapsTest {
         assertEquals(2, diff.getAdded().size());
         assertEquals(1, diff.getRemoved().size());
     }
+
+    @Test
+    public void testIntersectionOfOne() {
+        Map<String, String> referenceSet = new LinkedHashMap<>();
+        Map<String, String> candidateSet = new LinkedHashMap<>();
+        String commonStrA = "Old A";
+        referenceSet.put(commonStrA, commonStrA);
+        String common = "Common One";
+        referenceSet.put(common, common);
+        candidateSet.put(common, common);
+        String strB = "New B";
+        candidateSet.put(strB, strB);
+        String strC = "New C";
+        candidateSet.put(strC, strC);
+        Map<String, String> intersection = Maps.intersection(referenceSet, candidateSet);
+        assertEquals(1, intersection.size());
+    }
+
+    @Test
+    public void testIntersectionOfNone() {
+        Map<String, String> referenceSet = new LinkedHashMap<>();
+        Map<String, String> candidateSet = new LinkedHashMap<>();
+        String commonStrA = "Old A";
+        referenceSet.put(commonStrA, commonStrA);
+        String strB = "New B";
+        candidateSet.put(strB, strB);
+        String strC = "New C";
+        candidateSet.put(strC, strC);
+        Map<String, String> intersection = Maps.intersection(referenceSet, candidateSet);
+        assertTrue(intersection.isEmpty());
+    }
+
 }

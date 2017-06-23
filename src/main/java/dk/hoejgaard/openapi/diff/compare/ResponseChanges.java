@@ -47,20 +47,57 @@ public class ResponseChanges {
     /**
      * @param requiredResponses a list of response codes that must be present for all verbs
      * @param headerChecks      if true the headers associated with the response code are checked
+     * @param less              if true the headers associated with the response code are checked
      */
-    ResponseChanges(List<String> requiredResponses, boolean headerChecks) {
+    ResponseChanges(List<String> requiredResponses, boolean headerChecks, boolean less) {
         for (String requiredResponse : requiredResponses) {
             responsesRequired.put(requiredResponse, false);
         }
         this.includeHeadersCheck = headerChecks;
-        this.depth = includeHeadersCheck ? Diff.ALL : Diff.BREAKING;
+        this.depth = includeHeadersCheck ? Diff.ALL : !less ? Diff.BREAKING : Diff.POTENTIALLY_BREAKING;
     }
 
     /**
-     * default set of response codes are used without header checking for each response
+     * @param existing model of the existing API
+     * @param future model for the future candidate API
+     * @param checkHeaders include checking headers to get a deep comparison for each response
+     * @param less              if true the headers associated with the response code are checked
      */
-    ResponseChanges() {
-        this(false);
+    ResponseChanges(Map<String, Model> existing, Map<String, Model> future, boolean checkHeaders, boolean less) {
+        this.existingDefinition = existing;
+        this.futureDefinition = future;
+        initRequiredResponses();
+        initHeadersInfo();
+        initCodeInfo();
+        this.includeHeadersCheck = checkHeaders;
+        this.depth = checkHeaders ? Diff.ALL : !less ? Diff.BREAKING : Diff.POTENTIALLY_BREAKING;
+        if (includeHeadersCheck) {
+            initHeaderSetup();
+        }
+    }
+
+    /**
+     * @param existing model of the existing API
+     * @param future model for the future candidate API
+     * @param checkHeaders include checking headers to get a deep comparison for each response
+     */
+    ResponseChanges(Map<String, Model> existing, Map<String, Model> future, boolean checkHeaders) {
+        this(existing, future, checkHeaders, false);
+    }
+
+    /**
+     * @param requiredResponses a list of response codes that must be present for all verbs
+     * @param headerChecks      if true the headers associated with the response code are checked
+     */
+    ResponseChanges(List<String> requiredResponses, boolean headerChecks) {
+        this(requiredResponses, headerChecks, false);
+    }
+
+    /**
+     * default set of response codes are used with default header checking for each response
+     */
+    ResponseChanges(boolean checkHeaders, boolean less) {
+        this(null, null, checkHeaders, less);
     }
 
     /**
@@ -71,22 +108,10 @@ public class ResponseChanges {
     }
 
     /**
-     *
-     * @param existing model of the existing API
-     * @param future model for the future candidate API
-     * @param checkHeaders include checking headers to get a deep comparison for each response
+     * default set of response codes are used without header checking for each response
      */
-    ResponseChanges(Map<String, Model> existing, Map<String, Model> future, boolean checkHeaders) {
-        this.existingDefinition = existing;
-        this.futureDefinition = future;
-        initRequiredResponses();
-        initHeadersInfo();
-        initCodeInfo();
-        this.includeHeadersCheck = checkHeaders;
-        this.depth = checkHeaders ? Diff.ALL : Diff.BREAKING;
-        if (includeHeadersCheck) {
-            initHeaderSetup();
-        }
+    ResponseChanges() {
+        this(false);
     }
 
     /**
@@ -105,7 +130,7 @@ public class ResponseChanges {
         } else if (Diff.BREAKING.equals(depth)) {
             return isBreaking();
         } else if (Diff.POTENTIALLY_BREAKING.equals(depth)) {
-            return isPotentiallyBreaking();
+            return isBreaking() || isPotentiallyBreaking();
         }
         return false;
     }
