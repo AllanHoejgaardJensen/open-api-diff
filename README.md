@@ -8,8 +8,8 @@ types of information the tool can report and finally there is a part on the vari
 
  *It currently supports version 2, a version 3 is on the agenda - if the tool is found useful.*
  
-  ![Build status](https://travis-ci.org/AllanHoejgaardJensen/open-api-diff.svg?branch=master) 
-  ![Coverage Status](https://codecov.io/gh/AllanHoejgaardJensen/open-api-diff/coverage.svg?branch=master)
+  [![Build status](https://travis-ci.org/AllanHoejgaardJensen/open-api-diff.svg?branch=master)](https://travis-ci.org/AllanHoejgaardJensen/open-api-diff)
+  [![Coverage Status](https://codecov.io/gh/AllanHoejgaardJensen/open-api-diff/coverage.svg?branch=master)](https://codecov.io/gh/AllanHoejgaardJensen/open-api-diff)
 
 ## Value proposal
 The value proposal is to make a tool that helps service developer to keep on evolving their services in the highest 
