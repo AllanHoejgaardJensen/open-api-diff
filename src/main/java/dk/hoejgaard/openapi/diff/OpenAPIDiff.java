@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * OpenAPIDiff is the main entry point for running a compliance report for an existing API against a new API.
  * See the documentation in the readme.md file for more details on how to use it as a tool from the command line.
  */
-class OpenAPIDiff {
+public final class OpenAPIDiff {
     private static final String TARGET_RESULTS_REPORT = "./target/output/reports";
     private static final String TARGET_REPORT_FILENAME = "APIDiff.txt";
     private static Logger logger = LoggerFactory.getLogger(OpenAPIDiff.class);
@@ -112,7 +112,7 @@ class OpenAPIDiff {
     }
 
     private static void handleUserInput(String[] args) {
-        if ((args.length > 2) && (args.length < 6)) {
+        if (args.length > 2 && args.length < 6) {
             if (isDiffArgument(args[2])) {
                 diffLevel = getDiffArgument(args[2]);
                 maturity = getMaturityArgument(args[3]);
@@ -123,7 +123,7 @@ class OpenAPIDiff {
                 createReport = checkFileExtensionOK();
             }
         }
-        if ((args.length > 5) && (args.length < 8)) {
+        if (args.length > 5 && args.length < 8) {
             reportFolder = args[2];
             reportFileName = args[3];
             createReport = checkFileExtensionOK();

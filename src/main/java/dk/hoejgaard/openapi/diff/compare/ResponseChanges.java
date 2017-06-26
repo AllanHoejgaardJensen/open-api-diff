@@ -30,14 +30,14 @@ public class ResponseChanges {
     private static final Map<String, String> CODES = new LinkedHashMap<>();
     private static Logger logger = LoggerFactory.getLogger(ResponseChanges.class);
 
-    private Map<String, Boolean> responsesRequired = new HashMap<>();
-    private Map<String, String> defaultHeaders = new LinkedHashMap<>();
-    private Map<String, List<String>> specificHeaders = new LinkedHashMap<>();
-    private Map<String, List<String>> changes = new HashMap<>();
-    private Map<String, List<String>> flawedDefines = new HashMap<>();
-    private Map<String, List<String>> existingFlaws = new HashMap<>();
-    private Map<String, List<String>> potentiallyBreaking = new HashMap<>();
-    private Map<String, List<String>> breaking = new HashMap<>();
+    private final Map<String, Boolean> responsesRequired = new HashMap<>();
+    private final Map<String, String> defaultHeaders = new LinkedHashMap<>();
+    private final Map<String, List<String>> specificHeaders = new LinkedHashMap<>();
+    private final Map<String, List<String>> changes = new HashMap<>();
+    private final Map<String, List<String>> flawedDefines = new HashMap<>();
+    private final Map<String, List<String>> existingFlaws = new HashMap<>();
+    private final Map<String, List<String>> potentiallyBreaking = new HashMap<>();
+    private final Map<String, List<String>> breaking = new HashMap<>();
 
     private Diff depth;
     private boolean includeHeadersCheck = true;
@@ -63,7 +63,7 @@ public class ResponseChanges {
      * @param checkHeaders include checking headers to get a deep comparison for each response
      * @param less              if true the headers associated with the response code are checked
      */
-    ResponseChanges(Map<String, Model> existing, Map<String, Model> future, boolean checkHeaders, boolean less) {
+    private ResponseChanges(Map<String, Model> existing, Map<String, Model> future, boolean checkHeaders, boolean less) {
         this.existingDefinition = existing;
         this.futureDefinition = future;
         initRequiredResponses();
@@ -379,7 +379,7 @@ public class ResponseChanges {
                 return true;
             }
         } else {
-            if ("201".equals(responseCode) && ((HttpMethod.POST.equals(method)) || (HttpMethod.PUT.equals(method)))) {
+            if ("201".equals(responseCode) && (HttpMethod.POST.equals(method) || (HttpMethod.PUT.equals(method)))) {
                 String key = future ? "future." : "existing." + scope + ".response." + responseCode + ".missing.for." + method;
                 String msg = "to have a compliant and future proof API you should include " + responseCode +
                     " into the defined responses of a " + method + " in order for clients to be able to react on changes in the API";
@@ -476,7 +476,7 @@ public class ResponseChanges {
     private Boolean checkHeaders(Response response, HttpMethod method, String responseCode, boolean future, String context) {
         boolean headersOK = true;
         Map<String, Property> responseHeaders = response.getHeaders();
-        if ((null == responseHeaders) || (responseHeaders.isEmpty())) return false;
+        if (null == responseHeaders || responseHeaders.isEmpty()) return false;
         for (String header : defaultHeaders.keySet()) {
             if (!responseHeaders.containsKey(header)) {
                 if (future) headersOK = false;

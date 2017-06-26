@@ -44,13 +44,13 @@ public class ParameterChanges {
     private final Parameter future;
     private final String scope;
     private final Diff diffDepth;
-    private List<ScopedProperty> added = new ArrayList<>();
-    private List<ScopedProperty> removed = new ArrayList<>();
+    private final List<ScopedProperty> added = new ArrayList<>();
+    private final List<ScopedProperty> removed = new ArrayList<>();
 
-    private Map<String, List<String>> changes = new HashMap<>();
-    private Map<String, List<String>> flawedDefines = new HashMap<>();
-    private Map<String, List<String>> potentiallyBreaking = new HashMap<>();
-    private Map<String, List<String>> breaking = new HashMap<>();
+    private final Map<String, List<String>> changes = new HashMap<>();
+    private final Map<String, List<String>> flawedDefines = new HashMap<>();
+    private final Map<String, List<String>> potentiallyBreaking = new HashMap<>();
+    private final Map<String, List<String>> breaking = new HashMap<>();
 
     /**
      * @param existing parameter, which is non null
@@ -63,6 +63,7 @@ public class ParameterChanges {
         Objects.requireNonNull(depth);
         this.existing = existing;
         this.future = future;
+        this.diffDepth = depth;
         this.scope = findScope();
         this.isRequiredChanged = hasRequiredChanged();
         this.isDescriptionChanged = hasDescriptionChanged();
@@ -76,7 +77,6 @@ public class ParameterChanges {
         this.isTypeChanged = hasTypeChanged();
         this.isAccessChanged = hasAccessChanged();
         this.isFormatChanged = hasFormatChanged();
-        this.diffDepth = depth;
     }
 
     public Parameter getExisting() {
@@ -295,7 +295,7 @@ public class ParameterChanges {
         return !empty(existing.getDescription()).equals(empty(future.getDescription()));
     }
 
-    public boolean hasPatternChanged() {
+    private boolean hasPatternChanged() {
         if (existing.getPattern() != null) {
             if (!existing.getPattern().equals(future.getPattern())) {
                 handlePattern();
@@ -561,7 +561,7 @@ public class ParameterChanges {
         String cause = ".mimimumvalue.changed.from." + e.getMinimum() + ".to." + f.getMaximum();
         addRecordedChange(scope, cause);
         addPotentialBreakingChange(scope, cause);
-        if (f.getMinimum() != null && (e.getMinimum() != null)) {
+        if (f.getMinimum() != null && e.getMinimum() != null) {
             if (f.getMinimum().subtract(e.getMinimum()).longValue() > 0) { //it now demands longer min
                 addBreakingChange(scope, cause);
             }
@@ -637,7 +637,7 @@ public class ParameterChanges {
             e.getDefaultValue() + ".to." + f.getDefaultValue();
         addRecordedChange(scope, cause);
         addPotentialBreakingChange(scope, cause);
-        if (f.getDefaultValue() != null && (e.getDefaultValue() != null)) {
+        if (f.getDefaultValue() != null && e.getDefaultValue() != null) {
             BigDecimal fd = getValue(f);
             if (fd.subtract(e.getMinimum()).longValue() > 0) { //default lower than min
                 addBreakingChange(scope, cause);
@@ -669,22 +669,6 @@ public class ParameterChanges {
             return "cookie." + future.getName();
         }
         return "";
-    }
-
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof ParameterChanges) {
-            if (existing.equals(future)) {
-                return existing.getRequired() == future.getRequired();
-            }
-        }
-        return false;
     }
 
     private BigDecimal getValue(AbstractSerializableParameter param) {

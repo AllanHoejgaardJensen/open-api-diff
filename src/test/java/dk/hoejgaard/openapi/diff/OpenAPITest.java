@@ -34,7 +34,7 @@ public class OpenAPITest {
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
             "./target/output/reports", "Test-Report-Depth.md", "wrong", "full", "1"};
         OpenAPIDiff.main(argsTxt);
-        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Depth.md")));;
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Depth.md")));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class OpenAPITest {
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
             "./target/output/reports", "Test-Report-Maturity.md", "all", "wrong", "1"};
         OpenAPIDiff.main(argsTxt);
-        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Maturity.md")));;
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Maturity.md")));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class OpenAPITest {
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
             "./target/output/reports", "Test-Report-Versions.md", "all", "full", "100"};
         OpenAPIDiff.main(argsTxt);
-        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Versions.md")));;
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Versions.md")));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class OpenAPITest {
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
             "./target/output/reports", "Test-Report.nosuchfile", "all", "full", "1"};
         OpenAPIDiff.main(argsTxt);
-        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report.nosuchfile")));;
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report.nosuchfile")));
     }
 
 }

@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import dk.hoejgaard.openapi.diff.compare.util.Maps;
 import dk.hoejgaard.openapi.diff.model.ScopedProperty;
 import io.swagger.models.Model;
-import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.properties.AbstractNumericProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
@@ -22,15 +21,15 @@ import io.swagger.models.properties.StringProperty;
  */
 class ElementDiff {
 
-    private Map<String, Model> existingAPI;
-    private Map<String, Model> futureAPI;
+    private final Map<String, Model> existingAPI;
+    private final Map<String, Model> futureAPI;
 
-    private List<ScopedProperty> added;
-    private List<ScopedProperty> removed;
-    private List<ScopedProperty> changed;
-    private Map<String, String> changeCause;
-    private Map<String, String> breaking;
-    private Map<String, String> potentiallyBreaking;
+    private final List<ScopedProperty> added;
+    private final List<ScopedProperty> removed;
+    private final List<ScopedProperty> changed;
+    private final Map<String, String> changeCause;
+    private final Map<String, String> breaking;
+    private final Map<String, String> potentiallyBreaking;
 
 
     /**
@@ -115,7 +114,7 @@ class ElementDiff {
                     String futureRef = ((RefProperty) future).getSimpleRef();
                     diff(this.existingAPI.get(existingRef),
                         futureAPI.get(futureRef),
-                        null == parentEl ? key : (parentEl + "." + key));
+                        null == parentEl ? key : parentEl + "." + key);
                 } else if (!isCompliant(existing, future)) {
                     ScopedProperty fpWithPath = convert2ELProperty(parentEl, key, future);
                     changed.add(fpWithPath);
@@ -145,21 +144,20 @@ class ElementDiff {
         return sb.toString();
     }
 
-    private StringBuilder appendNumericParameterDiffs(StringBuilder sb, Property existing, Property future, String context) {
+    private void appendNumericParameterDiffs(StringBuilder sb, Property existing, Property future, String context) {
         AbstractNumericProperty f = (AbstractNumericProperty) future;
         AbstractNumericProperty e = (AbstractNumericProperty) existing;
         appendMinimum(sb, context, f, e);
         appendExclusiveMinimum(sb, context, f, e);
         appendMaximum(sb, context, f, e);
         appendExclusiveMaximum(sb, context, f, e);
-        return sb;
     }
 
     private void appendMinimum(StringBuilder sb, String context, AbstractNumericProperty f, AbstractNumericProperty e) {
         if (f.getMinimum() != null && !f.getMinimum().equals(e.getMinimum())) {
             String str = "minimum.changed.from." + e.getMinimum() + ".to." + f.getMinimum();
             sb.append(str).append(", ");
-            if ((f.getMinimum().subtract(e.getMinimum()).longValue() > 0)) {
+            if (f.getMinimum().subtract(e.getMinimum()).longValue() > 0) {
                 breaking.put(context, context + str);
             }
         }
@@ -169,7 +167,7 @@ class ElementDiff {
         if (f.getMaximum() != null && !f.getMaximum().equals(e.getMaximum())) {
             String str = "maximum.changed.from." + e.getMaximum() + ".to." + f.getMaximum();
             sb.append(str).append(", ");
-            if ((f.getMaximum().subtract(e.getMaximum()).longValue() < 0)) {
+            if (f.getMaximum().subtract(e.getMaximum()).longValue() < 0) {
                 breaking.put(context, context + str);
             }
         }
@@ -196,14 +194,13 @@ class ElementDiff {
     }
 
     //SUGGEST: make null explained in the same way as for parameters null is undefined and as such it does not state client expectations clearly
-    private StringBuilder appendPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {
+    private void appendPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {
         appendRequired(sb, existing, future, context);
         appendType(sb, existing, future, context);
         appendAllowEmpty(sb, existing, future, context);
         appendReadOnly(sb, existing, future);
         appendAccess(sb, existing, future);
         appendFormat(sb, existing, future);
-        return sb;
     }
 
     private void appendFormat(StringBuilder sb, Property existing, Property future) {
@@ -221,7 +218,7 @@ class ElementDiff {
     private void appendReadOnly(StringBuilder sb, Property existing, Property future) {
         if (future.getReadOnly() != null && existing.getReadOnly() != null && !future.getReadOnly() == (existing.getReadOnly())) {
             sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
-        } else if ((future.getReadOnly() == null) && existing.getReadOnly() != null) {
+        } else if (future.getReadOnly() == null && existing.getReadOnly() != null) {
             sb.append("readonly.changed.from.").append(existing.getReadOnly()).append(".to.").append(future.getReadOnly()).append(", ");
         }
     }
@@ -245,7 +242,7 @@ class ElementDiff {
     }
 
     private void appendRequired(StringBuilder sb, Property existing, Property future, String context) {
-        if (!future.getRequired() == (existing.getRequired())) {
+        if (!future.getRequired() == existing.getRequired()) {
             String str = "required.changed.from." + existing.getRequired() + ".to." + future.getRequired();
             sb.append(str).append(", ");
             if (future.getRequired() && !existing.getRequired()) {
@@ -254,16 +251,11 @@ class ElementDiff {
         }
     }
 
-    private StringBuilder appendStringPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {
+    private void appendStringPropertyDiffs(StringBuilder sb, Property existing, Property future, String context) {
         StringProperty xisting = (StringProperty) existing;
         StringProperty coming = (StringProperty) future;
         if (coming.getPattern() != null && !coming.getPattern().equals(xisting.getPattern())) {
             String str = "pattern.changed.from." + xisting.getPattern() + ".to." + coming.getPattern();
-            sb.append(str).append(", ");
-            potentiallyBreaking.put(context, context + str);
-        }
-        if (coming.getMaxLength() != null && xisting.getMaxLength() != null && coming.getMaxLength() > xisting.getMaxLength()) {
-            String str = "maxlength.changed.from." + xisting.getMaxLength() + ".to." + coming.getMaxLength();
             sb.append(str).append(", ");
             potentiallyBreaking.put(context, context + str);
         }
@@ -272,17 +264,11 @@ class ElementDiff {
             sb.append(str).append(", ");
             breaking.put(context, context + str);
         }
-        if (coming.getMinLength() != null && xisting.getMinLength() != null && coming.getMinLength() < xisting.getMinLength()) {
-            String str = "minlength.changed.from." + xisting.getMinLength() + ".to." + coming.getMinLength();
-            sb.append(str).append(", ");
-            potentiallyBreaking.put(context, context + str);
-        }
         if (coming.getMinLength() != null && xisting.getMinLength() != null && coming.getMinLength() > xisting.getMinLength()) {
             String str = "minlength.changed.from." + xisting.getMinLength() + ".to." + coming.getMinLength();
             sb.append(str).append(", ");
             breaking.put(context, context + str);
         }
-        return sb;
     }
 
     private boolean isCompliant(Property existing, Property future) {
@@ -310,7 +296,7 @@ class ElementDiff {
                     result.addAll(
                         convert2ElProperties(properties,
                             null == parentEl ? propName
-                                : (parentEl + "." + propName),
+                                : parentEl + "." + propName,
                             existingProperty));
                 }
             } else {
@@ -322,7 +308,7 @@ class ElementDiff {
     }
 
     private ScopedProperty convert2ELProperty(String parentEl, String propName, Property property) {
-        String el = null == parentEl ? propName : (parentEl + "." + propName);
+        String el = null == parentEl ? propName : parentEl + "." + propName;
         return new ScopedProperty(el, property);
     }
 

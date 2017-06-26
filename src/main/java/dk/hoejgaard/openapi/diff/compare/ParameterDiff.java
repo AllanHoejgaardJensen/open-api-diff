@@ -10,15 +10,12 @@ import io.swagger.models.Model;
 import io.swagger.models.RefModel;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Differences between sets of parameters (and  currently properties as well).
  */
 class ParameterDiff {
 
-    private static Logger logger = LoggerFactory.getLogger(ParameterDiff.class);
     Map<String, Model> existingDefinition;
     Map<String, Model> futureDefinition;
 
@@ -30,7 +27,7 @@ class ParameterDiff {
     private List<PropertyChanges> changedProps;
     private Diff depth;
 
-    ParameterDiff() {
+    private ParameterDiff() {
         addedParams = new ArrayList<>();
         missingParams = new ArrayList<>();
         changedParams = new ArrayList<>();
