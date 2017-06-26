@@ -132,9 +132,6 @@ class ElementDiff {
         if (existing instanceof StringProperty && future instanceof StringProperty) {
             appendStringPropertyDiffs(sb, existing, future, context);
         }
-        if (existing instanceof BodyParameter && future instanceof BodyParameter) {
-            appendBodyParameterDiffs(sb, existing, future);
-        }
         if (existing instanceof AbstractNumericProperty && future instanceof AbstractNumericProperty) {
             appendNumericParameterDiffs(sb, existing, future, context);
         }
@@ -196,23 +193,6 @@ class ElementDiff {
                 breaking.put(context, context + str);
             }
         }
-    }
-
-    private StringBuilder appendBodyParameterDiffs(StringBuilder sb, Property existing, Property future) {
-        BodyParameter current = (BodyParameter) existing;
-        BodyParameter coming = (BodyParameter) future;
-        if (coming.getIn() != null && !coming.getIn().equals(current.getIn())) {
-            sb.append("position.changed.from.").append(current.getIn())
-                .append(".to.").append(coming.getIn()).append(", ");
-        }
-        if (coming.getSchema() != null && current.getSchema() != null && !coming.getSchema().equals(current.getSchema())) {
-            sb.append("schema.changed.from.").append(current.getSchema().getReference())
-                .append(".to.").append(coming.getSchema().getReference()).append(", ");
-        } else {
-            sb.append("schema.changed.from.").append(current.getSchema() == null ? "defined" : "undefined")
-                .append(".to.").append(coming.getSchema() == null ? "defined" : "undefined").append(", ");
-        }
-        return sb;
     }
 
     //SUGGEST: make null explained in the same way as for parameters null is undefined and as such it does not state client expectations clearly

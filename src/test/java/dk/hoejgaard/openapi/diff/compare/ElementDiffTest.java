@@ -555,4 +555,5 @@ public class ElementDiffTest {
         assertEquals(1, pd.getBreaking().size());
         assertEquals(0, pd.getPotentiallyBreaking().size());
     }
+    
 }
