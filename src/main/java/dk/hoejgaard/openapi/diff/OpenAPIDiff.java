@@ -32,6 +32,7 @@ class OpenAPIDiff {
     private static Diff diffLevel = Diff.ALL;
     private static String reportFolder = TARGET_RESULTS_REPORT;
     private static String reportFileName = TARGET_REPORT_FILENAME;
+    private static boolean createReport = true;
 
     private OpenAPIDiff() {
         //intentionally empty
@@ -50,46 +51,60 @@ class OpenAPIDiff {
             existing = args[0];
             future = args[1];
             checkingFilesAndDisplayStatus(args, existing, future);
-            if (!Files.exists(Paths.get(existing)) || !Files.exists(Paths.get(future))) {
+            createReport = Files.exists(Paths.get(existing)) && Files.exists(Paths.get(future));
+            if (!createReport) {
                 displayUsageMsg();
+            } else {
+                handleUserInput(args);
+                if (!createReport) {
+                    displayUsageMsg();
+                }
             }
-            handleUserInput(args);
         } else {
             //pretend input
             maturity = Maturity.FULL;
             diffLevel = Diff.ALL;
             reportFileName = "APIDIFF-TXT.txt";
         }
-        System.out.print("The result of the comparing APIs - can be found in: " + reportFolder + "/" + reportFileName + "\n");
-        System.out.print("Comparing APIs - using diff: " + diffLevel + " maturity: " + maturity + " versions: " + versions + "\n");
+        if (createReport) {
+            System.out.print("The result of the comparing APIs - can be found in: " + reportFolder + "/" + reportFileName + "\n");
+            System.out.print("Comparing APIs - using diff: " + diffLevel + " maturity: " + maturity + " versions: " + versions + "\n");
 
-        String content = "Empty Report";
+            String content = "Empty Report";
 
-        APIDiff api = new APIDiff(existing, future, diffLevel, maturity, versions);
-        if (reportFileName.endsWith(".txt")) {
-            String consoleContent = new ConsoleRender(
-                "API Comparison Results", "Delivered by Open API Diff tooling", existing, future).render(api);
-            writeReport(reportFolder, "console-" + reportFileName, consoleContent);
-            System.out.println(consoleContent);
-            content = filtered(consoleContent);
-        } else if (reportFileName.endsWith(".md")) {
-            content = new MarkdownRender(
-                "API Comparison Results", "Delivered by Open API Diff tooling", existing, future)
-                .render(api);
-        } else if (reportFileName.endsWith(".html")) {
-            content = new HtmlRender(
-                "API Comparison Results", "Delivered by Open API Diff tooling", existing, future)
-                .render(api);
-        } else if (reportFileName.endsWith(".xml")) {
-            content = new XmlRender(
-                "API Comparison Results", "Delivered by Open API Diff tooling", "Delivered by Open API Diff tooling", existing, future)
-                .render(api);
-        } else {
-            logger.warn("The report format specified by the file extension did not match a supported report, the name was: {} ",
-                reportFileName);
+            APIDiff api = new APIDiff(existing, future, diffLevel, maturity, versions);
+            if (reportFileName.endsWith(".txt")) {
+                String consoleContent = new ConsoleRender(
+                    "API Comparison Results", "Delivered by Open API Diff tooling", existing, future).render(api);
+                writeReport(reportFolder, "console-" + reportFileName, consoleContent);
+                System.out.println(consoleContent);
+                content = filtered(consoleContent);
+            } else if (reportFileName.endsWith(".md")) {
+                content = new MarkdownRender(
+                    "API Comparison Results", "Delivered by Open API Diff tooling", existing, future)
+                    .render(api);
+            } else if (reportFileName.endsWith(".html")) {
+                content = new HtmlRender(
+                    "API Comparison Results", "Delivered by Open API Diff tooling", existing, future)
+                    .render(api);
+            } else if (reportFileName.endsWith(".xml")) {
+                content = new XmlRender(
+                    "API Comparison Results", "Delivered by Open API Diff tooling", "Delivered by Open API Diff tooling", existing, future)
+                    .render(api);
+            } else {
+                logger.warn("The report format specified by the file extension did not match a supported report, the name was: {} ",
+                    reportFileName);
+            }
+            System.out.println("\n" + content);
+            writeReport(reportFolder, reportFileName, content.trim() + "\n");
         }
-        System.out.println("\n" + content);
-        writeReport(reportFolder, reportFileName, content.trim() + "\n");
+    }
+
+    private static boolean checkFileExtensionOK() {
+        return
+            reportFileName.endsWith(".md") ||
+            reportFileName.endsWith(".html") ||
+            reportFileName.endsWith(".txt");
     }
 
     private static String filtered(String consoleContent) {
@@ -105,15 +120,19 @@ class OpenAPIDiff {
             } else {
                 reportFolder = args[2];
                 reportFileName = args[3];
+                createReport = checkFileExtensionOK();
             }
         }
         if ((args.length > 5) && (args.length < 8)) {
             reportFolder = args[2];
             reportFileName = args[3];
+            createReport = checkFileExtensionOK();
             if (isDiffArgument(args[4])) {
                 diffLevel = getDiffArgument(args[4]);
                 maturity = getMaturityArgument(args[5]);
                 versions = getVersionArgument(args[6]);
+            } else {
+                createReport = false;
             }
         }
     }
@@ -139,6 +158,7 @@ class OpenAPIDiff {
         if ("1".equals(arg)) return Versions.SINGLE;
         if ("2".equals(arg)) return Versions.DOUBLE;
         if ("3".equals(arg)) return Versions.TRIPLE;
+        createReport = false;
         return versions;
     }
 
@@ -147,6 +167,7 @@ class OpenAPIDiff {
         if ("hal".equals(arg) || "h".equals(arg)) return Maturity.HAL;
         if ("low".equals(arg) || "l".equals(arg)) return Maturity.LOW;
         if ("non".equals(arg) || "n".equals(arg)) return Maturity.NONE;
+        createReport = false;
         return maturity;
     }
 
@@ -155,6 +176,7 @@ class OpenAPIDiff {
         if (isDiffBreaking(arg)) return Diff.BREAKING;
         if (isDiffPotentiallyBreaking(arg)) return Diff.POTENTIALLY_BREAKING;
         if (isDiffLaissezFaire(arg)) return Diff.LAISSEZ_FAIRE;
+        createReport = false;
         return diffLevel;
     }
 
@@ -212,6 +234,8 @@ class OpenAPIDiff {
         System.out.println("  -  [diff-level can be: all/a, breaking/b, potentiallybreaking/pb, laissez-faire/l]");
         System.out.println("  -  [maturity can be: full/f, hal/h(default), low/l, non/n] - full includes all the opinionated parts");
         System.out.println("  -  [version can be: 1(default)/2/3 - which works with hal maturity to check for the correct version overlap");
+
+        System.out.println("\nPlease note that only 3 file extensions are currently supported (txt, md and html)");
     }
 
 }
