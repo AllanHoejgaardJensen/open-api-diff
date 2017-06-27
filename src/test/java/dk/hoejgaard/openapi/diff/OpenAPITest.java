@@ -11,6 +11,7 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OpenAPITest {
+
     @Test
     public void testInputHandlingCorrectInput() throws Exception {
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
@@ -30,9 +31,41 @@ public class OpenAPITest {
     }
 
     @Test
+    public void testIncorrectInput2() throws Exception {
+        String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
+            "./target/output/reports"};
+        OpenAPIDiff.main(argsTxt);
+        assertTrue(Files.exists(Paths.get("./target/output/reports/APIDiff.txt")));
+    }
+
+    @Test
+    public void testIncorrectInput3() throws Exception {
+        String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
+            "./target/output/reports", "Test-Report-3.md"};
+        OpenAPIDiff.main(argsTxt);
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-2.md")));
+    }
+
+    @Test
+    public void testIncorrectInput4() throws Exception {
+        String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
+            "./target/output/reports", "Test-Report-3.md", "all"};
+        OpenAPIDiff.main(argsTxt);
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-2.md")));
+    }
+
+    @Test
+    public void testIncorrectInput5() throws Exception {
+        String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
+            "./target/output/reports", "Test-Report-3.md", "all", "full"};
+        OpenAPIDiff.main(argsTxt);
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-2.md")));
+    }
+
+    @Test
     public void testIncorrectInputWrongDepth() throws Exception{
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
-            "./target/output/reports", "Test-Report-Depth.md", "wrong", "full", "1"};
+            "./target/output/reports", "Test-Report-Depth.md", "wrong", "full"};
         OpenAPIDiff.main(argsTxt);
         assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Depth.md")));
     }
@@ -48,9 +81,9 @@ public class OpenAPITest {
     @Test
     public void testIncorrectInputWrongVersions() throws Exception{
         String[] argsTxt = {"./sample-api/elaborate_example_v1.json", "./sample-api/elaborate_example_v3f.json",
-            "./target/output/reports", "Test-Report-Versions.md", "all", "full", "100"};
+            "./target/output/reports", "Test-Report-Versions1.md", "all", "full", "100"};
         OpenAPIDiff.main(argsTxt);
-        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Versions.md")));
+        assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report-Versions1.md")));
     }
 
     @Test
@@ -60,5 +93,4 @@ public class OpenAPITest {
         OpenAPIDiff.main(argsTxt);
         assertFalse(Files.exists(Paths.get("./target/output/reports/Test-Report.nosuchfile")));
     }
-
 }
