@@ -315,15 +315,21 @@ public class ResponseChanges {
             handleDiffRemoved(futureRef, diff);
             handleDiffChanged(futureRef, diff);
             if (diff.getBreaking().size() > 0) {
-                Map<String, String> breakingChanges = diff.getBreaking();
-                for (Map.Entry<String, String> entry : breakingChanges.entrySet()) {
-                    addBreakingChange(entry.getKey(), entry.getValue());
+                Map<String, List<String>> breakingChanges = diff.getBreaking();
+                for (Map.Entry<String, List<String>> entry : breakingChanges.entrySet()) {
+                    List<String> observations = entry.getValue();
+                    for (String change : observations) {
+                        addBreakingChange(entry.getKey(), change);
+                    }
                 }
             }
             if (diff.getPotentiallyBreaking().size() > 0) {
-                Map<String, String> potentiallyBreakingChanges = diff.getPotentiallyBreaking();
-                for (Map.Entry<String, String> entry : potentiallyBreakingChanges.entrySet()) {
-                    addPotentialBreakingChange(entry.getKey(), entry.getValue());
+                Map<String, List<String>> potentiallyBreakingChanges = diff.getPotentiallyBreaking();
+                for (Map.Entry<String, List<String>> entry : potentiallyBreakingChanges.entrySet()) {
+                    List<String> observations = entry.getValue();
+                    for (String change : observations) {
+                        addPotentialBreakingChange(entry.getKey(), change);
+                    }
                 }
             }
 

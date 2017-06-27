@@ -27,10 +27,9 @@ class ElementDiff {
     private final List<ScopedProperty> added;
     private final List<ScopedProperty> removed;
     private final List<ScopedProperty> changed;
-    private final Map<String, String> changeCause;
-    private final Map<String, String> breaking;
-    private final Map<String, String> potentiallyBreaking;
-
+    private final Map<String, List<String>> changeCause;
+    private final Map<String, List<String>> breaking;
+    private final Map<String, List<String>> potentiallyBreaking;
 
     /**
      * @param existing definition model for the existing API
@@ -75,21 +74,21 @@ class ElementDiff {
     /**
      * @return reasons for a given change e.g. the regExp pattern was changed
      */
-    public Map<String, String> getChangeCause() {
+    public Map<String, List<String>> getChangeCause() {
         return Collections.unmodifiableMap(changeCause);
     }
 
     /**
      * @return the breaking changes
      */
-    public Map<String, String> getBreaking() {
+    public Map<String, List<String>> getBreaking() {
         return Collections.unmodifiableMap(breaking);
     }
 
     /**
      * @return the potentially breaking changes
      */
-    public Map<String, String> getPotentiallyBreaking() {
+    public Map<String, List<String>> getPotentiallyBreaking() {
         return Collections.unmodifiableMap(potentiallyBreaking);
     }
 
@@ -119,7 +118,7 @@ class ElementDiff {
                     ScopedProperty fpWithPath = convert2ELProperty(parentEl, key, future);
                     changed.add(fpWithPath);
                     String context = parentEl + "." + key + ".";
-                    changeCause.put(context, investigateAndReport(existing, future, context));
+                    addChangeCause(context, investigateAndReport(existing, future, context));
                 }
             }
         }
@@ -127,7 +126,6 @@ class ElementDiff {
 
     private String investigateAndReport(Property existing, Property future, String context) {
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
         if (existing instanceof StringProperty && future instanceof StringProperty) {
             appendStringPropertyDiffs(sb, existing, future, context);
         }
@@ -140,7 +138,6 @@ class ElementDiff {
             int length = sb.length();
             sb.delete(index, length);
         }
-        sb.append("]");
         return sb.toString();
     }
 
@@ -158,7 +155,7 @@ class ElementDiff {
             String str = "minimum.changed.from." + e.getMinimum() + ".to." + f.getMinimum();
             sb.append(str).append(", ");
             if (f.getMinimum().subtract(e.getMinimum()).longValue() > 0) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -168,7 +165,7 @@ class ElementDiff {
             String str = "maximum.changed.from." + e.getMaximum() + ".to." + f.getMaximum();
             sb.append(str).append(", ");
             if (f.getMaximum().subtract(e.getMaximum()).longValue() < 0) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -178,7 +175,7 @@ class ElementDiff {
             String str = "minimum.exclusive.changed.from." + e.getExclusiveMinimum() + ".to." + f.getExclusiveMinimum();
             sb.append(str).append(", ");
             if (f.getExclusiveMinimum() && !e.getExclusiveMinimum()) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -188,7 +185,7 @@ class ElementDiff {
             String str = "maximum.exclusive.changed.from." + e.getExclusiveMaximum() + ".to." + f.getExclusiveMaximum();
             sb.append(str).append(", ");
             if (f.getExclusiveMaximum() && !e.getExclusiveMaximum()) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -228,7 +225,7 @@ class ElementDiff {
             String str = "emptyAllowed.changed.from." + existing.getAllowEmptyValue() + ".to." + future.getAllowEmptyValue();
             sb.append(str).append(", ");
             if (!future.getAllowEmptyValue() && existing.getAllowEmptyValue()) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -237,7 +234,7 @@ class ElementDiff {
         if (future.getType() != null && !future.getType().equals(existing.getType())) {
             String str = "type.changed.from." + existing.getType() + ".to." + future.getType();
             sb.append(str).append(", ");
-            potentiallyBreaking.put(context, context + str);
+            addPotentiallyBreaking(context, str);
         }
     }
 
@@ -246,7 +243,7 @@ class ElementDiff {
             String str = "required.changed.from." + existing.getRequired() + ".to." + future.getRequired();
             sb.append(str).append(", ");
             if (future.getRequired() && !existing.getRequired()) {
-                breaking.put(context, context + str);
+                addBreaking(context, str);
             }
         }
     }
@@ -257,17 +254,22 @@ class ElementDiff {
         if (coming.getPattern() != null && !coming.getPattern().equals(xisting.getPattern())) {
             String str = "pattern.changed.from." + xisting.getPattern() + ".to." + coming.getPattern();
             sb.append(str).append(", ");
-            potentiallyBreaking.put(context, context + str);
+            addPotentiallyBreaking(context, str);
         }
         if (coming.getMaxLength() != null && xisting.getMaxLength() != null && coming.getMaxLength() < xisting.getMaxLength()) {
             String str = "maxlength.changed.from." + xisting.getMaxLength() + ".to." + coming.getMaxLength();
             sb.append(str).append(", ");
-            breaking.put(context, context + str);
+            addBreaking(context, str);
         }
         if (coming.getMinLength() != null && xisting.getMinLength() != null && coming.getMinLength() > xisting.getMinLength()) {
             String str = "minlength.changed.from." + xisting.getMinLength() + ".to." + coming.getMinLength();
             sb.append(str).append(", ");
-            breaking.put(context, context + str);
+            addBreaking(context, str);
+        }
+        if (coming.getDefault() != null && xisting.getDefault() != null && !coming.getDefault().equals(xisting.getDefault())) {
+            String str = "default.changed.from." + xisting.getDefault() + ".to." + coming.getDefault();
+            sb.append(str).append(", ");
+            addPotentiallyBreaking(context, str);
         }
     }
 
@@ -310,6 +312,39 @@ class ElementDiff {
     private ScopedProperty convert2ELProperty(String parentEl, String propName, Property property) {
         String el = null == parentEl ? propName : parentEl + "." + propName;
         return new ScopedProperty(el, property);
+    }
+
+    private void addBreaking(String context, String information) {
+        if (!breaking.containsKey(context)) {
+            List<String> breaks = new ArrayList<>();
+            breaks.add(context + information);
+            breaking.put(context, breaks);
+        } else  {
+            List<String> breaks = breaking.get(context);
+            breaks.add(context + information);
+        }
+    }
+
+    private void addPotentiallyBreaking(String context, String information) {
+        if (!potentiallyBreaking.containsKey(context)) {
+            List<String> pbreaks = new ArrayList<>();
+            pbreaks.add(context + information);
+            potentiallyBreaking.put(context, pbreaks);
+        } else {
+            List<String> pbreaks = potentiallyBreaking.get(context);
+            pbreaks.add(context + information);
+        }
+    }
+
+    private void addChangeCause(String context, String information) {
+        if (!changeCause.containsKey(context)) {
+            List<String> breaks = new ArrayList<>();
+            breaks.add(information);
+            changeCause.put(context, breaks);
+        } else {
+            List<String> causes = changeCause.get(context);
+            causes.add(information);
+        }
     }
 
 }

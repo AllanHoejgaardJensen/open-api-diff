@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -347,6 +348,8 @@ public class ElementDiffTest {
         StringProperty prop = new StringProperty();
         prop.setName("testProperty");
         prop.setAccess("full");
+        prop.setDefault("defaultValue");
+        prop.setType("unlimitedString");
         properties.put("testProperty", prop);
 
         model = secondaryModel.get("Account");
@@ -354,13 +357,21 @@ public class ElementDiffTest {
         prop = new StringProperty();
         prop.setName("testProperty");
         prop.setAccess("limited");
+        prop.setDefault("otherDefaultValue");
+        prop.setType("limitedString");
         properties.put("testProperty", prop);
         ElementDiff pd = new ElementDiff(models, secondaryModel, "Account", "Account" , "scope");
         assertEquals(0, pd.getAdded().size());
         assertEquals(0, pd.getRemoved().size());
         assertEquals(1, pd.getChanged().size());
         assertEquals(0, pd.getBreaking().size());
-        assertEquals(0, pd.getPotentiallyBreaking().size());
+        assertEquals(1, pd.getPotentiallyBreaking().size());
+        assertNotNull(pd.getPotentiallyBreaking().get("scope.testProperty."));
+        assertEquals(2, pd.getPotentiallyBreaking().get("scope.testProperty.").size());
+        assertTrue(pd.getPotentiallyBreaking().
+            get("scope.testProperty.").contains("scope.testProperty.default.changed.from.defaultValue.to.otherDefaultValue"));
+            assertTrue(pd.getPotentiallyBreaking().
+                get("scope.testProperty.").contains("scope.testProperty.type.changed.from.unlimitedString.to.limitedString"));
     }
 
     @Test
