@@ -62,25 +62,25 @@ public class APINewResourceChangedPropertyDiffTestIT {
         assertNotNull(theOperation);
         assertNull(changedOperations.get(HttpMethod.GET));
 
-        assertEquals(0, theOperation.getMissingProperties().size());
-        assertEquals(0, theOperation.getAddedProperties().size());
+        assertTrue(theOperation.getMissingProperties().isEmpty());
+        assertTrue(theOperation.getAddedProperties().isEmpty());
 
-        assertEquals(0, theOperation.getAddedParameters().size());
-        assertEquals(0, theOperation.getMissingParameters().size());
-        assertEquals(0, theOperation.getChangedParameters().size());
+        assertTrue(theOperation.getAddedParameters().isEmpty());
+        assertTrue(theOperation.getMissingParameters().isEmpty());
+        assertTrue(theOperation.getChangedParameters().isEmpty());
 
-        assertEquals(0, theOperation.getAddedContentTypes().size());
-        assertEquals(0, theOperation.getMissingContentTypes().size());
+        assertTrue(theOperation.getAddedContentTypes().isEmpty());
+        assertTrue(theOperation.getMissingContentTypes().isEmpty());
 
-        assertEquals(0, theOperation.getAddedResponses().size());
-        assertEquals(0, theOperation.getMissingResponses().size());
-        assertEquals(0, theOperation.getChangedResponses().size());
+        assertTrue(theOperation.getAddedResponses().isEmpty());
+        assertTrue(theOperation.getMissingResponses().isEmpty());
+        assertTrue(theOperation.getChangedResponses().isEmpty());
 
         assertEquals(1, theOperation.getPotentiallyBreakingChanges().size());
         assertEquals(1, theOperation.getBreakingChanges().size());
-        assertEquals(0, theOperation.getChanges().size());
+        assertTrue(theOperation.getChanges().isEmpty());
 
-        assertEquals(0, theOperation.getExistingCompliance().getChanges().size());
+        assertTrue(theOperation.getExistingCompliance().getChanges().isEmpty());
 
         List<PropertyChanges> changedProperties = theOperation.getChangedProperties();
         assertEquals(1, changedProperties.size());

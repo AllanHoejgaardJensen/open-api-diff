@@ -10,22 +10,24 @@ import dk.hoejgaard.openapi.diff.criteria.Diff;
 import dk.hoejgaard.openapi.diff.model.ScopedProperty;
 import io.swagger.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Contains a finite set of differences between an existing and a future parameter.
  */
 public class PropertyChanges {
+    private static Logger logger = LoggerFactory.getLogger(PropertyChanges.class);
 
     private final boolean isRequiredChanged;
     private final boolean isDescriptionChanged;
     private final Diff diffDepth;
+    private final Map<String, List<String>> changes = new HashMap<>();
+    private final Map<String, List<String>> flawedDefines = new HashMap<>();
+    private final Map<String, List<String>> potentiallyBreaking = new HashMap<>();
+    private final Map<String, List<String>> breaking = new HashMap<>();
     private List<ScopedProperty> added = new ArrayList<>();
     private List<ScopedProperty> removed = new ArrayList<>();
-
-    private Map<String, List<String>> changes = new HashMap<>();
-    private Map<String, List<String>> flawedDefines = new HashMap<>();
-    private Map<String, List<String>> potentiallyBreaking = new HashMap<>();
-    private Map<String, List<String>> breaking = new HashMap<>();
 
     public PropertyChanges(Parameter existing, Parameter future, Diff depth) {
         this.isRequiredChanged = existing.getRequired() != future.getRequired();
@@ -66,19 +68,16 @@ public class PropertyChanges {
      */
     public boolean containsDiff() {
         if (Diff.ALL.equals(diffDepth)) {
-            return anyPropertyChanges() || anyThingAddedOrRemoved() ||
-                anyObservations();
+            return anyPropertyChanges() || anyThingAddedOrRemoved() || anyObservations();
         } else if (Diff.POTENTIALLY_BREAKING.equals(diffDepth)) {
-            return anyPropertyChanges() || anyThingAddedOrRemoved() ||
-                breakingObserved() || !potentiallyBreaking.isEmpty();
+            return anyPropertyChanges() || anyThingAddedOrRemoved() || breakingObserved() || !potentiallyBreaking.isEmpty();
         } else if (Diff.BREAKING.equals(diffDepth)) {
-            return anyPropertyChanges() || anyThingAddedOrRemoved() ||
-                breakingObserved();
+            return anyPropertyChanges() || anyThingAddedOrRemoved() || breakingObserved();
         } else if (Diff.LAISSEZ_FAIRE.equals(diffDepth)) {
-            return anyPropertyChanges() || anyThingAddedOrRemoved() ||
-                !breaking.isEmpty();
+            return anyPropertyChanges() || anyThingAddedOrRemoved() || !breaking.isEmpty();
         }
-        return anyPropertyChanges() || anyThingAddedOrRemoved();
+        logger.error("unhandled diff depth");
+        return true;
     }
 
     /**

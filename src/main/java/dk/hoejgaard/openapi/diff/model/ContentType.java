@@ -12,6 +12,12 @@ public class ContentType {
     private static final String JSON_SCHEME = "^" + JSON + ";concept=(.*);v=[0-9]+";
     private static final String HAL_CONCEPT = "^((application\\/hal\\+json)+(, )?(;concept=[a-z][a-z0-9]+)?(;v=[0-9]+)?(, )*)+";
     private static final String JSON_CONCEPT = "^((application\\/json)+(, )?(;concept=[a-z][a-z0-9]+)?(;v=[0-9]+)?(, )*)+";
+    private final boolean isHALScheme;
+    private final boolean isJSONScheme;
+    private final boolean isHALConcept;
+    private final boolean isJSONConcept;
+    private final boolean isHAL;
+    private final boolean isJSON;
 
     private String type = "unknown-Content-type-type";
     private String subtype = "unknown-Content-type-subtype";
@@ -19,12 +25,6 @@ public class ContentType {
     private String parameters = "";
     private String projection = "";
     private String version = "";
-    private boolean isHALScheme;
-    private boolean isJSONScheme;
-    private boolean isHALConcept;
-    private boolean isJSONConcept;
-    private boolean isHAL;
-    private boolean isJSON;
 
     public ContentType(String contentType) {
         asString = contentType;
@@ -184,15 +184,15 @@ public class ContentType {
     }
 
     private void deriveType(String contentType) {
-        int slash = contentType.indexOf("/");
+        int slash = contentType.indexOf('/');
         if (slash > 0) {
             type = contentType.substring(0, slash);
         }
     }
 
     private void deriveSubtype(String contentType) {
-        int slash = contentType.indexOf("/");
-        int parameter = contentType.indexOf(";");
+        int slash = contentType.indexOf('/');
+        int parameter = contentType.indexOf(';');
         if (parameter < 0) {
             subtype = contentType.substring(slash + 1, contentType.length());
         } else {

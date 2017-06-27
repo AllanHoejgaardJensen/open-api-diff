@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SwaggerContentTypeDiffTestVT {
@@ -59,7 +60,7 @@ public class SwaggerContentTypeDiffTestVT {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assertTrue(newEndpoints.size() > 0);
+        assertFalse(newEndpoints.isEmpty());
         assertTrue(missingEndpoints.isEmpty());
         assertTrue(changedEndPoints.isEmpty());
 
@@ -82,7 +83,7 @@ public class SwaggerContentTypeDiffTestVT {
             e.printStackTrace();
         }
         assertTrue(newEndpoints.isEmpty());
-        assertTrue(missingEndpoints.size() > 0);
+        assertFalse(missingEndpoints.isEmpty());
         assertTrue(changedEndPoints.isEmpty());
         assertTrue(Files.exists(Paths.get(fileName)));
     }

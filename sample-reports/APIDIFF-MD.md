@@ -382,6 +382,7 @@ The APIs compared are:
  ` ! ` PUT Response Code 400  missing | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used 
  ` > ` Response 301 Added | **adding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down** 
  ` ! ` PUT Response Code 505  missing | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used 
+ ` > ` accounts {regNo}-{accountNo} reconciled-transactions {id} producer versioning non-compliant | **content producers are not following the scheme of having application/hal+json;concept=[projection];v=[version] with a SINGLE version available. The observed changed and added producers are: [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]]** 
 
 
 
@@ -1368,8 +1369,11 @@ The APIs compared are:
  ` ! ` PUT Response Code 400  missing | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used 
  ` > ` Response 301 Added | **adding 301 may break the client programming model, clients may not be able to follow the location if not implemented and thus experience service as being down** 
  ` ! ` PUT Response Code 505  missing | improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used 
+ ` > ` accounts {regNo}-{accountNo} reconciled-transactions {id} producer versioning non-compliant | **content producers are not following the scheme of having application/hal+json;concept=[projection];v=[version] with a SINGLE version available. The observed changed and added producers are: [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]]** 
 ##### Recorded Changes
-  `   no observations    `
+  Changes                       |  Info
+------------------------------- | -------
+ ` > ` accounts {regNo}-{accountNo} reconciled-transactions {id} producer version scheme conflict | versions do not overlap correctly or and/do not use default version. Content-types are [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]] 
 ##### Recorded Flaws in existing API
   Improvements to existing API  |  Info
 ------------------------------- | -------

@@ -101,19 +101,19 @@ public class APIDiffTestIT {
         Map<HttpMethod, OperationDiff> nonCompliant = resourceNew.getNonCompliantOperations();
         Map<HttpMethod, OperationDiff> changed = resourceNew.getChangedOperations();
 
-        assertEquals(true, nonCompliant.size() > 0);
-        assertEquals(true, changed.isEmpty());
+        assertFalse(nonCompliant.isEmpty());
+        assertTrue(changed.isEmpty());
         OperationDiff verb = nonCompliant.get(HttpMethod.GET);
         assertNotNull(verb);
 
         Map<String, List<String>> flaws = verb.getDesignFlaws();
         assertEquals(1, flaws.size());
-        assertEquals(true, getResourceDiffByValue(flaws, "the following response codes:  " +
+        assertTrue(getResourceDiffByValue(flaws, "the following response codes:  " +
             "[200, 301, 307, 410, 415, 429, 500, 503, 505] " +
             " were either missing or may not include required response headers and thus do not support a future proof API"));
         assertEquals(1, flaws.get("future.response.compliance.for::.account-events.{group}:::non-optimal.response.setup").size());
         Map<String, List<String>> breaks = verb.getBreakingChanges();
-        assertEquals(0, breaks.size());
+        assertTrue(breaks.isEmpty());
     }
 
 
@@ -145,58 +145,58 @@ public class APIDiffTestIT {
         assertNotNull(changedShouldBeThere);
 
         Map<HttpMethod, OperationDiff> nonCompliant = changedShouldBeThere.getNonCompliantOperations();
-        assertEquals(true, nonCompliant.size() > 0);
+        assertFalse(nonCompliant.isEmpty());
         OperationDiff verb = nonCompliant.get(HttpMethod.GET);
         assertNotNull(verb);
 
         Map<String, List<String>> flaws = verb.getDesignFlaws();
         assertEquals(1, flaws.size());
-        assertEquals(true, getResourceDiffByValue(flaws, "the following response codes:  " +
+        assertTrue(getResourceDiffByValue(flaws, "the following response codes:  " +
             "[200, 301, 304, 307, 401, 403, 404, 410, 412, 415, 429, 500, 503, 505] " +
             " were either missing or may not include required response headers and thus do not support a future proof API"));
         assertEquals(1, flaws.get("future::.accounts.{regNo}-{accountNo}:::non-optimal.response.setup").size());
         Map<String, List<String>> breaks = verb.getBreakingChanges();
-        assertEquals(0, breaks.size());
+        assertTrue(breaks.isEmpty());
 
         Map<HttpMethod, OperationDiff> changedOperations = changedShouldBeThere.getChangedOperations();
         assertEquals(2, changedOperations.size());
         OperationDiff getDiff = changedOperations.get(HttpMethod.GET);
 
-        assertEquals(0, getDiff.getAddedParameters().size());
-        assertEquals(0, getDiff.getMissingParameters().size());
-        assertEquals(0, getDiff.getChangedParameters().size());
+        assertTrue(getDiff.getAddedParameters().isEmpty());
+        assertTrue(getDiff.getMissingParameters().isEmpty());
+        assertTrue(getDiff.getChangedParameters().isEmpty());
 
-        assertEquals(0, getDiff.getMissingContentTypes().size());
-        assertEquals(0, getDiff.getAddedContentTypes().size());
+        assertTrue(getDiff.getMissingContentTypes().isEmpty());
+        assertTrue(getDiff.getAddedContentTypes().isEmpty());
 
-        assertEquals(0, getDiff.getAddedProperties().size());
-        assertEquals(0, getDiff.getMissingProperties().size());
+        assertTrue(getDiff.getAddedProperties().isEmpty());
+        assertTrue(getDiff.getMissingProperties().isEmpty());
 
-        assertEquals(0, getDiff.getAddedResponses().size());
+        assertTrue(getDiff.getAddedResponses().isEmpty());
         assertEquals(14, getDiff.getChangedResponses().size());
 
-        assertEquals(0, getDiff.getBreakingChanges().size());
+        assertTrue(getDiff.getBreakingChanges().isEmpty());
         assertEquals(20, getDiff.getDesignFlaws().size());
         assertEquals(6, getDiff.getExistingFlaws().size());
         assertEquals(12, getDiff.getPotentiallyBreakingChanges().size());
 
         OperationDiff putDiff = changedOperations.get(HttpMethod.PUT);
 
-        assertEquals(0, putDiff.getAddedParameters().size());
-        assertEquals(0, putDiff.getMissingParameters().size());
-        assertEquals(0, putDiff.getChangedParameters().size());
+        assertTrue(putDiff.getAddedParameters().isEmpty());
+        assertTrue(putDiff.getMissingParameters().isEmpty());
+        assertTrue(putDiff.getChangedParameters().isEmpty());
 
-        assertEquals(0, putDiff.getMissingContentTypes().size());
-        assertEquals(0, putDiff.getAddedContentTypes().size());
+        assertTrue(putDiff.getMissingContentTypes().isEmpty());
+        assertTrue(putDiff.getAddedContentTypes().isEmpty());
 
-        assertEquals(0, putDiff.getAddedProperties().size());
-        assertEquals(0, putDiff.getMissingProperties().size());
+        assertTrue(putDiff.getAddedProperties().isEmpty());
+        assertTrue(putDiff.getMissingProperties().isEmpty());
 
-        assertEquals(0, putDiff.getAddedResponses().size());
+        assertTrue(putDiff.getAddedResponses().isEmpty());
         assertEquals(5, putDiff.getChangedResponses().size());
 
-        assertEquals(0, putDiff.getChanges().size());
-        assertEquals(0, putDiff.getBreakingChanges().size());
+        assertTrue(putDiff.getChanges().isEmpty());
+        assertTrue(putDiff.getBreakingChanges().isEmpty());
         assertEquals(12, putDiff.getDesignFlaws().size());
         assertEquals(7, putDiff.getExistingFlaws().size());
         assertEquals(2, putDiff.getPotentiallyBreakingChanges().size());
@@ -215,13 +215,13 @@ public class APIDiffTestIT {
         assertEquals(1, accounts.getChangedOperations().size());
         OperationDiff od = accounts.getChangedOperations().get(HttpMethod.GET);
         assertNotNull(od);
-        assertEquals(0, od.getAddedParameters().size());
-        assertEquals(0, od.getMissingParameters().size());
-        assertEquals(0, od.getAddedContentTypes().size());
-        assertEquals(0, od.getMissingContentTypes().size());
-        assertEquals(0, od.getMissingResponses().size());
-        assertEquals(0, od.getAddedProperties().size());
-        assertEquals(0, od.getMissingProperties().size());
+        assertTrue(od.getAddedParameters().isEmpty());
+        assertTrue(od.getMissingParameters().isEmpty());
+        assertTrue(od.getAddedContentTypes().isEmpty());
+        assertTrue(od.getMissingContentTypes().isEmpty());
+        assertTrue(od.getMissingResponses().isEmpty());
+        assertTrue(od.getAddedProperties().isEmpty());
+        assertTrue(od.getMissingProperties().isEmpty());
         assertEquals("OPINIONATED: Missing response codes in existing API - considered forcing API change", 9, od.getChangedResponses().size());
 
         ResourceDiff account = getResourceDiffByPath(changedEndPoints, "/accounts/{regNo}-{accountNo}");
@@ -230,13 +230,13 @@ public class APIDiffTestIT {
         assertEquals(2, account.getChangedOperations().size());
         od = account.getChangedOperations().get(HttpMethod.GET);
         assertNotNull(od);
-        assertEquals(0, od.getAddedParameters().size());
-        assertEquals(0, od.getMissingParameters().size());
-        assertEquals(0, od.getAddedContentTypes().size());
-        assertEquals(0, od.getMissingContentTypes().size());
-        assertEquals(0, od.getMissingResponses().size());
-        assertEquals(0, od.getAddedProperties().size());
-        assertEquals(0, od.getMissingProperties().size());
+        assertTrue(od.getAddedParameters().isEmpty());
+        assertTrue(od.getMissingParameters().isEmpty());
+        assertTrue(od.getAddedContentTypes().isEmpty());
+        assertTrue(od.getMissingContentTypes().isEmpty());
+        assertTrue(od.getMissingResponses().isEmpty());
+        assertTrue(od.getAddedProperties().isEmpty());
+        assertTrue(od.getMissingProperties().isEmpty());
         assertEquals("OPINIONATED: Missing response codes in existing API - considered forcing API change", 14, od.getChangedResponses().size());
     }
 
@@ -255,7 +255,7 @@ public class APIDiffTestIT {
             found = resource.get(key).stream()
                 .filter(k -> k.contains(value))
                 .collect(Collectors.toList());
-            if (found.size() > 0) {
+            if (!found.isEmpty()) {
                 return true;
             }
         }

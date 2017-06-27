@@ -20,9 +20,9 @@ public class MapsTest {
     public void testNullReferenceList() {
         Maps<String, String> diff = Maps.diff(null, new LinkedHashMap<>());
         assertNotNull(diff);
-        assertEquals(0, diff.getRemoved().size());
-        assertEquals(0, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getRemoved().isEmpty());
+        assertTrue(diff.getAdded().isEmpty());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -36,9 +36,9 @@ public class MapsTest {
         candidateSet.put(commonStrC, commonStrC);
         Maps<String, String> diff = Maps.diff(null, candidateSet);
         assertNotNull(diff);
-        assertEquals(0, diff.getRemoved().size());
+        assertTrue(diff.getRemoved().isEmpty());
         assertEquals(3, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -53,8 +53,8 @@ public class MapsTest {
         Maps<String, String> diff = Maps.diff(referenceSet, null);
         assertNotNull(diff);
         assertEquals(3, diff.getRemoved().size());
-        assertEquals(0, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getAdded().isEmpty());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class MapsTest {
         String commonStrC = "Common C";
         referenceSet.put(commonStrC, commonStrC);
         Maps<String, String> diff = Maps.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
-        assertEquals(0, diff.getAdded().size());
+        assertTrue(diff.getCommon().isEmpty());
+        assertTrue(diff.getAdded().isEmpty());
         assertEquals(3, diff.getRemoved().size());
     }
 
@@ -84,9 +84,9 @@ public class MapsTest {
         String commonStrC = "New C";
         candidateSet.put(commonStrC, commonStrC);
         Maps<String, String> diff = Maps.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
         assertEquals(3, diff.getAdded().size());
-        assertEquals(0, diff.getRemoved().size());
+        assertTrue(diff.getRemoved().isEmpty());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class MapsTest {
         String strC = "New C";
         candidateSet.put(strC, strC);
         Maps<String, String> diff = Maps.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
         assertEquals(2, diff.getAdded().size());
         assertEquals(1, diff.getRemoved().size());
     }

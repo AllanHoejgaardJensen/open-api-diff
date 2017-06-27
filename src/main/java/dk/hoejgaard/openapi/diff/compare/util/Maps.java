@@ -28,12 +28,12 @@ import java.util.stream.Collectors;
  */
 public class Maps<K, V> {
 
-    private Map<K, V> added;
-    private Map<K, V> removed;
-    private List<K> common;
+    private Map<K, V> added = new LinkedHashMap<>();
+    private Map<K, V> removed = new LinkedHashMap<>();
+    private List<K> common = new ArrayList<>();;
 
     private Maps() {
-        this.common = new ArrayList<>();
+        //empty
     }
 
     /**
@@ -46,8 +46,6 @@ public class Maps<K, V> {
      */
     public static <K, V> Maps<K, V> diff(Map<K, V> reference, Map<K, V> subject) {
         Maps<K, V> keys = new Maps<>();
-        keys.removed = new LinkedHashMap<>();
-        keys.added = new LinkedHashMap<>();
         if (isSimpleInput(reference, subject, keys)) {
             return keys;
         } else {

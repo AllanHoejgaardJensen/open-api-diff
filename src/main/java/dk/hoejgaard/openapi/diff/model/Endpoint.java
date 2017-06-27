@@ -36,9 +36,9 @@ import io.swagger.models.Operation;
  */
 public class Endpoint {
 
-    private String pathUrl;
-    private HttpMethod verb;
-    private Operation operation;
+    private final String pathUrl;
+    private final HttpMethod verb;
+    private final Operation operation;
 
     public Endpoint(String pathUrl, HttpMethod verb, Operation operation) {
         this.pathUrl = pathUrl;

@@ -314,7 +314,7 @@ public class ResponseChanges {
             handleDiffAdded(futureRef, diff);
             handleDiffRemoved(futureRef, diff);
             handleDiffChanged(futureRef, diff);
-            if (diff.getBreaking().size() > 0) {
+            if (!diff.getBreaking().isEmpty()) {
                 Map<String, List<String>> breakingChanges = diff.getBreaking();
                 for (Map.Entry<String, List<String>> entry : breakingChanges.entrySet()) {
                     List<String> observations = entry.getValue();
@@ -323,7 +323,7 @@ public class ResponseChanges {
                     }
                 }
             }
-            if (diff.getPotentiallyBreaking().size() > 0) {
+            if (!diff.getPotentiallyBreaking().isEmpty()) {
                 Map<String, List<String>> potentiallyBreakingChanges = diff.getPotentiallyBreaking();
                 for (Map.Entry<String, List<String>> entry : potentiallyBreakingChanges.entrySet()) {
                     List<String> observations = entry.getValue();
@@ -337,7 +337,7 @@ public class ResponseChanges {
     }
 
     private void handleDiffChanged(String futureRef, ElementDiff diff) {
-        if (diff.getChanged().size() > 0) {
+        if (!diff.getChanged().isEmpty()) {
             List<ScopedProperty> diffChanged = diff.getChanged();
             for (ScopedProperty change : diffChanged) {
                 String origin = futureRef + "." + change.getEl();
@@ -348,7 +348,7 @@ public class ResponseChanges {
     }
 
     private void handleDiffRemoved(String futureRef, ElementDiff diff) {
-        if (diff.getRemoved().size() > 0) {
+        if (!diff.getRemoved().isEmpty()) {
             List<ScopedProperty> diffRemoved = diff.getAdded();
             for (ScopedProperty gone : diffRemoved) {
                 String origin = futureRef + "." + gone.getEl();
@@ -359,7 +359,7 @@ public class ResponseChanges {
     }
 
     private void handleDiffAdded(String futureRef, ElementDiff diff) {
-        if (diff.getAdded().size() > 0) {
+        if (!diff.getAdded().isEmpty()) {
             List<ScopedProperty> diffAdded = diff.getAdded();
             for (ScopedProperty appeared : diffAdded) {
                 String origin = futureRef + "." + appeared.getEl();
@@ -385,26 +385,9 @@ public class ResponseChanges {
                 return true;
             }
         } else {
-            if ("201".equals(responseCode) && (HttpMethod.POST.equals(method) || (HttpMethod.PUT.equals(method)))) {
-                String key = future ? "future." : "existing." + scope + ".response." + responseCode + ".missing.for." + method;
-                String msg = "to have a compliant and future proof API you should include " + responseCode +
-                    " into the defined responses of a " + method + " in order for clients to be able to react on changes in the API";
-
-                if (scope.contains("future")) {
-                    List<String> observation = flawedDefines.containsKey(key) ? flawedDefines.get(key) : new ArrayList<>();
-                    if (!observation.contains(msg)) {
-                        observation.add(defaultHeaders.get(msg));
-                        flawedDefines.put(key, observation);
-                    }
-                } else if (scope.contains("existing")) {
-                    List<String> observation = existingFlaws.containsKey(key) ? existingFlaws.get(key) : new ArrayList<>();
-                    if (!observation.contains(msg)) {
-                        observation.add(defaultHeaders.get(msg));
-                        existingFlaws.put(key, observation);
-                    }
-                }
-                return false;
-            }
+            logger.debug("a response code " + responseCode + " for method " + method + " in scope " + scope + " and " +
+                (future ? "future" : "existing") +
+                " was checked that was not a member of the required response codes [required]" + required);
         }
         return true;
     }

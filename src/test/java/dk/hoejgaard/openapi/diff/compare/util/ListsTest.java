@@ -20,9 +20,9 @@ public class ListsTest {
     public void testNullReferenceList() {
         Lists<String> diff = Lists.diff(null, new ArrayList<>());
         assertNotNull(diff);
-        assertEquals(0, diff.getRemoved().size());
-        assertEquals(0, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getRemoved().isEmpty());
+        assertTrue(diff.getAdded().isEmpty());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -36,9 +36,9 @@ public class ListsTest {
         candidateSet.add(commonStrC);
         Lists<String> diff = Lists.diff(null, candidateSet);
         assertNotNull(diff);
-        assertEquals(0, diff.getRemoved().size());
+        assertTrue(diff.getRemoved().isEmpty());
         assertEquals(3, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -53,8 +53,8 @@ public class ListsTest {
         Lists<String> diff = Lists.diff(referenceSet, null);
         assertNotNull(diff);
         assertEquals(3, diff.getRemoved().size());
-        assertEquals(0, diff.getAdded().size());
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getAdded().isEmpty());
+        assertTrue(diff.getCommon().isEmpty());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class ListsTest {
         String commonStrC = "Common C";
         referenceSet.add(commonStrC);
         Lists<String> diff = Lists.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
-        assertEquals(0, diff.getAdded().size());
+        assertTrue(diff.getCommon().isEmpty());
+        assertTrue(diff.getAdded().isEmpty());
         assertEquals(3, diff.getRemoved().size());
     }
 
@@ -84,9 +84,9 @@ public class ListsTest {
         String commonStrC = "New C";
         candidateSet.add(commonStrC);
         Lists<String> diff = Lists.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
         assertEquals(3, diff.getAdded().size());
-        assertEquals(0, diff.getRemoved().size());
+        assertTrue(diff.getRemoved().isEmpty());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class ListsTest {
         String strC = "New C";
         candidateSet.add(strC);
         Lists<String> diff = Lists.diff(referenceSet, candidateSet);
-        assertEquals(0, diff.getCommon().size());
+        assertTrue(diff.getCommon().isEmpty());
         assertEquals(2, diff.getAdded().size());
         assertEquals(1, diff.getRemoved().size());
     }

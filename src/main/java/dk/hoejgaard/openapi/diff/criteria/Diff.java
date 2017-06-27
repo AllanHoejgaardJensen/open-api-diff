@@ -5,7 +5,7 @@ package dk.hoejgaard.openapi.diff.criteria;
  */
 public enum Diff {
         LAISSEZ_FAIRE,
-        POTENTIALLY_BREAKING,
         BREAKING,
+        POTENTIALLY_BREAKING,
         ALL
 }

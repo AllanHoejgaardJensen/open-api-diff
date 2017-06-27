@@ -7,8 +7,8 @@ import io.swagger.models.properties.Property;
  */
 public class ScopedProperty {
 
-    private String el;
-    private Property property;
+    private final String el;
+    private final Property property;
 
     /**
      * @param scope the scope for the property

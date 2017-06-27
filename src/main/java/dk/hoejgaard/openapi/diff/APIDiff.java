@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 public class APIDiff {
 
     private static Logger logger = LoggerFactory.getLogger(APIDiff.class);
+    private final List<ResourceDiff> resourceDiffs = new ArrayList<>();
 
     private Swagger referenceAPI;
     private Swagger candidateAPI;
@@ -47,7 +48,6 @@ public class APIDiff {
     private List<Endpoint> newEndpointList = new ArrayList<>();
     private List<Endpoint> missingEndpointList = new ArrayList<>();
     private List<Endpoint> changedEndpointList = new ArrayList<>();
-    private List<ResourceDiff> resourceDiffs = new ArrayList<>();
 
 
     /**
@@ -122,7 +122,7 @@ public class APIDiff {
         return changed.stream()
             .filter(Objects::nonNull)
             .filter(p -> p.getChangedOperations() != null)
-            .filter(p -> p.getChangedOperations().size() > 0)
+            .filter(p -> !p.getChangedOperations().isEmpty())
             .collect(Collectors.toList());
     }
 

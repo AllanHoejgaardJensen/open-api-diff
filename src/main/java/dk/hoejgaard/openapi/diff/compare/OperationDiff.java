@@ -28,40 +28,35 @@ import io.swagger.models.parameters.Parameter;
  */
 public class OperationDiff {
 
-    private Swagger referenceAPI;
-    private Swagger candidateAPI;
     private final Diff depths;
     private final Maturity maturity;
     private final Versions versions;
-
-    private OperationChanges operationChanges = new OperationChanges();
-    private OperationChanges existingCompliance = new OperationChanges();
-
+    private Swagger referenceAPI;
+    private Swagger candidateAPI;
+    private final OperationChanges operationChanges = new OperationChanges();
+    private final OperationChanges existingCompliance = new OperationChanges();
+    private final List<ContentType> addedContentTypes = new ArrayList<>();
+    private final List<ContentType> missingContentTypes = new ArrayList<>();
+    private final List<ResponseChanges> changedResponses = new ArrayList<>();
+    private final List<PropertyChanges> changedProperties = new ArrayList<>();
+    private final Map<String, Boolean> defaultRequestHeaders = new LinkedHashMap<>();
 
     private List<Parameter> addedParameters = new ArrayList<>();
     private List<Parameter> missingParameters = new ArrayList<>();
     private List<ParameterChanges> changedParameters = new ArrayList<>();
 
-    private List<ContentType> addedContentTypes = new ArrayList<>();
-    private List<ContentType> missingContentTypes = new ArrayList<>();
-
     private Map<String, Response> addedResponses = new HashMap<>();
     private Map<String, Response> missingResponses = new HashMap<>();
-    private List<ResponseChanges> changedResponses = new ArrayList<>();
 
     private List<ScopedProperty> addedProperties = new ArrayList<>();
     private List<ScopedProperty> missingProperties = new ArrayList<>();
 
-    private List<PropertyChanges> changedProperties = new ArrayList<>();
-
-    private Map<String, Boolean> defaultRequestHeaders = new LinkedHashMap<>();
-
     /**
      * @param referenceAPI the existing API
-     * @param candidateAPI   the future candidate API
-     * @param depths      the level of detail and depth used in the comparison
-     * @param maturity    the level of REST service maturity used in the comparison
-     * @param versions    the number of overlapping versions using the content-type as a versioning mechanism
+     * @param candidateAPI the future candidate API
+     * @param depths       the level of detail and depth used in the comparison
+     * @param maturity     the level of REST service maturity used in the comparison
+     * @param versions     the number of overlapping versions using the content-type as a versioning mechanism
      */
     public OperationDiff(Swagger referenceAPI, Swagger candidateAPI, Diff depths, Maturity maturity, Versions versions) {
         this(depths, maturity, versions);
@@ -72,10 +67,11 @@ public class OperationDiff {
         this.defaultRequestHeaders.put("X-Client-Version", true);
         this.defaultRequestHeaders.put("X-Log-Token", false);
     }
+
     /**
-     * @param depths      the level of detail and depth used in the comparison
-     * @param maturity    the level of REST service maturity used in the comparison
-     * @param versions    the number of overlapping versions using the content-type as a versioning mechanism
+     * @param depths   the level of detail and depth used in the comparison
+     * @param maturity the level of REST service maturity used in the comparison
+     * @param versions the number of overlapping versions using the content-type as a versioning mechanism
      */
     OperationDiff(Diff depths, Maturity maturity, Versions versions) {
         this.depths = depths;
@@ -105,9 +101,10 @@ public class OperationDiff {
 
     /**
      * checks the request headers and evaluates the headers to be compliant or not
+     *
      * @param operation the operation for which the headers are evaluated
-     * @param future is this the future candidate operation or from the existing API
-     * @param scope the scope for the evaluation and reporting
+     * @param future    is this the future candidate operation or from the existing API
+     * @param scope     the scope for the evaluation and reporting
      */
     public void checkRequestHeaderCompliance(Operation operation, boolean future, String scope) {
         List<Parameter> parameters = operation.getParameters();
@@ -148,10 +145,11 @@ public class OperationDiff {
 
     /**
      * checks the responses and their headers and evaluates them to be compliant or not
-     * @param opr the operation for which the headers are evaluated
+     *
+     * @param opr    the operation for which the headers are evaluated
      * @param method the verb used (as response compliance varies according to verb)
      * @param future is this the future candidate operation or from the existing API
-     * @param scope the scope for the evaluation and reporting
+     * @param scope  the scope for the evaluation and reporting
      */
     public void checkResponseCompliance(Operation opr, HttpMethod method, boolean future, String scope) {
         ResponseChanges rc = getResponseChangesInstance(
@@ -172,10 +170,11 @@ public class OperationDiff {
 
     /**
      * checks the versions and evaluates the headers to be compliant or not
-     * @param opr the operation for which the headers are evaluated
+     *
+     * @param opr    the operation for which the headers are evaluated
      * @param method the verb used (as compliance varies according to verb)
      * @param future is this the future candidate operation or from the existing API
-     * @param scope the scope for the evaluation and reporting
+     * @param scope  the scope for the evaluation and reporting
      */
     public void checkVersionCompliance(Operation opr, HttpMethod method, boolean future, String scope) {
         boolean isConsumer = HttpMethod.PUT.equals(method) || HttpMethod.POST.equals(method);
@@ -336,12 +335,12 @@ public class OperationDiff {
     public boolean isChanged() {
         if (Diff.ALL.equals(depths)) {
             return !isCompliant();
-        } else if (Diff.BREAKING.equals(depths)) {
-            return !arePropertiesUnAffected() || !areParametersUnAffected() || !operationChanges.getBreakingChanges().isEmpty();
-
         } else if (Diff.POTENTIALLY_BREAKING.equals(depths)) {
             return !arePropertiesUnAffected() || !areParametersUnAffected() || !operationChanges.getBreakingChanges().isEmpty()
                 || !operationChanges.getPotentiallyBreaking().isEmpty();
+        } else if (Diff.BREAKING.equals(depths)) {
+            return !arePropertiesUnAffected() || !areParametersUnAffected() || !operationChanges.getBreakingChanges().isEmpty();
+
         }
         return true;
     }
@@ -383,7 +382,7 @@ public class OperationDiff {
 
     OperationDiff getChangedContentTypes(Operation existingOpr, Operation futureOpr, String context) {
         Lists<String> produces = Lists.diff(existingOpr.getProduces(), futureOpr.getProduces());
-        if (checkContentParadigm(produces.getCommon(), produces.getAdded(), produces.getRemoved(), context)) {
+        if (checkContentProducerParadigm(produces.getCommon(), produces.getAdded(), produces.getRemoved(), context)) {
             if (Maturity.FULL.equals(maturity) || Maturity.HAL.equals(maturity)) {
                 maturityProducerVersioningReport(context, produces);
             } else {
@@ -392,8 +391,8 @@ public class OperationDiff {
         }
         Lists<String> consumes = Lists.diff(existingOpr.getConsumes(), futureOpr.getConsumes());
         if (isConsumerCheckNeeded(consumes)) {
-            if (checkContentParadigm(consumes.getCommon(), consumes.getAdded(), consumes.getRemoved(), context)) {
-                if (Maturity.FULL.equals(maturity) || Maturity.HAL.equals(maturity)) {
+            if (checkContentConsumerParadigm(consumes.getCommon(), consumes.getAdded(), consumes.getRemoved(), context)) {
+                if (Maturity.FULL.equals(maturity) || Maturity.HAL.equals(maturity) || Maturity.HATEOAS.equals(maturity)) {
                     maturityConsumerVersioningReport(context);
                 } else {
                     genuineConsumerReport(context);
@@ -408,7 +407,7 @@ public class OperationDiff {
         addAddedContentTypes(consumes.getAdded());
         addMissingContentTypes(consumes.getRemoved());
         if (!consumes.getRemoved().isEmpty()) {
-            missingConsumersReport(context, produces);
+            missingConsumersReport(context, consumes);
         }
         return this;
     }
@@ -438,7 +437,7 @@ public class OperationDiff {
      * @param removed content-types that is the types present in the current and not in the future api
      * @return true if the paradigm is found compliant
      */
-    boolean checkContentParadigm(List<String> common, List<String> added, List<String> removed, String context) {
+    boolean checkContentProducerParadigm(List<String> common, List<String> added, List<String> removed, String context) {
         boolean defaultContentTypeFound = false;
         Map<String, List<String>> conceptsVersions = new LinkedHashMap<>();
         for (String commonContentType : common) {
@@ -457,6 +456,43 @@ public class OperationDiff {
                 return inAdequateCommonVersions(conceptsVersions, added, removed, 2);
             } else if (Versions.TRIPLE.equals(versions)) {
                 return inAdequateCommonVersions(conceptsVersions, added, removed, 3);
+            }
+            return false;
+        } else {
+            operationChanges.addRecordedChange(context + ".content-type.scheme.unknown",
+                "difficult to state facts on breaking or not " + conceptsVersions);
+            return true;
+        }
+    }
+    /**
+     * checks whether the application/json is used as a default content setup and versions are added
+     * and thus whether it is possible to create a future proof api or not.
+     * This does not yet support "labelled releases" only consecutive overlapping versions.
+     *
+     * @param common  content-types that is the types present in the current and the future api
+     * @param added   content-types that is the types not present in the current but present in the future api
+     * @param removed content-types that is the types present in the current and not in the future api
+     * @return true if the paradigm is found compliant
+     */
+    boolean checkContentConsumerParadigm(List<String> common, List<String> added, List<String> removed, String context) {
+        boolean defaultContentTypeFound = false;
+        Map<String, List<String>> conceptsVersions = new LinkedHashMap<>();
+        for (String commonContentType : common) {
+            if (Maturity.HAL.equals(maturity) || (Maturity.FULL.equals(maturity))) {
+                ContentType contentType = new ContentType(commonContentType);
+                if (contentType.isDefaultContentType()) {
+                    defaultContentTypeFound = true;
+                }
+                conceptsVersions = getConceptVersions(conceptsVersions, contentType);
+            }
+        }
+        if (defaultContentTypeFound) {
+            if (Versions.SINGLE.equals(versions)) {
+                return inAdequateConsumerVersions(conceptsVersions, added, removed, 1);
+            } else if (Versions.DOUBLE.equals(versions)) {
+                return inAdequateConsumerVersions(conceptsVersions, added, removed, 2);
+            } else if (Versions.TRIPLE.equals(versions)) {
+                return inAdequateConsumerVersions(conceptsVersions, added, removed, 3);
             }
             return false;
         } else {
@@ -584,24 +620,15 @@ public class OperationDiff {
     }
 
     private boolean isDiffCompliance() {
-        if (Diff.ALL.equals(depths)) {
-            return !operationChanges.getBreakingChanges().isEmpty() || !operationChanges.getPotentiallyBreaking().isEmpty()
-                || !operationChanges.getChanges().isEmpty() || operationChanges.getFlawedDefines().isEmpty();
-        } else if (Diff.BREAKING.equals(depths)) {
-            return !operationChanges.getBreakingChanges().isEmpty();
-        } else if (Diff.POTENTIALLY_BREAKING.equals(depths)) {
-            return !operationChanges.getBreakingChanges().isEmpty() || !operationChanges.getPotentiallyBreaking().isEmpty();
-        } else if (Diff.LAISSEZ_FAIRE.equals(depths)) {
-            return true;
-        }
-        return true;
+        return !operationChanges.getBreakingChanges().isEmpty() || !operationChanges.getPotentiallyBreaking().isEmpty()
+            || !operationChanges.getChanges().isEmpty() || operationChanges.getFlawedDefines().isEmpty();
     }
 
-    private void missingConsumersReport(String context, Lists<String> produces) {
+    private void missingConsumersReport(String context, Lists<String> consumers) {
         operationChanges.addRecordedChange(context + ".content-type.consumers.removed", "this may cause problem for some clients" +
-            "removed are: [" + produces.getRemoved() + "]");
+            "removed are: [" + consumers.getRemoved() + "]");
         operationChanges.addPotentialBreakingChange(context + ".content-type.consumers.removed", "this may cause problem for " +
-            "some clients if support is removed in the endpoint removed are: [" + produces.getRemoved() + "]");
+            "some clients if support is removed in the endpoint - removed are: [" + consumers.getRemoved() + "]");
     }
 
     private void missingProducersReport(String context, Lists<String> produces) {
@@ -621,7 +648,7 @@ public class OperationDiff {
         operationChanges.addPotentialBreakingChange(context + ".producer.versioning.non-compliant", "content consumers are" +
             " not following the scheme of having application/hal+json;concept=[projection];v=[version] with a " +
             versions + " version available");
-        operationChanges.addRecordedChange("producer.version.scheme.conflict", "versions do not overlap correctly or " +
+        operationChanges.addRecordedChange(context + ".producer.version.scheme.conflict", "versions do not overlap correctly or " +
             "and/do not use default version");
     }
 
@@ -672,7 +699,7 @@ public class OperationDiff {
 
     private boolean inAdequateCommonVersions(
         Map<String, List<String>> conceptsNVersions, List<String> added, List<String> removed, int versions) {
-
+        if (conceptsNVersions.isEmpty()) return true;
         for (Map.Entry<String, List<String>> entry : conceptsNVersions.entrySet()) {
             List<String> vl = entry.getValue();
             int next = 0;
@@ -680,7 +707,7 @@ public class OperationDiff {
             if (vl.size() < versions) {
                 return true;
             } else if (added.isEmpty() || removed.isEmpty()) {
-                if (!(vl.size() >= versions)) {
+                if (!(versions <= vl.size())) {
                     return true;
                 }
             } else {
@@ -693,13 +720,51 @@ public class OperationDiff {
                 previous++;
                 String concept = entry.getKey();
                 if (!added.contains("application/hal+json;concept=" + concept + ";v=" + next)
-                    || !removed.contains("application/hal+json;concept=" + concept + ";v=" + previous)) {
+                    || !removed.contains("application/hal+json;concept=" + concept + ";v=" + previous)
+                    ) {
                     if (Maturity.FULL.equals(maturity) || Maturity.HAL.equals(maturity))
                         operationChanges.addBreakingChange("non-compliant concept versioning for HAL content-types",
-                            "content producers are not following the scheme of having" +
+                            "                            content producers are not following the scheme of having" +
                                 " application/hal+json;concept=" + concept + ";v=[version] with a " + versions + " version available");
                     operationChanges.addRecordedChange("producer.hal.version.scheme.conflict",
                         "the projections versions do not overlap correctly");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean inAdequateConsumerVersions(
+        Map<String, List<String>> conceptsNVersions, List<String> added, List<String> removed, int versions) {
+        if (conceptsNVersions.isEmpty()) return true;
+        for (Map.Entry<String, List<String>> entry : conceptsNVersions.entrySet()) {
+            List<String> vl = entry.getValue();
+            int next = 0;
+            int previous = 0;
+            if (vl.size() < versions) {
+                return true;
+            } else if (added.isEmpty() || removed.isEmpty()) {
+                if (!(versions <= vl.size())) {
+                    return true;
+                }
+            } else {
+                for (String v : vl) {
+                    int n = Integer.parseInt(v);
+                    if (n > next) next = n;
+                    if (n < previous) previous = n;
+                }
+                next++;
+                previous++;
+                String concept = entry.getKey();
+                if (!added.contains("application/json;concept=" + concept + ";v=" + next)
+                    || !removed.contains("application/json;concept=" + concept + ";v=" + previous)
+                    ) {
+                    if (Maturity.FULL.equals(maturity) || Maturity.HAL.equals(maturity) || Maturity.HATEOAS.equals(maturity))
+                        operationChanges.addBreakingChange("non-compliant concept versioning for content-types",
+                            "                            content consumers are not following the scheme of having" +
+                                " application/json;concept=" + concept + ";v=[version] with a " + versions + " version available");
+                    operationChanges.addRecordedChange("consumer.version.scheme.conflict",
+                        "the projections and versions do not overlap correctly");
                     return true;
                 }
             }

@@ -25,8 +25,8 @@ public class ResponseTest {
         responses.put("200", r);
         ResponseChanges rc = new ResponseChanges();
         List<String> observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
-        assertEquals(0, observations.size());
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertTrue(observations.isEmpty());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ResponseTest {
         responses.put("200", r);
         ResponseChanges rc = new ResponseChanges(requiredResponses);
         List<String> observations = new ArrayList<>();
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ResponseTest {
         responses.put("200", r);
         ResponseChanges rc = new ResponseChanges(requiredResponses, true);
         List<String> observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
     }
 
     @Test
@@ -66,30 +66,30 @@ public class ResponseTest {
         responses.put("200", r);
         ResponseChanges rc = new ResponseChanges(requiredResponses);
         List<String> observations = new ArrayList<>();
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
 
         responses = new LinkedHashMap<>();
         responses.put("201", r);
         rc = new ResponseChanges(requiredResponses);
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
 
         responses = new LinkedHashMap<>();
         responses.put("200", r);
         rc = new ResponseChanges(requiredResponses);
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
 
         responses = new LinkedHashMap<>();
         responses.put("204", r);
         rc = new ResponseChanges(requiredResponses);
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
 
         responses = new LinkedHashMap<>();
         responses.put("200", r);
         rc = new ResponseChanges(requiredResponses);
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
     }
 
     @Test
@@ -103,11 +103,11 @@ public class ResponseTest {
         responses.put("500", r); responses.put("501", r); responses.put("503", r); responses.put("505", r);
         ResponseChanges rc = new ResponseChanges();
         List<String> observations = new ArrayList<>();
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
     }
 
     @Test
@@ -122,11 +122,11 @@ public class ResponseTest {
         responses.put("500", r); responses.put("501", r); responses.put("503", r); responses.put("505", r);
         ResponseChanges rc = new ResponseChanges();
         List<String> observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
         assertFalse(rc.isDiff());
 
     }
@@ -147,10 +147,10 @@ public class ResponseTest {
         List<String> observations = new ArrayList<>();
         assertFalse(rc.isDiff());
 
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "future", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "future", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "existing", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "existing", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true, "future", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true, "future", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true, "existing", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true, "existing", observations));
         assertFalse(rc.isDiff());
     }
 
@@ -167,11 +167,11 @@ public class ResponseTest {
         responses.put("500", r); responses.put("501", r); responses.put("503", r); responses.put("505", r);
         ResponseChanges rc = new ResponseChanges();
         List<String> observations = new ArrayList<>();
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.GET, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true, "scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.DELETE, true, "scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PATCH, true, "scope", observations));
     }
 
     @Test
@@ -230,11 +230,11 @@ public class ResponseTest {
         responses.put("505", r);
         ResponseChanges rc = new ResponseChanges(true);
         List<String> observations = new ArrayList<>();
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
-        assertEquals(true, rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
+        assertTrue(rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
     }
 
     @Test
@@ -298,11 +298,11 @@ public class ResponseTest {
         responses.put("505", r);
         ResponseChanges rc = new ResponseChanges(true);
         List<String> observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
         assertTrue(rc.isDiff());
     }
 
@@ -327,37 +327,37 @@ public class ResponseTest {
         responses.put("201", r201a);
 
         ResponseChanges rc = new ResponseChanges(true);
-        assertEquals(0, rc.diff(r, r, "200", HttpMethod.GET).getBreaking().size());
+        assertTrue(rc.diff(r, r, "200", HttpMethod.GET).getBreaking().isEmpty());
         assertEquals(1, rc.diff(r201, r201a, "201", HttpMethod.GET).getBreaking().size());
         assertEquals(1, rc.diff(r201a, r201, "201", HttpMethod.GET).getBreaking().size());
         assertEquals(2, rc.diff(r201a, r201, "201", HttpMethod.PUT).getBreaking().size());
 
         List<String> observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
         assertTrue(rc.isDiff());
 
         rc = new ResponseChanges(false, true);
-        assertEquals(0, rc.diff(r, r, "200", HttpMethod.GET).getBreaking().size());
-        assertEquals(0, rc.diff(r, r, "200", HttpMethod.GET).getPotentiallyBreaking().size());
+        assertTrue(rc.diff(r, r, "200", HttpMethod.GET).getBreaking().isEmpty());
+        assertTrue(rc.diff(r, r, "200", HttpMethod.GET).getPotentiallyBreaking().isEmpty());
         assertFalse(rc.isDiff());
         assertEquals(1, rc.diff(r201, r201a, "201", HttpMethod.GET).getBreaking().size());
-        assertEquals(0, rc.diff(r201, r201a, "201", HttpMethod.GET).getPotentiallyBreaking().size());
+        assertTrue(rc.diff(r201, r201a, "201", HttpMethod.GET).getPotentiallyBreaking().isEmpty());
         assertEquals(1, rc.diff(r201a, r201, "201", HttpMethod.GET).getBreaking().size());
-        assertEquals(0, rc.diff(r201a, r201, "201", HttpMethod.GET).getPotentiallyBreaking().size());
+        assertTrue(rc.diff(r201a, r201, "201", HttpMethod.GET).getPotentiallyBreaking().isEmpty());
         assertEquals(2, rc.diff(r201a, r201, "201", HttpMethod.PUT).getBreaking().size());
-        assertEquals(0, rc.diff(r201a, r201, "201", HttpMethod.PUT).getPotentiallyBreaking().size());
+        assertTrue(rc.diff(r201a, r201, "201", HttpMethod.PUT).getPotentiallyBreaking().isEmpty());
         assertTrue(rc.isDiff());
 
         observations = new ArrayList<>();
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
-        assertEquals(false, rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.GET, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PUT, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.POST, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.DELETE, true,"scope", observations));
+        assertFalse(rc.checkCompliance(responses, HttpMethod.PATCH, true,"scope", observations));
         assertTrue(rc.isDiff());
 
     }

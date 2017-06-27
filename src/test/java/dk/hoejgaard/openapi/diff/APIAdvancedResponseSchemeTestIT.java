@@ -19,8 +19,8 @@ public class APIAdvancedResponseSchemeTestIT {
     @Test
     public void testAPICompliance() {
         APIDiff api = new APIDiff("elaborate_example_v2c.json", "elaborate_example_v2d.json", Diff.ALL, Maturity.FULL, Versions.SINGLE);
-        assertEquals(0, api.getAddedEndpoints().size());
-        assertEquals(0, api.getMissingEndpoints().size());
+        assertTrue(api.getAddedEndpoints().isEmpty());
+        assertTrue(api.getMissingEndpoints().isEmpty());
         List<ResourceDiff> observables = api.getAllDiffs();
         assertTrue(!observables.isEmpty());
         assertEquals(13, observables.size());
@@ -58,7 +58,7 @@ public class APIAdvancedResponseSchemeTestIT {
         ResourceDiff resourceNew = getResourceDiffByPath(observables, "/account-events-new-resource");
         assertNotNull(resourceNew);
         Map<HttpMethod, OperationDiff> nonCompliant = resourceNew.getNonCompliantOperations();
-        assertEquals(0, nonCompliant.size());
+        assertTrue(nonCompliant.isEmpty());
 
     }
 

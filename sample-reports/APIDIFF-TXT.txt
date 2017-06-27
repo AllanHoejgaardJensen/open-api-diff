@@ -680,6 +680,9 @@ The Elaborated Report for changed or observable Endpoints
                 existing.compliance.for.PUT.response.code.505.observation
                    ! improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                .accounts.{regNo}-{accountNo}.reconciled-transactions.{id}.producer.versioning.non-compliant
+                   + content producers are not following the scheme of having application/hal+json;concept=[projection];v=[version] with a SINGLE version available. The observed changed and added producers are: [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]]
+
 
 
 
@@ -2728,8 +2731,14 @@ The Elaborated Compliance Report
                 * existing.compliance.for.PUT.response.code.505.observation
                    -> improvement suggestion - important status code or headers missing for existing API, potentially breaking clients ahead, see compliance section for further information if full depth is used
 
+                * .accounts.{regNo}-{accountNo}.reconciled-transactions.{id}.producer.versioning.non-compliant
+                   -> content producers are not following the scheme of having application/hal+json;concept=[projection];v=[version] with a SINGLE version available. The observed changed and added producers are: [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]]
+
 
               Recorded changes**
+                * .accounts.{regNo}-{accountNo}.reconciled-transactions.{id}.producer.version.scheme.conflict
+                   -> versions do not overlap correctly or and/do not use default version. Content-types are [common][added] [[application/hal+json]] [[application/hal+json;concept=reconciledtransaction;v=1]] [[]]
+
 
               Recorded Flaws in existing API 
                 * existing.difference.recorded.response.201.missing.special.header.Content-Encoding.for.PUT

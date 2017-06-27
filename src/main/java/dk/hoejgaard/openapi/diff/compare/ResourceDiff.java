@@ -14,13 +14,13 @@ import io.swagger.models.Operation;
  */
 public class ResourceDiff {
 
-    private String pathUrl;
-    private Diff depth;
-    private SortedMap<HttpMethod, Operation> newOperations = new TreeMap<>();
-    private SortedMap<HttpMethod, Operation> missingOperations  = new TreeMap<>();
-    private SortedMap<HttpMethod, OperationDiff> changedOperations  = new TreeMap<>();
-    private SortedMap<String, OperationDiff> nonCompliantExistingOperations  = new TreeMap<>();
-    private SortedMap<String, OperationDiff> nonCompliantFutureOperations  = new TreeMap<>();
+    private final String pathUrl;
+    private final Diff depth;
+    private final SortedMap<HttpMethod, Operation> newOperations = new TreeMap<>();
+    private final SortedMap<HttpMethod, Operation> missingOperations  = new TreeMap<>();
+    private final SortedMap<HttpMethod, OperationDiff> changedOperations  = new TreeMap<>();
+    private final SortedMap<String, OperationDiff> nonCompliantExistingOperations  = new TreeMap<>();
+    private final SortedMap<String, OperationDiff> nonCompliantFutureOperations  = new TreeMap<>();
 
     public ResourceDiff(Diff depth, String pathUrl) {
         this.depth = depth;

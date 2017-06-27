@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -60,7 +61,7 @@ public class SimpleSwaggerDiffTestVT {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assertTrue(newEndpoints.size() > 0);
+        assertFalse(newEndpoints.isEmpty());
         assertTrue(missingEndpoints.isEmpty());
         assertTrue(changedEndPoints.isEmpty());
         assertTrue(Files.exists(Paths.get(fileName)));
@@ -83,7 +84,7 @@ public class SimpleSwaggerDiffTestVT {
             e.printStackTrace();
         }
         assertTrue(newEndpoints.isEmpty());
-        assertTrue(missingEndpoints.size() > 0);
+        assertFalse(missingEndpoints.isEmpty());
         assertTrue(changedEndPoints.isEmpty());
         assertTrue(Files.exists(Paths.get(fileName)));
     }
@@ -144,7 +145,9 @@ public class SimpleSwaggerDiffTestVT {
     public void testChangedEndpoint() {
         APIDiff api = new APIDiff(PETSTORE_LOCAL_V2_DOC, "petstore_v3.json", Diff.LAISSEZ_FAIRE);
         List<ResourceDiff> changedEndPoints = api.getChangedResourceDiffs();
-        assertFalse(changedEndPoints.size() == 1);
+        assertEquals(1, api.getMissingEndpoints().size());
+        assertEquals(1, api.getAddedEndpoints().size());
+        assertEquals(0, api.getChangedResourceDiffs().size());
     }
 
 }

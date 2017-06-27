@@ -1,8 +1,10 @@
 package dk.hoejgaard.openapi.diff;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -154,10 +156,11 @@ public final class OpenAPIDiff {
                 System.out.println("Creating dir = " + dir);
                 logger.info("Creating dir = {}", dir);
             }
-            try (FileWriter fw = new FileWriter(reportFolder + "/" + reportFileName)) {
-                fw.write(content);
-                fw.close();
-            }
+            OutputStreamWriter fw = new OutputStreamWriter(
+                new FileOutputStream(reportFolder + "/" + reportFileName),
+                Charset.forName("UTF-8").newEncoder());
+            fw.write(content);
+            fw.close();
         } catch (IOException e) {
             System.out.println("A problem occurred while attempting to write file: " + reportFolder + "/" + reportFileName);
             logger.error("A problem occurred while attempting to write file: {}/{} ", reportFolder, reportFileName);
@@ -252,32 +255,32 @@ public final class OpenAPIDiff {
         System.out.println("\n-------------------------------------------------------------------\n");
         System.out.println("\nPlease note that only 3 file extensions are currently supported (txt, md and html)\n");
         System.out.println("\nThe Attempted parameters were:");
-        System.out.println("   Existing API file: " +  args[0]);
-        System.out.println("   Candidate future API file: " +  args[1]);
+        System.out.println("   Existing API file: " + args[0]);
+        System.out.println("   Candidate future API file: " + args[1]);
         if (args.length > 2 && args.length < 6) {
             if (isDiffArgument(args[2])) {
-                System.out.println("     Depth: " +  args[2]);
+                System.out.println("     Depth: " + args[2]);
                 if (args.length > 3) {
-                    System.out.println("     Maturity: " +  args[3]);
+                    System.out.println("     Maturity: " + args[3]);
                 }
                 if (args.length > 4) {
-                    System.out.println("     Versions: " +  args[4]);
+                    System.out.println("     Versions: " + args[4]);
                 }
             } else {
-                System.out.println("   Report folder: " +  args[2]);
+                System.out.println("   Report folder: " + args[2]);
                 if (args.length > 3) {
-                    System.out.println("   Reports Filename: " +  args[3]);
+                    System.out.println("   Reports Filename: " + args[3]);
                 }
             }
         }
         if (args.length > 5 && args.length < 8) {
-            System.out.println("   Report folder: " +  args[2]);
-            System.out.println("   Reports Filename: " +  args[3]);
+            System.out.println("   Report folder: " + args[2]);
+            System.out.println("   Reports Filename: " + args[3]);
             if (isDiffArgument(args[4])) {
-                System.out.println("     Depth: " +  args[4]);
-                System.out.println("     Maturity: " +  args[5]);
+                System.out.println("     Depth: " + args[4]);
+                System.out.println("     Maturity: " + args[5]);
                 if (args.length > 6) {
-                    System.out.println("     Versions: " +  args[6]);
+                    System.out.println("     Versions: " + args[6]);
                 }
             }
         }

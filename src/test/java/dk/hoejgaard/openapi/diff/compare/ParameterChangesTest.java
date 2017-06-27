@@ -138,16 +138,16 @@ public class ParameterChangesTest {
         fdp.setMaxLength(255);
         fdp.setAllowEmptyValue(true);
         ParameterChanges changes = new ParameterChanges(cp, fdp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
         assertEquals(3, changes.getPotentiallyBreaking().get("cookie.preference").size());
         assertEquals(3, changes.getChanges().get("cookie.preference").size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getFlawedDefines().isEmpty());
 
         fdp.setMaxLength(30);
         changes = new ParameterChanges(cp, fdp, Diff.ALL);
@@ -172,20 +172,20 @@ public class ParameterChangesTest {
         param.setType("string");
         ParameterChanges changes = new ParameterChanges(param, param, Diff.ALL);
 
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(false, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
-        assertEquals(false, changes.isMaximumChanged());
-        assertEquals(false, changes.isMinimumChanged());
-        assertEquals(false, changes.isMinimumLengthChanged());
-        assertEquals(false, changes.isMaximumLengthChanged());
-        assertEquals(false, changes.isPatternChanged());
-        assertEquals(false, changes.isAllowEmptyChanged());
-        assertEquals(false, changes.isDefaultChanged());
-        assertEquals(false, changes.isTypeChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertFalse(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
+        assertFalse(changes.isMaximumChanged());
+        assertFalse(changes.isMinimumChanged());
+        assertFalse(changes.isMinimumLengthChanged());
+        assertFalse(changes.isMaximumLengthChanged());
+        assertFalse(changes.isPatternChanged());
+        assertFalse(changes.isAllowEmptyChanged());
+        assertFalse(changes.isDefaultChanged());
+        assertFalse(changes.isTypeChanged());
 
 
         PathParameter newParam = new PathParameter();
@@ -193,45 +193,45 @@ public class ParameterChangesTest {
         newParam.setDescription("a simple test pathParam for test purposes");
 
         changes = new ParameterChanges(param, newParam, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
 
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
-        assertEquals(true, changes.isTypeChanged());
-        assertEquals(true, changes.isMinimumLengthChanged());
-        assertEquals(true, changes.isMaximumLengthChanged());
-        assertEquals(true, changes.isAllowEmptyChanged());
-        assertEquals(true, changes.isDefaultChanged());
-        assertEquals(true, changes.isPatternChanged());
-        assertEquals(true, changes.isMaximumChanged());
-        assertEquals(true, changes.isMinimumChanged());
-        assertEquals(true, changes.isAccessChanged());
-        assertEquals(true, changes.isFormatChanged());
+        assertTrue(changes.isTypeChanged());
+        assertTrue(changes.isMinimumLengthChanged());
+        assertTrue(changes.isMaximumLengthChanged());
+        assertTrue(changes.isAllowEmptyChanged());
+        assertTrue(changes.isDefaultChanged());
+        assertTrue(changes.isPatternChanged());
+        assertTrue(changes.isMaximumChanged());
+        assertTrue(changes.isMinimumChanged());
+        assertTrue(changes.isAccessChanged());
+        assertTrue(changes.isFormatChanged());
 
         newParam.setName("testPathParam");
         newParam.setDescription("a simple test pathParam for test purposes");
         changes = new ParameterChanges(param, newParam, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
-        assertEquals(true, changes.isTypeChanged());
-        assertEquals(true, changes.isMinimumLengthChanged());
-        assertEquals(true, changes.isMaximumLengthChanged());
-        assertEquals(true, changes.isAllowEmptyChanged());
-        assertEquals(true, changes.isDefaultChanged());
-        assertEquals(true, changes.isPatternChanged());
-        assertEquals(true, changes.isMaximumChanged());
-        assertEquals(true, changes.isMinimumChanged());
-        assertEquals(true, changes.isAccessChanged());
-        assertEquals(true, changes.isFormatChanged());
+        assertTrue(changes.isTypeChanged());
+        assertTrue(changes.isMinimumLengthChanged());
+        assertTrue(changes.isMaximumLengthChanged());
+        assertTrue(changes.isAllowEmptyChanged());
+        assertTrue(changes.isDefaultChanged());
+        assertTrue(changes.isPatternChanged());
+        assertTrue(changes.isMaximumChanged());
+        assertTrue(changes.isMinimumChanged());
+        assertTrue(changes.isAccessChanged());
+        assertTrue(changes.isFormatChanged());
 
         assertEquals(8, changes.getPotentiallyBreaking().get("path.testPathParam").size());
         assertEquals(8, changes.getChanges().get("path.testPathParam").size());
@@ -244,12 +244,12 @@ public class ParameterChangesTest {
 
         changes = new ParameterChanges(param, newParam, Diff.ALL);
         assertEquals(1, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
-        assertEquals(true, changes.isDefaultChanged());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
+        assertTrue(changes.isDefaultChanged());
 
         assertEquals(8, changes.getPotentiallyBreaking().get("path.testPathParam").size());
         assertEquals(8, changes.getChanges().get("path.testPathParam").size());
@@ -272,37 +272,37 @@ public class ParameterChangesTest {
 
 
         changes = new ParameterChanges(param, newParam, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(false, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
-        assertEquals(false, changes.isDefaultChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertFalse(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
+        assertFalse(changes.isDefaultChanged());
 
-        assertEquals(false, changes.isTypeChanged());
-        assertEquals(false, changes.isMinimumLengthChanged());
-        assertEquals(false, changes.isMaximumLengthChanged());
-        assertEquals(false, changes.isAllowEmptyChanged());
-        assertEquals(false, changes.isDefaultChanged());
-        assertEquals(false, changes.isPatternChanged());
-        assertEquals(false, changes.isMaximumChanged());
-        assertEquals(false, changes.isMinimumChanged());
-        assertEquals(false, changes.isAccessChanged());
-        assertEquals(false, changes.isFormatChanged());
+        assertFalse(changes.isTypeChanged());
+        assertFalse(changes.isMinimumLengthChanged());
+        assertFalse(changes.isMaximumLengthChanged());
+        assertFalse(changes.isAllowEmptyChanged());
+        assertFalse(changes.isDefaultChanged());
+        assertFalse(changes.isPatternChanged());
+        assertFalse(changes.isMaximumChanged());
+        assertFalse(changes.isMinimumChanged());
+        assertFalse(changes.isAccessChanged());
+        assertFalse(changes.isFormatChanged());
 
-        assertEquals(0, changes.getPotentiallyBreaking().size());
-        assertEquals(0, changes.getChanges().size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getPotentiallyBreaking().isEmpty());
+        assertTrue(changes.getChanges().isEmpty());
+        assertTrue(changes.getFlawedDefines().isEmpty());
 
         param.setType(null);
         newParam.setType("aType");
         changes = new ParameterChanges(param, newParam, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(true, changes.isTypeChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertTrue(changes.isTypeChanged());
         assertEquals(1, changes.getPotentiallyBreaking().size());
         assertEquals(1, changes.getChanges().size());
         assertEquals(1, changes.getFlawedDefines().size());
@@ -310,11 +310,11 @@ public class ParameterChangesTest {
         param.setDefaultValue(null);
         newParam.setDefaultValue("333");
         changes = new ParameterChanges(param, newParam, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(true, changes.isDefaultChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertTrue(changes.isDefaultChanged());
         assertEquals(1, changes.getPotentiallyBreaking().size());
         assertEquals(1, changes.getChanges().size());
         assertEquals(1, changes.getFlawedDefines().size());
@@ -338,16 +338,16 @@ public class ParameterChangesTest {
         fqp.setRequired(true);
         fqp.setAllowEmptyValue(false);
         ParameterChanges changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(true, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertTrue(changes.isRequiredChanged());
 
         assertEquals(1, changes.getPotentiallyBreaking().get("query.select").size());
         assertEquals(1, changes.getChanges().get("query.select").size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getFlawedDefines().isEmpty());
 
         fqp = new QueryParameter();
         fqp.setName("select");
@@ -357,26 +357,26 @@ public class ParameterChangesTest {
         fqp.setRequired(false);
         fqp.setAllowEmptyValue(false);
         changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(false, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertFalse(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
-        assertEquals(0, changes.getPotentiallyBreaking().size());
-        assertEquals(0, changes.getChanges().size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getPotentiallyBreaking().isEmpty());
+        assertTrue(changes.getChanges().isEmpty());
+        assertTrue(changes.getFlawedDefines().isEmpty());
 
         fqp.setPattern(null);
         fqp.setRequired(false);
         fqp.setAllowEmptyValue(false);
         changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(true, changes.isPatternChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertTrue(changes.isPatternChanged());
 
         assertEquals(1, changes.getPotentiallyBreaking().size());
         assertEquals(1, changes.getChanges().size());
@@ -392,11 +392,11 @@ public class ParameterChangesTest {
         fqp.setRequired(false);
         fqp.setAllowEmptyValue(false);
         changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(true, changes.isPatternChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertTrue(changes.isPatternChanged());
         assertEquals(1, changes.getPotentiallyBreaking().size());
         assertEquals(1, changes.getChanges().size());
         assertEquals(1, changes.getFlawedDefines().size());
@@ -420,16 +420,16 @@ public class ParameterChangesTest {
         fqp.setRequired(true);
         fqp.setAllowEmptyValue(false);
         ParameterChanges changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(true, changes.containsDiff());
-        assertEquals(true, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertTrue(changes.containsDiff());
+        assertTrue(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
         assertEquals(1, changes.getPotentiallyBreaking().get("form.firstName").size());
         assertEquals(1, changes.getChanges().get("form.firstName").size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getFlawedDefines().isEmpty());
     }
 
 
@@ -451,16 +451,16 @@ public class ParameterChangesTest {
         fqp.setRequired(true);
         fqp.setAllowEmptyValue(false);
         ParameterChanges changes = new ParameterChanges(qp, fqp, Diff.ALL);
-        assertEquals(0, changes.getBreaking().size());
-        assertEquals(0, changes.getAddedParams().size());
-        assertEquals(0, changes.getRemovedParams().size());
-        assertEquals(false, changes.containsDiff());
-        assertEquals(false, changes.isDescriptionChanged());
-        assertEquals(false, changes.isRequiredChanged());
+        assertTrue(changes.getBreaking().isEmpty());
+        assertTrue(changes.getAddedParams().isEmpty());
+        assertTrue(changes.getRemovedParams().isEmpty());
+        assertFalse(changes.containsDiff());
+        assertFalse(changes.isDescriptionChanged());
+        assertFalse(changes.isRequiredChanged());
 
-        assertEquals(0, changes.getPotentiallyBreaking().size());
-        assertEquals(0, changes.getChanges().size());
-        assertEquals(0, changes.getFlawedDefines().size());
+        assertTrue(changes.getPotentiallyBreaking().isEmpty());
+        assertTrue(changes.getChanges().isEmpty());
+        assertTrue(changes.getFlawedDefines().isEmpty());
 
         changes.addBreakingChange("breaking", "breaking 1");
         changes.addBreakingChange("breaking", "breaking 1");

@@ -34,7 +34,7 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
         common.add("application/hal+json;concept=account;v=4");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
         common.add("application/hal+json;concept=account;v=4");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=3");
         common.add("application/hal+json;concept=account;v=4");
         common.add("application/hal+json;concept=account;v=5");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -135,7 +135,19 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionSingleMissingAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -147,7 +159,19 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertTrue(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertTrue(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionDualMissingAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        removed.add("application/hal;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertTrue(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -158,7 +182,18 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=1");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionSingleNothingAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -169,7 +204,18 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=1");
-        assertTrue(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertTrue(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionDoubleNothingAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        assertTrue(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -181,7 +227,19 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=1");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionDoubleNothingAdded2() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -194,7 +252,20 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=1");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionDoubleNothingAdded3() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -206,7 +277,19 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=1");
         common.add("application/hal+json;concept=account;v=2");
-        assertTrue(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertTrue(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionTripleNothingAdded2() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.TRIPLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertTrue(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -219,7 +302,20 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=1");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentCosumerParadigmVersionTripleNothingAdded3() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.TRIPLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -233,7 +329,21 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
         common.add("application/hal+json;concept=account;v=4");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionTripleNothingAdded4() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.TRIPLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        common.add("application/json;concept=accountupdate;v=4");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -248,7 +358,22 @@ public class OperationDiffTest {
         common.add("application/hal+json;concept=account;v=3");
         common.add("application/hal+json;concept=account;v=4");
         common.add("application/hal+json;concept=account;v=6");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckContentConsumerParadigmVersionTripleNothingAdded5() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.TRIPLE);
+        List<String> added = new ArrayList<>();
+        List<String> removed = new ArrayList<>();
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=1");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        common.add("application/json;concept=accountupdate;v=4");
+        common.add("application/json;concept=accountupdate;v=6");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -262,7 +387,21 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertTrue(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertTrue(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionDoubleNonSequentialVersionAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=6");
+        added.add("application/json;concept=accountupdate;v=7");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertTrue(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -277,7 +416,22 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionSingleSequentialVersionAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=5");
+        added.add("application/json;concept=accountupdate;v=4");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -292,7 +446,22 @@ public class OperationDiffTest {
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
         common.add("application/hal+json;concept=account;v=3");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionDualSequentialVersionAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=5");
+        added.add("application/json;concept=accountupdate;v=4");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        common.add("application/json;concept=accountupdate;v=3");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -306,7 +475,21 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionSingleNonSequentialVersionsAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=3");
+        added.add("application/json;concept=accountupdate;v=4");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -320,7 +503,21 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=2");
-        assertFalse(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertFalse(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionSingleSequentialVersionsAdded() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=3");
+        added.add("application/json;concept=accountupdate;v=5");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=1");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=2");
+        assertFalse(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -333,7 +530,20 @@ public class OperationDiffTest {
         List<String> common = new ArrayList<>();
         common.add("application/hal+json");
         common.add("application/hal+json;concept=account;v=4");
-        assertTrue(od.checkContentParadigm(common, added, removed, "unit test"));
+        assertTrue(od.checkContentProducerParadigm(common, added, removed, "unit test"));
+    }
+
+    @Test
+    public void testCheckConsumerContentParadigmVersionSingleNonSequentialVersionRemoved() {
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        List<String> added = new ArrayList<>();
+        added.add("application/json;concept=accountupdate;v=5");
+        List<String> removed = new ArrayList<>();
+        removed.add("application/json;concept=accountupdate;v=2");
+        List<String> common = new ArrayList<>();
+        common.add("application/json");
+        common.add("application/json;concept=accountupdate;v=4");
+        assertTrue(od.checkContentConsumerParadigm(common, added, removed, "unit test"));
     }
 
     @Test
@@ -363,9 +573,70 @@ public class OperationDiffTest {
         assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
         assertEquals(1, odr.getMissingContentTypes().size());
         assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+
         assertTrue(odr.isDiff());
         assertFalse(odr.isBroke());
         assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        od = new OperationDiff(Diff.BREAKING, Maturity.FULL, Versions.SINGLE);
+        odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(1, odr.getAddedContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals(1, odr.getMissingContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertFalse(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertFalse(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        od = new OperationDiff(Diff.POTENTIALLY_BREAKING, Maturity.FULL, Versions.SINGLE);
+        odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(1, odr.getAddedContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals(1, odr.getMissingContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        od = new OperationDiff(Diff.LAISSEZ_FAIRE, Maturity.FULL, Versions.SINGLE);
+        odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(1, odr.getAddedContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals(1, odr.getMissingContentTypes().size());
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
     }
 
     @Test
@@ -426,9 +697,158 @@ public class OperationDiffTest {
     }
 
     @Test
+    public void testMissingContentTypesSingle() {
+        Operation opr = new Operation();
+        List<String> producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=1");
+        producers.add("application/hal+json;concept=account;v=2");
+        producers.add("application/hal+json;concept=account;v=3");
+        opr.setProduces(producers);
+        List<String> consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=3");
+        consumers.add("application/json");
+        opr.setConsumes(consumers);
+
+        Operation oprNew = new Operation();
+        producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=4");
+        oprNew.setProduces(producers);
+
+        consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=4");
+        consumers.add("application/json");
+        oprNew.setConsumes(consumers);
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        OperationDiff odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(2, odr.getAddedContentTypes().size()); //1 consumer and 1 producer added
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals("application/json;concept=accountupdate;v=4", odr.getAddedContentTypes().get(1));
+        assertEquals(4, odr.getMissingContentTypes().size()); //3 producers and 1 consumer
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+        assertEquals("application/hal+json;concept=account;v=2", odr.getMissingContentTypes().get(1));
+        assertEquals("application/hal+json;concept=account;v=3", odr.getMissingContentTypes().get(2));
+        assertEquals("application/json;concept=accountupdate;v=3", odr.getMissingContentTypes().get(3));
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        assertEquals(3, od.getChanges().size());
+        assertEquals(3, od.getPotentiallyBreakingChanges().size());
+    }
+
+    @Test
+    public void testMissingContentTypesDouble() {
+        Operation opr = new Operation();
+        List<String> producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=1");
+        producers.add("application/hal+json;concept=account;v=2");
+        producers.add("application/hal+json;concept=account;v=3");
+        opr.setProduces(producers);
+        List<String> consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=3");
+        consumers.add("application/json");
+        opr.setConsumes(consumers);
+
+        Operation oprNew = new Operation();
+        producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=4");
+        oprNew.setProduces(producers);
+
+        consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=4");
+        consumers.add("application/json");
+        oprNew.setConsumes(consumers);
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.DOUBLE);
+        OperationDiff odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(2, odr.getAddedContentTypes().size()); //1 consumer and 1 producer added
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals("application/json;concept=accountupdate;v=4", odr.getAddedContentTypes().get(1));
+        assertEquals(4, odr.getMissingContentTypes().size()); //3 producers and 1 consumer
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+        assertEquals("application/hal+json;concept=account;v=2", odr.getMissingContentTypes().get(1));
+        assertEquals("application/hal+json;concept=account;v=3", odr.getMissingContentTypes().get(2));
+        assertEquals("application/json;concept=accountupdate;v=3", odr.getMissingContentTypes().get(3));
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        assertEquals(3, od.getChanges().size());
+        assertEquals(3, od.getPotentiallyBreakingChanges().size());
+    }
+    @Test
+    public void testMissingContentTypesTriple() {
+        Operation opr = new Operation();
+        List<String> producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=1");
+        producers.add("application/hal+json;concept=account;v=2");
+        producers.add("application/hal+json;concept=account;v=3");
+        opr.setProduces(producers);
+        List<String> consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=3");
+        consumers.add("application/json");
+        opr.setConsumes(consumers);
+
+        Operation oprNew = new Operation();
+        producers = new ArrayList<>();
+        producers.add("application/hal+json");
+        producers.add("application/hal+json;concept=account;v=4");
+        oprNew.setProduces(producers);
+
+        consumers = new ArrayList<>();
+        consumers.add("application/json;concept=accountupdate;v=4");
+        consumers.add("application/json");
+        oprNew.setConsumes(consumers);
+        OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.TRIPLE);
+        OperationDiff odr = od.getChangedContentTypes(opr, oprNew, "unit test");
+        assertEquals(2, odr.getAddedContentTypes().size()); //1 consumer and 1 producer added
+        assertEquals("application/hal+json;concept=account;v=4", odr.getAddedContentTypes().get(0));
+        assertEquals("application/json;concept=accountupdate;v=4", odr.getAddedContentTypes().get(1));
+        assertEquals(4, odr.getMissingContentTypes().size()); //3 producers and 1 consumer
+        assertEquals("application/hal+json;concept=account;v=1", odr.getMissingContentTypes().get(0));
+        assertEquals("application/hal+json;concept=account;v=2", odr.getMissingContentTypes().get(1));
+        assertEquals("application/hal+json;concept=account;v=3", odr.getMissingContentTypes().get(2));
+        assertEquals("application/json;concept=accountupdate;v=3", odr.getMissingContentTypes().get(3));
+        assertTrue(od.isDiff());
+        assertFalse(od.isBroke());
+        assertTrue(od.isChanged());
+        assertTrue(od.isPotentiallyBroke());
+        assertFalse(od.isCompliant());
+
+        assertTrue(odr.isDiff());
+        assertFalse(odr.isBroke());
+        assertTrue(odr.isPotentiallyBroke());
+        assertTrue(odr.isChanged());
+        assertFalse(odr.isCompliant());
+
+        assertEquals(3, od.getChanges().size());
+        assertEquals(3, od.getPotentiallyBreakingChanges().size());
+    }
+
+    @Test
     public void testAddParameter() {
         Operation opr = new Operation();
-        assertEquals(0, opr.getParameters().size());
+        assertTrue(opr.getParameters().isEmpty());
 
         Operation oprNew = new Operation();
         Parameter parameter = new HeaderParameter();
@@ -438,8 +858,8 @@ public class OperationDiffTest {
 
         OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
         assertEquals(1, od.getAddedParameters(opr, oprNew).size());
-        assertEquals(0, od.getRemovedParameters(opr, oprNew).size());
-        assertEquals(0, od.getCommonParameters(opr, oprNew).size());
+        assertTrue(od.getRemovedParameters(opr, oprNew).isEmpty());
+        assertTrue(od.getCommonParameters(opr, oprNew).isEmpty());
         assertEquals("newParameter", od.getAddedParameters(opr, oprNew).get(0).getName());
 
     }
@@ -461,7 +881,7 @@ public class OperationDiffTest {
 
         OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
         assertEquals(1, od.getAddedParameters(opr, oprNew).size());
-        assertEquals(0, od.getRemovedParameters(opr, oprNew).size());
+        assertTrue(od.getRemovedParameters(opr, oprNew).isEmpty());
         assertEquals(1, od.getCommonParameters(opr, oprNew).size());
         assertEquals("newParameter", od.getAddedParameters(opr, oprNew).get(0).getName());
     }
@@ -483,7 +903,7 @@ public class OperationDiffTest {
         OperationDiff od = new OperationDiff(Diff.ALL, Maturity.FULL, Versions.SINGLE);
         assertEquals(1, od.getAddedParameters(opr, oprNew).size());
         assertEquals(1, od.getRemovedParameters(opr, oprNew).size());
-        assertEquals(0, od.getCommonParameters(opr, oprNew).size());
+        assertTrue(od.getCommonParameters(opr, oprNew).isEmpty());
         assertEquals("newParameter", od.getAddedParameters(opr, oprNew).get(0).getName());
     }
 
@@ -593,6 +1013,65 @@ public class OperationDiffTest {
         assertTrue(od.getExistingCompliance().getImprovements().isEmpty());
         assertTrue(od.getExistingCompliance().getChanges().isEmpty());
     }
+    @Test
+    public void testRemovedResponseCompliance() {
+        Response resp = new Response();
+        Operation opr = new Operation();
+        opr.addResponse("200", resp);
+        opr.addResponse("301", resp);
+        opr.addResponse("307", resp);
+        opr.addResponse("415", resp);
+        opr.addResponse("429", resp);
+        opr.addResponse("500", resp);
+        assertEquals(6, opr.getResponses().size());
+        HeaderParameter parameter = new HeaderParameter();
+        parameter.setName("X-Log-Token");
+        opr.addParameter(parameter);
+
+        Response respNew = new Response();
+        Operation oprNew = new Operation();
+        oprNew.addResponse("200", respNew);
+        oprNew.addResponse("404", respNew);
+        assertEquals(2, oprNew.getResponses().size());
+
+        oprNew.addParameter(parameter);
+
+        Swagger swagger = new Swagger();
+        Map<String, Model> definitions = new LinkedHashMap<>();
+        Model sample = new RefModel();
+        Map<String, Property> pSample = new LinkedHashMap<>();
+        sample.setProperties(pSample);
+        definitions.put("sample", sample);
+        swagger.setDefinitions(definitions);
+        OperationDiff od = new OperationDiff(swagger, swagger, Diff.ALL, Maturity.FULL, Versions.SINGLE);
+
+        od = od.getChangedResponses(opr, oprNew, HttpMethod.GET);
+        assertFalse(od.getAddedResponses().isEmpty());
+        assertFalse(od.getBreakingChanges().isEmpty());
+        assertFalse(od.getDesignFlaws().isEmpty());
+        assertFalse(od.getBreakingChanges().isEmpty());
+
+        od = new OperationDiff(swagger, swagger, Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        od.checkResponseCompliance(opr, HttpMethod.GET, false, "existing");
+        assertTrue(od.getDesignFlaws().isEmpty());
+        assertTrue(od.getExistingFlaws().isEmpty());
+        assertFalse(od.getExistingCompliance().getImprovements().isEmpty());
+        assertTrue(od.getExistingCompliance().getChanges().isEmpty());
+
+        od = new OperationDiff(swagger, swagger, Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        od.checkResponseCompliance(oprNew, HttpMethod.GET, true, "future");
+        assertFalse(od.getDesignFlaws().isEmpty());
+        assertTrue(od.getExistingFlaws().isEmpty());
+        assertTrue(od.getExistingCompliance().getImprovements().isEmpty());
+        assertTrue(od.getExistingCompliance().getChanges().isEmpty());
+
+        od = new OperationDiff(swagger, swagger, Diff.ALL, Maturity.FULL, Versions.SINGLE);
+        od.checkResponseCompliance(oprNew, HttpMethod.PUT, true, "future");
+        assertFalse(od.getDesignFlaws().isEmpty());
+        assertTrue(od.getExistingFlaws().isEmpty());
+        assertTrue(od.getExistingCompliance().getImprovements().isEmpty());
+        assertTrue(od.getExistingCompliance().getChanges().isEmpty());
+    }
 
     @Test
     public void testRequestHeaderCompliance() {
@@ -639,6 +1118,4 @@ public class OperationDiffTest {
         assertTrue(od.getExistingFlaws().isEmpty());
         assertFalse(od.getExistingCompliance().getBreakingChanges().isEmpty());
     }
-
-
 }

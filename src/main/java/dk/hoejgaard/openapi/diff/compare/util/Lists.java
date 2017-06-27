@@ -20,14 +20,14 @@ import java.util.List;
  *
  * @param <T> elements
  */
-public class Lists<T> {
+public final class Lists<T> {
 
-    private List<T> added;
-    private List<T> removed;
-    private List<T> common;
+    private List<T> added = new ArrayList<>();
+    private List<T> removed = new ArrayList<>();
+    private final List<T> common = new ArrayList<>();
 
     private Lists() {
-        common = new ArrayList<>();
+        //empty
     }
 
     /**
@@ -40,17 +40,14 @@ public class Lists<T> {
      */
     public static <T> Lists<T> diff(List<T> reference, List<T> subject) {
         Lists<T> elements = new Lists<>();
-        elements.removed = new ArrayList<>();
-        elements.added = new ArrayList<>();
         if (isSimpleInput(reference, subject, elements)) {
-            //elements.added = new ArrayList<>();
             return elements;
         } else {
             elements.added.addAll(subject);
         }
         for (int i = 0; i < reference.size(); i++) {
             T element = reference.get(i);
-            if (subject.contains(element) && (reference.contains(element))) {
+            if (subject.contains(element) && reference.contains(element)) {
                 elements.added.remove(element);
                 elements.common.add(element);
             } else if (reference.contains(element) && !subject.contains(element)) {

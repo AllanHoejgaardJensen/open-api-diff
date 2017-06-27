@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 public class ParameterDiffTest{
@@ -52,9 +53,9 @@ public class ParameterDiffTest{
         Operation operation = operations.get(HttpMethod.GET);
         List<Parameter> parameters = operation.getParameters();
         ParameterDiff pd = new ParameterDiff(models, models, Diff.BREAKING, parameters, parameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
     }
 
     @Test
@@ -80,16 +81,16 @@ public class ParameterDiffTest{
 
         ParameterDiff pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
         assertEquals(1, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         HeaderParameter hp = new HeaderParameter();
         hp.setName("TestingHeader");
         parameters.add(hp);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
 
         hp.setName("TestingHeaderChanged");
@@ -98,31 +99,31 @@ public class ParameterDiffTest{
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
         assertEquals(1, pd.getAddedParams().size());
         assertEquals(1, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         hp.setName("TestingHeader");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         hp.setRequired(false);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         hp.setRequired(true);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
         assertEquals(1, pd.getChangedParams().size());
 
         hp.setRequired(false);
         hp.setDescription(hp.getDescription() + " A Change");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
         assertEquals(1, pd.getChangedParams().size());
     }
 
@@ -144,9 +145,9 @@ public class ParameterDiffTest{
         List<Parameter> changedParameters = changedOperation.getParameters();
 
         ParameterDiff pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         //parameters
         Model changedModel = changedModels.get("TransactionUpdate");
@@ -163,8 +164,8 @@ public class ParameterDiffTest{
 
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
         assertEquals(1, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
-        assertEquals(0, pd.getChangedProperties().size());
+        assertTrue(pd.getMissingProps().isEmpty());
+        assertTrue(pd.getChangedProperties().isEmpty());
 
 
         //properties - pattern
@@ -180,73 +181,73 @@ public class ParameterDiffTest{
         properties.put(property.getName(), property);
 
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedParams().size());
-        assertEquals(0, pd.getMissingParams().size());
-        assertEquals(0, pd.getChangedParams().size());
+        assertTrue(pd.getAddedParams().isEmpty());
+        assertTrue(pd.getMissingParams().isEmpty());
+        assertTrue(pd.getChangedParams().isEmpty());
 
         changedProperty.setPattern("[a-Z]{3}");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
         property.setPattern("[a-Z]{3}");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
-        assertEquals(0, pd.getChangedProperties().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
+        assertTrue(pd.getChangedProperties().isEmpty());
 
         //properties - type
         changedProperty.setType("number");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
         changedProperty.setType("string");
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
-        assertEquals(0, pd.getChangedProperties().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
+        assertTrue(pd.getChangedProperties().isEmpty());
 
         //properties - minLength
         changedProperty.setMinLength(property.getMinLength() + 1);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
         changedProperty.setMinLength(property.getMinLength() - 1);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
         changedProperty.setMinLength(property.getMinLength());
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
-        assertEquals(0, pd.getChangedProperties().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
+        assertTrue(pd.getChangedProperties().isEmpty());
 
         //properties - maxLength
         changedProperty.setMaxLength(property.getMaxLength() + 1);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
 
         changedProperty.setMaxLength(property.getMaxLength() - 1);
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
         assertEquals(1, pd.getChangedProperties().size());
 
         changedProperty.setMaxLength(property.getMaxLength());
         pd = new ParameterDiff(models, changedModels, Diff.BREAKING, parameters, changedParameters);
-        assertEquals(0, pd.getAddedProps().size());
-        assertEquals(0, pd.getMissingProps().size());
-        assertEquals(0, pd.getChangedProperties().size());
+        assertTrue(pd.getAddedProps().isEmpty());
+        assertTrue(pd.getMissingProps().isEmpty());
+        assertTrue(pd.getChangedProperties().isEmpty());
     }
 
 }
