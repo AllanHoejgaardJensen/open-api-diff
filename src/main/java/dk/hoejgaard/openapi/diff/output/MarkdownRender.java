@@ -166,7 +166,7 @@ public class MarkdownRender implements OutputRender {
         }
         for (Map.Entry<String, List<String>> entry : breaks.entrySet()) {
             List<String> incidents = entry.getValue();
-            sb.append(" ` > ` ").append(formatBunch(mdOut(entry.getKey()).trim()));
+            sb.append(" ` > ` ").append(formatBunch(Formatter.out(entry.getKey()).trim()));
             for (String incident : incidents) {
                 sb.append(" | **").append(incident.trim()).append("** \n");
             }
@@ -191,9 +191,9 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` > ` ");
             }
             if (observation.contains("existing.compliance")) {
-                sb.append(mdOutX(observation)).append(" missing");
+                sb.append(Formatter.outX(observation)).append(" missing");
             } else {
-                sb.append(formatBunch(mdOut(observation).trim()));
+                sb.append(formatBunch(Formatter.out(observation).trim()));
             }
 
             for (String incident : incidents) {
@@ -239,7 +239,7 @@ public class MarkdownRender implements OutputRender {
             sb.append("  `   no observations    `\n");
         }
         for (Map.Entry<String, List<String>> entry : flaws.entrySet()) {
-            sb.append(" ` > ` ").append(formatBunch(mdOut(entry.getKey()).trim()));
+            sb.append(" ` > ` ").append(formatBunch(Formatter.out(entry.getKey()).trim()));
             for (String incident : entry.getValue()) {
                 sb.append(" | **").append(incident.trim()).append("** \n");
             }
@@ -268,7 +268,7 @@ public class MarkdownRender implements OutputRender {
         }
         for (Map.Entry<String, List<String>> entry : breaks.entrySet()) {
             List<String> incidents = entry.getValue();
-            sb.append(" ` > ` ").append(formatBunch(mdOut(entry.getKey()).trim()));
+            sb.append(" ` > ` ").append(formatBunch(Formatter.out(entry.getKey()).trim()));
             for (String incident : incidents) {
                 sb.append(" | **").append(incident.trim()).append("** \n");
             }
@@ -293,9 +293,9 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` > ` ");
             }
             if (observation.contains("existing.compliance")) {
-                sb.append(mdOutX(observation)).append(" missing");
+                sb.append(Formatter.outX(observation)).append(" missing");
             } else {
-                sb.append(formatBunch(mdOut(observation).trim()));
+                sb.append(formatBunch(Formatter.out(observation).trim()));
             }
 
             for (String incident : incidents) {
@@ -326,9 +326,9 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` > ` ");
             }
             if (observation.contains("existing")) {
-                sb.append(mdOutX(observation)).append(" missing");
+                sb.append(Formatter.outX(observation)).append(" missing");
             } else {
-                sb.append(formatBunch(mdOut(observation)).trim());
+                sb.append(formatBunch(Formatter.out(observation)).trim());
             }
 
             for (String incident : incidents) {
@@ -349,12 +349,12 @@ public class MarkdownRender implements OutputRender {
         }
         for (String observation : added) {
             sb.append(" ` > ` ` + `");
-            sb.append(" *").append(formatBunch(mdOut(observation)).trim()).append("* ");
+            sb.append(" *").append(formatBunch(Formatter.out(observation)).trim()).append("* ");
             sb.append(" | *").append(observation.trim()).append("* \n");
         }
         for (String observation : removed) {
             sb.append(" ` > ` **` - `**");
-            sb.append(" **").append(formatBunch(mdOut(observation)).trim()).append("** ");
+            sb.append(" **").append(formatBunch(Formatter.out(observation)).trim()).append("** ");
             sb.append(" | **").append(observation.trim()).append("** \n");
         }
     }
@@ -486,13 +486,13 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` ! ` ");
                 if (observation.contains("compliance")) {
                     sb.append(" *` C `* ");
-                    sb.append(mdOutX(observation)).append(" | ");
+                    sb.append(Formatter.outX(observation)).append(" | ");
                 } else {
-                    sb.append(formatBunch(mdOut(observation))).append(" | ");
+                    sb.append(formatBunch(Formatter.out(observation))).append(" | ");
                 }
             } else {
                 sb.append(" ` > ` ");
-                sb.append(formatBunch(mdOut(observation))).append(" | ");
+                sb.append(formatBunch(Formatter.out(observation))).append(" | ");
             }
             List<String> incidents = entry.getValue();
             for (String incident : incidents) {
@@ -513,13 +513,13 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` ! ` ");
                 if (observation.contains("compliance")) {
                     sb.append(" *` C `* ");
-                    sb.append(mdOutX(observation)).append(" | ");
+                    sb.append(Formatter.outX(observation)).append(" | ");
                 } else {
-                    sb.append(formatBunch(mdOut(observation))).append(" | ");
+                    sb.append(formatBunch(Formatter.out(observation))).append(" | ");
                 }
             } else {
                 sb.append(" ` > ` ");
-                sb.append(formatBunch(mdOut(observation))).append(" | ");
+                sb.append(formatBunch(Formatter.out(observation))).append(" | ");
             }
             for (String incident : incidents) {
                 sb.append(formatBunch(incident)).append(" \n");
@@ -542,13 +542,13 @@ public class MarkdownRender implements OutputRender {
                 sb.append(" ` ! ` ");
                 if (observation.contains("compliance")) {
                     sb.append(" *` C `* ");
-                    sb.append(mdOutX(observation)).append(" | ");
+                    sb.append(Formatter.outX(observation)).append(" | ");
                 } else {
-                    sb.append(formatBunch(mdOut(observation))).append(" | ");
+                    sb.append(formatBunch(Formatter.out(observation))).append(" | ");
                 }
             } else {
                 sb.append(" ` > ` ");
-                sb.append(formatBunch(mdOut(observation))).append(" | ");
+                sb.append(formatBunch(Formatter.out(observation))).append(" | ");
             }
             List<String> incidents = entry.getValue();
             for (String incident : incidents) {
@@ -565,43 +565,6 @@ public class MarkdownRender implements OutputRender {
             .replaceAll("\\]\\,", " ],\n | ")
             .replaceAll("\\]\\}", " ] \n | ");
         return result;
-    }
-
-    private String mdOut(String incident) {
-        String result = incident.replace('.', ' ');
-        result = toUpperCamelCase(result);
-        return result;
-    }
-
-    private String mdOutX(String incident) {
-        int index = incident.indexOf("existing.compliance");
-        int indexFor = incident.indexOf("existing.compliance.for");
-        int indexObservation = incident.indexOf(".observation");
-        String result;
-        if ((indexFor >= 0) && (indexObservation >= 0) && indexFor + 23 < incident.length()) {
-            result = incident.substring(indexFor + 23, indexObservation);
-        } else if (index >= 0 && index + 19 < incident.length()) {
-            result = incident.substring(index + 19, incident.length());
-        } else {
-            result = incident;
-        }
-        result = result.replace('.', ' ');
-        result = toUpperCamelCase(result);
-        return result;
-    }
-
-    private String toUpperCamelCase(String input) {
-        String[] words = input.trim().split("\\W");
-        for (String word : words) {
-            if (word.length() < 1) {
-                return input;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1, word.length())).append(" ");
-        }
-        return sb.toString();
     }
 
 }

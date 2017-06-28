@@ -192,10 +192,10 @@ public class HtmlRender implements OutputRender {
             String style = "observation";
             String reportedObservation;
             if (observation.contains("existing.compliance")) {
-                reportedObservation = "(!) " + outX(observation);
+                reportedObservation = "(!) " + Formatter.outX(observation);
                 style = "existingobservation";
             } else {
-                reportedObservation = "(>) " + out(observation);
+                reportedObservation = "(>) " + Formatter.out(observation);
             }
             ContainerTag observedIncidents = observedIncidents(breaks, observation);
             ol.with(li(reportedObservation).withClass(style), observedIncidents);
@@ -222,12 +222,12 @@ public class HtmlRender implements OutputRender {
             String style = "observation";
             String reportedObservation;
             if (observation.contains("existing.compliance")) {
-                reportedObservation = "(!) " + outX(observation);
+                reportedObservation = "(!) " + Formatter.outX(observation);
                 style = "existingobservation";
                 ContainerTag observedIncidents = observedIncidents(breaks, observation);
                 ol.with(li().with(span(reportedObservation).withClass(style)), observedIncidents);
             } else {
-                reportedObservation = "(>) " + out(observation);
+                reportedObservation = "(>) " + Formatter.out(observation);
                 ContainerTag observedIncidents = observedIncidents(breaks, observation);
                 ol.with(li().withClass(style).with(span(reportedObservation)), observedIncidents);
             }
@@ -299,10 +299,10 @@ public class HtmlRender implements OutputRender {
             String style = "observation";
             String reportedObservation;
             if (observation.contains("existing.compliance")) {
-                reportedObservation = "(!) " + outX(observation);
+                reportedObservation = "(!) " + Formatter.outX(observation);
                 style = "existingobservation";
             } else {
-                reportedObservation = "(>) " + out(observation);
+                reportedObservation = "(>) " + Formatter.out(observation);
             }
             ContainerTag observedIncidents = observedIncidents(changes, observation);
             ol.with(li().with(span(reportedObservation).withClass(style)), observedIncidents);
@@ -321,13 +321,13 @@ public class HtmlRender implements OutputRender {
             String difKey = "existing.difference.recorded";
             String reportedObservation;
             if (observation.contains("existing.compliance")) {
-                reportedObservation = "(!) " + outX(observation);
+                reportedObservation = "(!) " + Formatter.outX(observation);
                 style = "existingobservation";
             } else if (observation.contains(difKey)) {
-                reportedObservation = "(!) " + out(observation.substring(difKey.length()));
+                reportedObservation = "(!) " + Formatter.out(observation.substring(difKey.length()));
                 style = "existingobservation";
             } else {
-                reportedObservation = "(>) " + out(observation);
+                reportedObservation = "(>) " + Formatter.out(observation);
             }
             ContainerTag observedIncidents = observedIncidents(changes, observation);
             ol.with(li().with(span(reportedObservation).withClass(style)), observedIncidents);
@@ -466,11 +466,11 @@ public class HtmlRender implements OutputRender {
             String observation = entry.getKey();
             String reportedObservation;
             if (observation.contains("existing.compliance")) {
-                reportedObservation = "(!) " + outX(observation);
+                reportedObservation = "(!) " + Formatter.outX(observation);
             } else if (observation.contains(difKey)) {
-                reportedObservation = "(!) " + out(observation.substring(difKey.length()));
+                reportedObservation = "(!) " + Formatter.out(observation.substring(difKey.length()));
             } else {
-                reportedObservation = "(>) " + out(observation);
+                reportedObservation = "(>) " + Formatter.out(observation);
             }
             List<String> incidents = entry.getValue();
             if (!incidents.isEmpty()) {
@@ -703,43 +703,6 @@ public class HtmlRender implements OutputRender {
             div.with(ol);
         }
         return div;
-    }
-
-    private String out(String incident) {
-        String result = incident.replace('.', ' ');
-        result = toUpperCamelCase(result);
-        return result;
-    }
-
-    private String outX(String incident) {
-        int index = incident.indexOf("existing.compliance");
-        int indexFor = incident.indexOf("existing.compliance.for");
-        int indexObservation = incident.indexOf(".observation");
-        String result;
-        if ((indexFor >= 0) && (indexObservation >= 0) && indexFor + 23 < incident.length()) {
-            result = incident.substring(indexFor + 23, indexObservation);
-        } else if (index >= 0 && index + 19 < incident.length()) {
-            result = incident.substring(index + 19, incident.length());
-        } else {
-            result = incident;
-        }
-        result = result.replace('.', ' ');
-        result = toUpperCamelCase(result);
-        return result;
-    }
-
-    private String toUpperCamelCase(String input) {
-        String[] words = input.trim().split("\\W");
-        for (String word : words) {
-            if (word.length() < 1) {
-                return input;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1, word.length())).append(" ");
-        }
-        return sb.toString();
     }
 
     private String getStyles() {
