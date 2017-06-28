@@ -14,7 +14,14 @@
     <packaging>jar</packaging>
 
     <name>open-api-diff</name>
-    <description>open api document</description>
+    <description>
+        Open API Diff is a opinionated tool that analyzes an existing OpenAPI version 2
+        specified API and compares that to a future candidate API defined in Open API version2.
+        The APIs are evaluated with respect to breaking changes, potentially breaking changes and
+        suggested improvements to the existing and the future API to make the development speed
+        as fast as possible. The evolutionary speed of APIs are often determined by how fast the
+        users of the API can move, that is aim of this tool to make this as fast as possible.
+    </description>
     <url>http://maven.apache.org</url>
     <licenses>
         <license>
