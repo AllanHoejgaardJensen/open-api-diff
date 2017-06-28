@@ -160,4 +160,15 @@ public class OpenAPITestVT {
         assertEquals(refContents.trim(), contents.trim());
     }
 
+    @Test
+    public void testRemovedResourceDiffCheck() throws Exception {
+        String[] args = {"./sample-api/elaborate_example_v3g.json", "./sample-api/elaborate_example_v3h.json",
+            "./target/output/reports", "APIMissingEndpoints.html", "a", "f", "1"};
+        OpenAPIDiff.main(args);
+        assertTrue(Files.exists(Paths.get("./target/output/reports/APIMissingEndpoints.html")));
+        String contents = new String(Files.readAllBytes(Paths.get("././target/output/reports/APIMissingEndpoints.html")));
+        String refContents = new String(Files.readAllBytes(Paths.get("./sample-reports/APIMissingEndpoints.html")));
+        assertEquals(refContents.trim(), contents.trim());
+    }
+
 }
