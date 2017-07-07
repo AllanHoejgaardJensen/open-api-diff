@@ -1,4 +1,5 @@
 # Open API diff
+<img align="left" src="logo.png">
 Open API Diff is a tool that compares two APIs and looks for differences that will break the backwards compliance of 
 the API. The idea is an existing API is compared to the coming version of the same service.
 The tool uses the client (the users of the service) perspective in order to keep the users of the API and thus 
